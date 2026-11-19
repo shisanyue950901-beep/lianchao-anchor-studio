@@ -100,7 +100,7 @@
         </p>
         <div class="grid grid-cols-2 gap-3 pt-1">
           <div class="p-3.5 rounded-2xl bg-white/10 border border-white/10 backdrop-blur">
-            <div class="text-lg font-black text-blue-300">15 题</div>
+            <div class="text-lg font-black text-blue-300">20 题</div>
             <div class="text-xs font-bold text-white mt-0.5">直播合规排雷</div>
             <div class="text-[11px] text-slate-400 mt-0.5">售后/功效/互动红线</div>
           </div>
@@ -230,7 +230,7 @@
         </button>
         <button data-tab="compliance" type="button" class="tab-btn shrink-0 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-1.5">
           <span>🛡️</span><span>合规风控考场</span>
-          <span class="text-[11px] opacity-80 bg-black/20 px-1.5 py-0.5 rounded">15题</span>
+          <span class="text-[11px] opacity-80 bg-black/20 px-1.5 py-0.5 rounded">20题</span>
         </button>
         <button data-tab="selling" type="button" class="tab-btn shrink-0 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-1.5">
           <span>⚡</span><span>卖点 vs 买点战</span>
@@ -258,7 +258,7 @@
               依次完成「合规风控」「卖点转利他」两大关卡，系统实时生成 A/B/C/D 综合评级、五维能力雷达图与改进建议，并可一键生成结业成绩单海报发群打卡。
             </p>
             <div class="flex flex-wrap items-center gap-2 pt-1 text-[11px] font-semibold text-blue-100/90">
-              <span class="px-2.5 py-1 rounded-lg bg-white/10 border border-white/10">① 合规红线 15 题</span>
+              <span class="px-2.5 py-1 rounded-lg bg-white/10 border border-white/10">① 合规红线 20 题</span>
               <span class="text-slate-500">→</span>
               <span class="px-2.5 py-1 rounded-lg bg-white/10 border border-white/10">② 卖点转买点 15 题</span>
             </div>
@@ -291,7 +291,7 @@
             </div>
             <h3 class="text-lg font-bold mt-3 text-slate-900">合规风控考场</h3>
             <p class="text-xs text-slate-500 mt-1.5 leading-relaxed">
-              15 道高频实战题（单选 8 + 多选 3 + 判断 4，满分 100 分），覆盖售后承诺、功效资质、诱导互动、版权比价四大风控红线。
+              20 道高频实战题（单选 10 + 多选 4 + 判断 6，满分 100 分），覆盖售后承诺、功效资质、诱导互动、版权比价四大风控红线。
             </p>
           </div>
           <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
@@ -367,10 +367,10 @@
         <div>
           <div class="flex items-center gap-2">
             <h2 class="text-xl font-extrabold text-slate-900">🛡️ 合规风控考场</h2>
-            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-700">15 题 · 满分 100 分</span>
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-700">20 题 · 满分 100 分</span>
           </div>
           <p class="text-xs text-slate-500 mt-1">
-            单选 8 题（6 分/题）· 多选 3 题（8 分/题，漏选无错选得 4 分）· 判断 4 题（7 分/题）
+            单选 10 题 · 多选 4 题 · 判断 6 题，每题 5 分（多选漏选无错选得 2 分）
           </p>
         </div>
         <div class="flex flex-wrap items-center gap-2">
@@ -383,7 +383,7 @@
             </button>
           </div>
           <div id="compTimerBadge" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-mono font-bold">
-            ⏱ 15:00
+            ⏱ 20:00
           </div>
           <button id="compResetBtn" type="button" class="px-3 py-1.5 rounded-lg border border-slate-300 hover:bg-slate-50 text-xs font-semibold text-slate-700 transition">
             重新作答
@@ -435,7 +435,7 @@
         <aside class="lg:col-span-4 lg:sticky lg:top-32 bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-4">
           <div class="flex items-center justify-between">
             <h3 class="text-sm font-bold text-slate-900">答题卡</h3>
-            <span id="compProgressText" class="text-xs font-semibold text-blue-600">已答 0 / 15</span>
+            <span id="compProgressText" class="text-xs font-semibold text-blue-600">已答 0 / 20</span>
           </div>
           <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
             <div id="compProgressBar" class="bg-blue-600 h-full transition-all duration-300" style="width: 0%"></div>
@@ -700,22 +700,27 @@
     };
 
     const COMPLIANCE_QUESTIONS = [
-      // 精简版 15 题：单选 8×6 + 多选 3×8 + 判断 4×7 = 100 分
-      { id: 1, type: 'single', score: 6, dim: 'aftersale', q: '直播中说“退换货运费全包”、“连运费都不用你出”，违反什么规定？', options: ['A. 功效虚假', 'B. 售后服务不符', 'C. 诱导互动', 'D. 虚构营销'], answer: ['B'], explain: '运费险仅按保险公司标准定额赔付，并非“全包”或“不花一分钱”，口播夸大赔付范围属于典型的售后服务不符。合规话术：“已为您赠送运费险，具体赔付额度以页面显示为准”。' },
-      { id: 2, type: 'single', score: 6, dim: 'interaction', q: '直播中说“想要的打1，我给你们上福利”，这种行为属于？', options: ['A. 正常互动', 'B. 功效虚假', 'C. 诱导互动', 'D. 虚构营销'], answer: ['C'], explain: '以“上福利/发福袋/改价”为条件强制要求用户公屏扣“1”属于平台明令禁止的诱导互动行为。' },
-      { id: 3, type: 'single', score: 6, dim: 'efficacy', q: '一款普通保湿面霜（无美白特证），主播在直播间最合规的介绍是？', options: ['A. 连续用一周，保证你的斑点全消、白三个度', 'B. 这款面霜质地清爽，适合日常补水保湿', 'C. 它能深入肌底消炎，治疗你的敏感肌', 'D. 坚持用28天，皮肤能白两个度、直接没有皱纹好吧'], answer: ['B'], explain: '普通化妆品（非国妆特字）严禁宣传美白、祛斑、抗皱等特殊功效，更不可使用“消炎、治疗”等医疗用语。' },
-      { id: 4, type: 'single', score: 6, dim: 'aftersale', q: '商品详情页明确标注“不支持7天无理由退货”，主播应该？', options: ['A. 口头承诺“不喜欢随时退”，先成交再说', 'B. 如实告知“本品不支持7天无理由，请确认需求后下单”', 'C. 只在直播间展示“七天无理由”的售后物料，不口播', 'D. 不在直播间口播，让运营发评论宣传“有七天无理由”'], answer: ['B'], explain: '口播、背景贴片和评论区运营话术均须与商详售后配置完全一致，不支持7天无理由必须如实告知。' },
-      { id: 5, type: 'single', score: 6, dim: 'ip_truth', q: '推广一款印有“迪士尼”图案的儿童T恤，达人必须确保？', options: ['A. 图案清晰好看就行', 'B. 已经拿到版权方（授权链路和范围完整）的授权证明', 'C. 只要不说是“正版”就不算侵权', 'D. 销量不大就没事'], answer: ['B'], explain: '涉及知名 IP 图案必须核验完整、有效且覆盖当前渠道的版权授权链路，否则构成知识产权侵权。' },
-      { id: 6, type: 'single', score: 6, dim: 'ip_truth', q: '直播中涉及“比价”时，应该？', options: ['A. 随便说个低价，比如“别人卖20000，我们只要99”', 'B. 必须真实展示被比较平台的具体价格和日期', 'C. 用“史低价”、“全网最低”等词，不用证明', 'D. 假装和老板吵架，把价格“砍”下来'], answer: ['B'], explain: '价格比较必须真实可查、同款同规格，并清晰标注被比较平台、具体价格和采集日期。' },
-      { id: 7, type: 'single', score: 6, dim: 'interaction', q: '直播中，主播如何引导用户互动是相对安全的？', options: ['A. “人数冲到1万，我给大家抽个奖！”', 'B. “想要的宝宝公屏扣‘666’，我给你改价！”', 'C. “喜欢今天直播的家人，可以点个关注，后面开播不容易错过哦”', 'D. “没点关注的不发货哦！”'], answer: ['C'], explain: '自然提醒关注以便下次看播不涉及利益利诱或威胁，属于合规互动；A/B/D 均构成诱导互动或违规胁迫。' },
-      { id: 8, type: 'single', score: 6, dim: 'efficacy', q: '主播在介绍一款宣称“美白”功效的精华液时，首先必须确认什么？', options: ['A. 有没有用户的好评截图。', 'B. 主播自己试用后是否感觉变白。', 'C. 商品是否持有“国妆特字”注册证，且商详页有展示。', 'D. 商家是否提供了营业执照。'], answer: ['C'], explain: '美白祛斑属于特殊化妆品功效，必须具备有效“国妆特字”注册证并在商详页规范公示，否则严禁宣称美白。' },
-      { id: 9, type: 'multi', score: 8, dim: 'aftersale', q: '售后服务不符的常见原因包括？（多选）', options: ['A. 商品配置运费险，口播夸大运费险赔付（说“运费全包”）', 'B. 宣传“7天无理由”但商详未配置', 'C. 商品支持“试用”但不支持“7天无理由”，说“不喜欢可以退”', 'D. 按商详实际配置的售后情况进行宣传'], answer: ['A', 'B', 'C'], explain: 'A/B/C 均属于口播承诺超出或违背商详实际配置的售后保障；D 是唯一合规做法。' },
-      { id: 10, type: 'multi', score: 8, dim: 'ip_truth', q: '以下哪些行为是平台明确禁止的？（多选）', options: ['A. 设置“1元秒杀”链接，但实际库存只有1件且长期不下架', 'B. 宣传“买我的课，一个月保底赚10万”', 'C. 宣称普通食品有“降血压、壮阳”功效', 'D. 商品是聚酯纤维，却宣传为“100%纯棉”'], answer: ['A', 'B', 'C', 'D'], explain: '分别触犯虚假低价引流、虚假收益承诺、普通食品宣称医疗/保健功效、材质成分造假，全部明令禁止。' },
-      { id: 11, type: 'multi', score: 8, dim: 'interaction', q: '以下哪些营销手段属于违规炒作？（多选）', options: ['A. 主播和助播假装吵架，制造“破价”剧情', 'B. 背景板写“最后一天、仅此一场优惠”，结果天天都是最后一天', 'C. 用“老板带着小姨子跑路了”等噱头来卖货', 'D. 如实介绍今日赠品活动的内容和截止时间，并在商品详情页配置了'], answer: ['A', 'B', 'C'], explain: 'A/B/C 属于虚假演戏炒作、虚构限时紧迫感和低俗卖惨噱头；D 如实说明并在商详配置，合规。' },
-      { id: 12, type: 'judge', score: 7, dim: 'ip_truth', q: '为了吸引人，可以用“国家级”“第一品牌”等极限词。', options: ['A. 正确', 'B. 错误'], answer: ['B'], explain: '《广告法》与平台规则明令禁止使用“国家级”“最高级”“第一品牌”等绝对化极限词。' },
-      { id: 13, type: 'judge', score: 7, dim: 'efficacy', q: '医疗器械广告必须清晰展示医疗器械注册证号和广告审查批准文号。', options: ['A. 正确', 'B. 错误'], answer: ['A'], explain: '医疗器械属于强监管类目，宣传必须依法显著标明医疗器械注册证号及广审文号。' },
-      { id: 14, type: 'judge', score: 7, dim: 'efficacy', q: '普通食品可以宣传减肥、瘦身、减脂等保健功效。', options: ['A. 正确', 'B. 错误'], answer: ['B'], explain: '普通食品不得宣称任何保健功能（含减肥、减脂、瘦身），否则构成虚假宣传。' },
-      { id: 15, type: 'judge', score: 7, dim: 'aftersale', q: '主播宣传的所有售后权益（如运费险、保价），必须在商品详情页的“服务保障参数”中有明确配置。', options: ['A. 正确', 'B. 错误'], answer: ['A'], explain: '口播与商详“服务保障参数”严格一致，是直播间售后合规的第一铁律。' }
+      // 20 题：每题 5 分（多选漏选无错选得 2 分），四个合规维度各 5 题 = 100 分
+      { id: 1, type: 'single', score: 5, dim: 'aftersale', q: '直播中说“退换货运费全包”、“连运费都不用你出”，违反什么规定？', options: ['A. 功效虚假', 'B. 售后服务不符', 'C. 诱导互动', 'D. 虚构营销'], answer: ['B'], explain: '运费险仅按保险公司标准定额赔付，并非“全包”或“不花一分钱”，口播夸大赔付范围属于典型的售后服务不符。合规话术：“已为您赠送运费险，具体赔付额度以页面显示为准”。' },
+      { id: 2, type: 'single', score: 5, dim: 'interaction', q: '直播中说“想要的打1，我给你们上福利”，这种行为属于？', options: ['A. 正常互动', 'B. 功效虚假', 'C. 诱导互动', 'D. 虚构营销'], answer: ['C'], explain: '以“上福利/发福袋/改价”为条件强制要求用户公屏扣“1”属于平台明令禁止的诱导互动行为。' },
+      { id: 3, type: 'single', score: 5, dim: 'efficacy', q: '一款普通保湿面霜（无美白特证），主播在直播间最合规的介绍是？', options: ['A. 连续用一周，保证你的斑点全消、白三个度', 'B. 这款面霜质地清爽，适合日常补水保湿', 'C. 它能深入肌底消炎，治疗你的敏感肌', 'D. 坚持用28天，皮肤能白两个度、直接没有皱纹好吧'], answer: ['B'], explain: '普通化妆品（非国妆特字）严禁宣传美白、祛斑、抗皱等特殊功效，更不可使用“消炎、治疗”等医疗用语。' },
+      { id: 4, type: 'single', score: 5, dim: 'interaction', q: '为了提升直播间互动率，主播可以怎么说？', options: ['A. 只有点了关注的宝宝，才能参加待会的抽奖', 'B. 评论区扣“1”报名，才能解锁专属秒杀', 'C. 加入粉丝团，前100名送正装赠品', 'D. 觉得这个颜色好看的姐妹，公屏扣个“好看”分享一下'], answer: ['D'], explain: 'A/B/C 均以利益（抽奖、秒杀、赠品）诱导关注、评论或加团；D 属于自然探讨商品外观的正常互动。' },
+      { id: 5, type: 'single', score: 5, dim: 'aftersale', q: '商品详情页明确标注“不支持7天无理由退货”，主播应该？', options: ['A. 口头承诺“不喜欢随时退”，先成交再说', 'B. 如实告知“本品不支持7天无理由，请确认需求后下单”', 'C. 只在直播间展示“七天无理由”的售后物料，不口播', 'D. 不在直播间口播，让运营发评论宣传“有七天无理由”'], answer: ['B'], explain: '口播、背景贴片和评论区运营话术均须与商详售后配置完全一致，不支持7天无理由必须如实告知。' },
+      { id: 6, type: 'single', score: 5, dim: 'ip_truth', q: '推广一款印有“迪士尼”图案的儿童T恤，达人必须确保？', options: ['A. 图案清晰好看就行', 'B. 已经拿到版权方（授权链路和范围完整）的授权证明', 'C. 只要不说是“正版”就不算侵权', 'D. 销量不大就没事'], answer: ['B'], explain: '涉及知名 IP 图案必须核验完整、有效且覆盖当前渠道的版权授权链路，否则构成知识产权侵权。' },
+      { id: 7, type: 'single', score: 5, dim: 'ip_truth', q: '直播中涉及“比价”时，应该？', options: ['A. 随便说个低价，比如“别人卖20000，我们只要99”', 'B. 必须真实展示被比较平台的具体价格和日期', 'C. 用“史低价”、“全网最低”等词，不用证明', 'D. 假装和老板吵架，把价格“砍”下来'], answer: ['B'], explain: '价格比较必须真实可查、同款同规格，并清晰标注被比较平台、具体价格和采集日期。' },
+      { id: 8, type: 'single', score: 5, dim: 'aftersale', q: '某商品详情页的“服务保障”中未配置“假一赔十”，但直播背景板贴片上写着“假一罚十”，主播正确的做法是？', options: ['A. 可以按贴片内容宣传', 'B. 让运营临时去后台加上', 'C. 绝对不能说，并建议运营下掉贴片', 'D. 口头不提，但贴片可以留着'], answer: ['C'], explain: '直播间背景板/贴片同样属于宣传内容，未在后台服务保障配置的权益既不能口播也不能展示贴片。' },
+      { id: 9, type: 'single', score: 5, dim: 'interaction', q: '直播中，主播如何引导用户互动是相对安全的？', options: ['A. “人数冲到1万，我给大家抽个奖！”', 'B. “想要的宝宝公屏扣‘666’，我给你改价！”', 'C. “喜欢今天直播的家人，可以点个关注，后面开播不容易错过哦”', 'D. “没点关注的不发货哦！”'], answer: ['C'], explain: '自然提醒关注以便下次看播不涉及利益利诱或威胁，属于合规互动；A/B/D 均构成诱导互动或违规胁迫。' },
+      { id: 10, type: 'single', score: 5, dim: 'efficacy', q: '主播在介绍一款宣称“美白”功效的精华液时，首先必须确认什么？', options: ['A. 有没有用户的好评截图。', 'B. 主播自己试用后是否感觉变白。', 'C. 商品是否持有“国妆特字”注册证，且商详页有展示。', 'D. 商家是否提供了营业执照。'], answer: ['C'], explain: '美白祛斑属于特殊化妆品功效，必须具备有效“国妆特字”注册证并在商详页规范公示，否则严禁宣称美白。' },
+      { id: 11, type: 'multi', score: 5, dim: 'aftersale', q: '售后服务不符的常见原因包括？（多选）', options: ['A. 商品配置运费险，口播夸大运费险赔付（说“运费全包”）', 'B. 宣传“7天无理由”但商详未配置', 'C. 商品支持“试用”但不支持“7天无理由”，说“不喜欢可以退”', 'D. 按商详实际配置的售后情况进行宣传'], answer: ['A', 'B', 'C'], explain: 'A/B/C 均属于口播承诺超出或违背商详实际配置的售后保障；D 是唯一合规做法。' },
+      { id: 12, type: 'multi', score: 5, dim: 'efficacy', q: '关于“膳食类目”的话术，以下哪些描述是相对安全合规的？（多选）', options: ['A. 介绍叶黄素产品时说“里面有叶黄素、含量xx%（展示成分报告）”', 'B. 介绍蛋白粉时说“运动后马上来一勺，补充需要的元素”', 'C. 介绍普通食品时说“吃了能降血压、治疗糖尿病”', 'D. 介绍辅酶时说“有助于心脏健康、小心心的好朋友”'], answer: ['A', 'B'], explain: 'A 基于检测报告客观讲成分含量，B 讲食用场景与营养补充，相对合规；C 涉及疾病治疗，D 暗示护心保健功效（普通膳食严禁明示/暗示特定器官保健功效）。' },
+      { id: 13, type: 'multi', score: 5, dim: 'ip_truth', q: '以下哪些行为是平台明确禁止的？（多选）', options: ['A. 设置“1元秒杀”链接，但实际库存只有1件且长期不下架', 'B. 宣传“买我的课，一个月保底赚10万”', 'C. 宣称普通食品有“降血压、壮阳”功效', 'D. 商品是聚酯纤维，却宣传为“100%纯棉”'], answer: ['A', 'B', 'C', 'D'], explain: '分别触犯虚假低价引流、虚假收益承诺、普通食品宣称医疗/保健功效、材质成分造假，全部明令禁止。' },
+      { id: 14, type: 'multi', score: 5, dim: 'interaction', q: '以下哪些营销手段属于违规炒作？（多选）', options: ['A. 主播和助播假装吵架，制造“破价”剧情', 'B. 背景板写“最后一天、仅此一场优惠”，结果天天都是最后一天', 'C. 用“老板带着小姨子跑路了”等噱头来卖货', 'D. 如实介绍今日赠品活动的内容和截止时间，并在商品详情页配置了'], answer: ['A', 'B', 'C'], explain: 'A/B/C 属于虚假演戏炒作、虚构限时紧迫感和低俗卖惨噱头；D 如实说明并在商详配置，合规。' },
+      { id: 15, type: 'judge', score: 5, dim: 'ip_truth', q: '为了吸引人，可以用“国家级”“第一品牌”等极限词。', options: ['A. 正确', 'B. 错误'], answer: ['B'], explain: '《广告法》与平台规则明令禁止使用“国家级”“最高级”“第一品牌”等绝对化极限词。' },
+      { id: 16, type: 'judge', score: 5, dim: 'efficacy', q: '医疗器械广告必须清晰展示医疗器械注册证号和广告审查批准文号。', options: ['A. 正确', 'B. 错误'], answer: ['A'], explain: '医疗器械属于强监管类目，宣传必须依法显著标明医疗器械注册证号及广审文号。' },
+      { id: 17, type: 'judge', score: 5, dim: 'interaction', q: '主播可以要求用户“先扣一参与活动”，才能获得赠品。', options: ['A. 正确', 'B. 错误'], answer: ['B'], explain: '以赠品为诱饵要求用户公屏扣“1”属于典型的诱导互动违规。' },
+      { id: 18, type: 'judge', score: 5, dim: 'efficacy', q: '普通食品可以宣传减肥、瘦身、减脂等保健功效。', options: ['A. 正确', 'B. 错误'], answer: ['B'], explain: '普通食品不得宣称任何保健功能（含减肥、减脂、瘦身），否则构成虚假宣传。' },
+      { id: 19, type: 'judge', score: 5, dim: 'aftersale', q: '主播宣传的所有售后权益（如运费险、保价），必须在商品详情页的“服务保障参数”中有明确配置。', options: ['A. 正确', 'B. 错误'], answer: ['A'], explain: '口播与商详“服务保障参数”严格一致，是直播间售后合规的第一铁律。' },
+      { id: 20, type: 'judge', score: 5, dim: 'ip_truth', q: '介绍一款二奢包包，即使有微小划痕，只要不说，用户就发现不了，可以当成“全新”来卖。', options: ['A. 正确', 'B. 错误'], answer: ['B'], explain: '刻意隐瞒瑕疵并将二手商品充当全新销售，严重违反如实描述规则与消费者权益保护法。' }
     ];
 
     // =========================================================================
@@ -823,7 +828,7 @@
       answers: {}, // qId -> array of letters ['A']
       submitted: false,
       filterWrongOnly: false,
-      secondsLeft: 900,
+      secondsLeft: 1200,
       timerId: null
     };
 
@@ -1303,7 +1308,7 @@
 
       // Three Modules Rows
       const items = [
-        { title: '🛡️ 合规风控考场（15题）', score: comp ? `${comp.score} 分` : '未测评', sub: comp ? `答对 ${comp.correctCount}/${COMPLIANCE_QUESTIONS.length} · 售后/功效/互动/版权四维检测` : '尚未完成合规考试', color: '#2563eb' },
+        { title: '🛡️ 合规风控考场（20题）', score: comp ? `${comp.score} 分` : '未测评', sub: comp ? `答对 ${comp.correctCount}/${COMPLIANCE_QUESTIONS.length} · 售后/功效/互动/版权四维检测` : '尚未完成合规考试', color: '#2563eb' },
         { title: '⚡ 卖点 vs 利他买点战', score: sell ? `${sell.score} 分` : '未测评', sub: sell ? `答对 ${sell.correctCount}/${sell.total} 题 · 最高连对 ${sell.maxStreak} 题` : '尚未完成卖点辨析', color: '#059669' },
       ];
 
@@ -1418,7 +1423,7 @@
     function renderComplianceExam() {
       const container = document.getElementById('compQuestionsContainer');
       const sheet = document.getElementById('compSheetGrid');
-      const typeLabels = { single: '单选题 · 6分', multi: '多选题 · 8分', judge: '判断题 · 7分' };
+      const typeLabels = { single: '单选题 · 5分', multi: '多选题 · 5分', judge: '判断题 · 5分' };
 
       let html = '';
       COMPLIANCE_QUESTIONS.forEach((q, idx) => {
@@ -1595,9 +1600,9 @@
       compState.answers = {};
       compState.submitted = false;
       compState.filterWrongOnly = false;
-      compState.secondsLeft = 900;
+      compState.secondsLeft = 1200;
       document.getElementById('compResultPanel').classList.add('hidden');
-      document.getElementById('compTimerBadge').textContent = '⏱ 15:00';
+      document.getElementById('compTimerBadge').textContent = '⏱ 20:00';
       document.getElementById('compSubmitBtn').disabled = false;
       document.getElementById('compSubmitBtn').className = 'w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-sm transition';
       document.getElementById('compSubmitBtn').textContent = '交卷并生成合规诊断报告';
