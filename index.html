@@ -1,0 +1,2774 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>宝盾集团 · 连超电商学院｜主播练播考评室</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+      background-color: #f1f5f9;
+      background-image:
+        radial-gradient(at 0% 0%, rgba(37, 99, 235, 0.07) 0px, transparent 45%),
+        radial-gradient(at 100% 0%, rgba(244, 63, 94, 0.06) 0px, transparent 40%);
+      background-attachment: fixed;
+      color: #0f172a;
+      -webkit-font-smoothing: antialiased;
+    }
+    .glass-header {
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .tab-btn {
+      position: relative;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .tab-btn.active {
+      background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
+      color: #ffffff;
+      box-shadow: 0 6px 18px -4px rgba(37, 99, 235, 0.5);
+    }
+    .bento-card {
+      background: rgba(255, 255, 255, 0.96);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: 0 4px 20px -4px rgba(15, 23, 42, 0.05);
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+    }
+    .bento-card-hover:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 32px -10px rgba(15, 23, 42, 0.12);
+      border-color: rgba(148, 163, 184, 0.5);
+    }
+    .hero-mesh {
+      background:
+        radial-gradient(circle at 85% 20%, rgba(56, 189, 248, 0.22), transparent 45%),
+        radial-gradient(circle at 15% 85%, rgba(244, 63, 94, 0.16), transparent 45%),
+        linear-gradient(135deg, #0b1120 0%, #172554 55%, #1e1b4b 100%);
+    }
+    .view-section {
+      animation: viewFadeIn 0.28s ease-out;
+    }
+    @keyframes viewFadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulseLive {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(0.92); }
+    }
+    .live-dot {
+      animation: pulseLive 1.4s infinite ease-in-out;
+    }
+    .danmaku-item {
+      animation: fadeSlideIn 0.35s ease-out;
+    }
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="fixed top-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- Top Navigation Header -->
+  <header class="sticky top-0 z-40 glass-header text-white border-b border-white/10 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3.5 min-w-0">
+        <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-blue-500 via-indigo-500 to-violet-600 flex items-center justify-center shadow-lg shadow-blue-500/25 ring-1 ring-white/20 shrink-0">
+          <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <path d="M9 12l2 2 4-4"/>
+          </svg>
+        </div>
+        <div class="min-w-0">
+          <div class="flex items-center gap-2">
+            <h1 class="text-base sm:text-lg font-extrabold tracking-tight truncate bg-clip-text text-transparent bg-gradient-to-r from-white to-blue-100">宝盾集团 · 连超电商学院</h1>
+            <span class="hidden sm:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-rose-500/20 text-rose-200 border border-rose-400/30">
+              <span class="w-1.5 h-1.5 rounded-full bg-rose-400 live-dot"></span> 主播练播考评室
+            </span>
+          </div>
+          <p class="text-[11px] sm:text-xs text-slate-400 truncate mt-0.5">教 · 学 · 练 · 考 · 评 一体化实战自测与妙记复盘平台</p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <button id="openLookupBtn" type="button" class="px-3 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600/35 border border-blue-500/40 text-blue-200 text-xs font-semibold transition">
+          🔍 查历史记录
+        </button>
+        <button id="openProfileBtn" type="button" class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs sm:text-sm transition">
+          <span id="headerProfileDot" class="w-2 h-2 rounded-full bg-amber-400"></span>
+          <span id="headerStudentLabel" class="font-medium max-w-[140px] truncate">完善学员档案（必填）</span>
+          <span class="text-slate-400 text-xs">编辑</span>
+        </button>
+        <button id="logoutBtn" type="button" class="hidden px-2.5 py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/35 border border-rose-500/40 text-rose-200 text-xs font-semibold transition" title="退出并清屏，历史记录保留在专属手机号档案库中">
+          退出清屏
+        </button>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="bg-slate-900/95 border-t border-slate-800">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex items-center gap-2 overflow-x-auto custom-scroll">
+        <button data-tab="dashboard" type="button" class="tab-btn active shrink-0 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-1.5">
+          <span>📊</span><span>练习中心</span>
+        </button>
+        <button data-tab="compliance" type="button" class="tab-btn shrink-0 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-1.5">
+          <span>🛡️</span><span>合规风控考场</span>
+          <span class="text-[11px] opacity-80 bg-black/20 px-1.5 py-0.5 rounded">40题</span>
+        </button>
+        <button data-tab="selling" type="button" class="tab-btn shrink-0 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-1.5">
+          <span>⚡</span><span>卖点 vs 买点战</span>
+          <span class="text-[11px] opacity-80 bg-black/20 px-1.5 py-0.5 rounded">50题</span>
+        </button>
+        <button data-tab="studio" type="button" class="tab-btn shrink-0 px-3.5 py-2 rounded-lg text-xs sm:text-sm font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-rose-500 live-dot"></span><span>模拟练播房</span>
+          <span class="text-[11px] opacity-80 bg-rose-500/30 text-rose-200 px-1.5 py-0.5 rounded">实战</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6">
+
+    <!-- ==================== VIEW 1: DASHBOARD (练习中心) ==================== -->
+    <section id="view-dashboard" class="view-section space-y-6">
+      <!-- Top Hero Banner -->
+      <div class="hero-mesh rounded-3xl p-6 sm:p-8 text-white shadow-xl border border-white/10 relative overflow-hidden">
+        <div class="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          <div class="space-y-3 max-w-2xl">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/15 text-blue-200 text-xs font-semibold backdrop-blur">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              <span>宝盾集团 · 连超电商学院官方上岗测评体系</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-black tracking-tight leading-tight">主播上岗综合能力考评中心</h2>
+            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+              依次攻克「合规风控」「卖点转利他」「模拟练播房」三大关卡，系统将实时生成 A/B/C/D 综合评级、六维能力雷达图与飞书妙记式复盘报告，支持一键生成高清结业成绩单海报。
+            </p>
+            <div class="flex flex-wrap items-center gap-2 pt-1 text-[11px] font-semibold text-blue-100/90">
+              <span class="px-2.5 py-1 rounded-lg bg-white/10 border border-white/10">① 合规红线 40 题</span>
+              <span class="text-slate-500">→</span>
+              <span class="px-2.5 py-1 rounded-lg bg-white/10 border border-white/10">② 卖点转买点 50 题</span>
+              <span class="text-slate-500">→</span>
+              <span class="px-2.5 py-1 rounded-lg bg-white/10 border border-white/10">③ 模拟练播 + 妙记复盘</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-5 bg-white/10 backdrop-blur-md rounded-2xl p-5 border border-white/15 shadow-inner shrink-0">
+            <div class="text-center px-2">
+              <div class="text-[11px] uppercase tracking-wider text-blue-200 font-semibold">综合评级</div>
+              <div id="dashOverallGrade" class="text-5xl font-black text-amber-300 mt-1 drop-shadow">--</div>
+            </div>
+            <div class="h-16 w-px bg-white/15"></div>
+            <div class="space-y-1.5 text-xs sm:text-sm">
+              <div class="text-slate-300">综合均分：<span id="dashOverallAvg" class="font-extrabold text-white">--</span></div>
+              <div class="text-slate-300">通关进度：<span id="dashCompletedCount" class="font-extrabold text-emerald-300">0 / 3</span></div>
+              <button id="openPosterBtn" type="button" class="mt-2 inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-amber-400 to-yellow-300 hover:from-amber-300 hover:to-yellow-200 text-slate-950 font-extrabold text-xs shadow-md shadow-amber-500/20 transition">
+                <span>🏆 生成结业成绩单海报</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3 Core Module Entry Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <!-- Card 1 -->
+        <div class="bento-card bento-card-hover rounded-2xl p-5 border-t-4 border-t-blue-600 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 text-xs font-bold">🛡️ 模块一 · 理论底线</span>
+              <span id="cardScoreCompliance" class="text-sm font-extrabold text-slate-400">未测评</span>
+            </div>
+            <h3 class="text-lg font-bold mt-3 text-slate-900">合规风控考场</h3>
+            <p class="text-xs text-slate-500 mt-1.5 leading-relaxed">
+              40 道高频实战题（单选 20 + 多选 6 + 判断 14，满分 100 分），覆盖售后承诺、功效资质、诱导互动、版权比价四大风控红线。
+            </p>
+          </div>
+          <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-xs text-slate-400">支持考试/随练双模式</span>
+            <button data-goto="compliance" type="button" class="px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition">
+              进入考场 →
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bento-card bento-card-hover rounded-2xl p-5 border-t-4 border-t-emerald-500 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-xs font-bold">⚡ 模块二 · 话术转化</span>
+              <span id="cardScoreSelling" class="text-sm font-extrabold text-slate-400">未测评</span>
+            </div>
+            <h3 class="text-lg font-bold mt-3 text-slate-900">卖点 vs 利他买点战</h3>
+            <p class="text-xs text-slate-500 mt-1.5 leading-relaxed">
+              50 道实战话术快节奏秒选（每题 2 分，满分 100 分），训练主播瞬间区分“干巴参数”与“用户场景好处”，附 5 大类目成对复盘。
+            </p>
+          </div>
+          <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-xs text-slate-400">支持 50 题全测 / 20 题快测</span>
+            <button data-goto="selling" type="button" class="px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold transition">
+              开始辨析 →
+            </button>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="bento-card bento-card-hover rounded-2xl p-5 border-t-4 border-t-rose-500 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-rose-50 text-rose-700 text-xs font-bold">🎙️ 模块三 · 实战练播</span>
+              <span id="cardScoreStudio" class="text-sm font-extrabold text-slate-400">未测评</span>
+            </div>
+            <h3 class="text-lg font-bold mt-3 text-slate-900">模拟「练播房」实战间</h3>
+            <p class="text-xs text-slate-500 mt-1.5 leading-relaxed">
+              选品配置卖点 + 3 秒倒计时模拟开播 + 公屏弹幕考验，自动执行违禁词红线扫描与卖点覆盖率诊断，生成 A/B/C/D 练播报告。
+            </p>
+          </div>
+          <div class="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-xs text-slate-400">支持摄像头录屏 & 语音/文字稿</span>
+            <button data-goto="studio" type="button" class="px-3.5 py-2 rounded-lg bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold transition">
+              进入练播房 →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Radar Chart + Practice History List -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Ability Radar -->
+        <div class="lg:col-span-5 bento-card rounded-2xl p-5 flex flex-col">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h3 class="text-base font-bold text-slate-900">主播六维能力雷达图</h3>
+              <p class="text-xs text-slate-500">根据最新测评数据实时更新</p>
+            </div>
+            <span class="text-xs px-2 py-1 rounded-md bg-slate-100 text-slate-600 font-medium">满分 100</span>
+          </div>
+          <div class="relative h-64 w-full">
+            <canvas id="abilityRadarChart"></canvas>
+          </div>
+          <div id="radarAdviceBox" class="mt-4 p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 leading-relaxed">
+            尚未完成测评。建议按顺序先测「合规风控考场」守住底线，再练「卖点 vs 买点」和「模拟练播房」。
+          </div>
+        </div>
+
+        <!-- Practice History List (仿练播房练习列表) -->
+        <div class="lg:col-span-7 bento-card rounded-2xl p-5 flex flex-col">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="text-base font-bold text-slate-900">练习记录中心</h3>
+              <p class="text-xs text-slate-500">本地自动保存历次考评与练播成绩，随时回看复盘</p>
+            </div>
+            <button id="clearHistoryBtn" type="button" class="text-xs text-slate-400 hover:text-rose-600 font-medium transition">
+              清空记录
+            </button>
+          </div>
+          <div id="historyListContainer" class="flex-1 overflow-x-auto">
+            <!-- Populated dynamically -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 2: COMPLIANCE EXAM (合规风控考场) ==================== -->
+    <section id="view-compliance" class="view-section hidden space-y-5">
+      <!-- Intro / Mode Selector Bar -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-xl font-extrabold text-slate-900">🛡️ 合规风控考场</h2>
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-blue-100 text-blue-700">40 题 · 满分 100 分</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">
+            单选 20 题（3 分/题）· 多选 6 题（2 分/题，漏选无错选得 1 分）· 判断 14 题（2 分/题）
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <div class="inline-flex rounded-lg bg-slate-100 p-1">
+            <button id="compModeExamBtn" type="button" class="px-3 py-1.5 rounded-md text-xs font-semibold bg-white text-blue-700 shadow-sm transition">
+              正式考试模式
+            </button>
+            <button id="compModePracticeBtn" type="button" class="px-3 py-1.5 rounded-md text-xs font-semibold text-slate-600 hover:text-slate-900 transition">
+              随练背题模式
+            </button>
+          </div>
+          <div id="compTimerBadge" class="px-3 py-1.5 rounded-lg bg-slate-900 text-white text-xs font-mono font-bold">
+            ⏱ 30:00
+          </div>
+          <button id="compResetBtn" type="button" class="px-3 py-1.5 rounded-lg border border-slate-300 hover:bg-slate-50 text-xs font-semibold text-slate-700 transition">
+            重新作答
+          </button>
+        </div>
+      </div>
+
+      <!-- Result Banner (Shown after submit) -->
+      <div id="compResultPanel" class="hidden bg-white rounded-2xl p-6 border-2 border-blue-200 shadow-md space-y-5">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-4 border-b border-slate-100">
+          <div class="flex items-center gap-4">
+            <div id="compGradeBadge" class="w-16 h-16 rounded-2xl bg-blue-600 text-white flex items-center justify-center text-3xl font-black shadow">
+              A
+            </div>
+            <div>
+              <div class="text-xs font-semibold text-slate-500">合规风控考评得分</div>
+              <div class="flex items-baseline gap-2">
+                <span id="compFinalScore" class="text-3xl font-black text-slate-900">96</span>
+                <span class="text-sm text-slate-400">/ 100 分</span>
+                <span id="compPassTag" class="ml-2 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700">合格</span>
+              </div>
+              <div id="compStatsLine" class="text-xs text-slate-500 mt-1"></div>
+            </div>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button id="compFilterWrongBtn" type="button" class="px-3.5 py-2 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold border border-rose-200 transition">
+              仅看踩雷错题
+            </button>
+            <button id="compFilterAllBtn" type="button" class="px-3.5 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+              查看全部解析
+            </button>
+            <button data-goto="dashboard" type="button" class="px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition">
+              回练习中心看总报告
+            </button>
+          </div>
+        </div>
+        <!-- 4 Dimensions Breakdown -->
+        <div>
+          <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">四大合规维度得分诊断</h4>
+          <div id="compDimBars" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
+        </div>
+      </div>
+
+      <!-- Exam Layout: Question List + Sticky Answer Sheet -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div id="compQuestionsContainer" class="lg:col-span-8 space-y-4"></div>
+
+        <!-- Sticky Answer Sheet -->
+        <aside class="lg:col-span-4 lg:sticky lg:top-32 bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-slate-900">答题卡</h3>
+            <span id="compProgressText" class="text-xs font-semibold text-blue-600">已答 0 / 40</span>
+          </div>
+          <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+            <div id="compProgressBar" class="bg-blue-600 h-full transition-all duration-300" style="width: 0%"></div>
+          </div>
+          <div id="compSheetGrid" class="grid grid-cols-8 sm:grid-cols-10 lg:grid-cols-8 gap-1.5"></div>
+          <div class="flex items-center gap-3 text-[11px] text-slate-500 pt-2 border-t border-slate-100">
+            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-blue-600 inline-block"></span>已答</span>
+            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-slate-100 border border-slate-300 inline-block"></span>未答</span>
+            <span class="flex items-center gap-1"><span class="w-3 h-3 rounded bg-rose-500 inline-block"></span>错题</span>
+          </div>
+          <button id="compSubmitBtn" type="button" class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-sm transition">
+            交卷并生成合规诊断报告
+          </button>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 3: SELLING VS BENEFIT (卖点 vs 利他买点战) ==================== -->
+    <section id="view-selling" class="view-section hidden space-y-5">
+      <!-- Top Bar -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-xl font-extrabold text-slate-900">⚡ 卖点 vs 利他买点反应战</h2>
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700">实战库 50 题</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">
+            快速判断每句口播是在讲「1 = 卖点（客观参数/材质/工艺）」还是「2 = 利他买点（用户好处/画面感受）」· 支持键盘按 1 / 2 秒选
+          </p>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <button id="sellStartFullBtn" type="button" class="px-3.5 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition">
+            50 题全量测评
+          </button>
+          <button id="sellStartQuickBtn" type="button" class="px-3.5 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition">
+            20 题极速抽测
+          </button>
+          <button id="sellTogglePairRefBtn" type="button" class="px-3.5 py-2 rounded-lg border border-slate-300 hover:bg-slate-50 text-slate-700 text-xs font-bold transition">
+            📖 成对转化对照表
+          </button>
+        </div>
+      </div>
+
+      <!-- Active Quiz Card -->
+      <div id="sellQuizCard" class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm max-w-3xl mx-auto space-y-6">
+        <div class="flex items-center justify-between text-xs text-slate-500">
+          <div class="flex items-center gap-2">
+            <span id="sellProgressPill" class="px-2.5 py-1 rounded-full bg-slate-100 font-bold text-slate-700">第 1 / 50 题</span>
+            <span id="sellCatPill" class="px-2.5 py-1 rounded-full bg-blue-50 text-blue-700 font-semibold">母婴育儿</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span>连对：<strong id="sellStreakText" class="text-amber-600">0</strong></span>
+            <span>用时：<strong id="sellTimeText" class="font-mono text-slate-700">00:00</strong></span>
+          </div>
+        </div>
+
+        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+          <div id="sellProgressBar" class="bg-emerald-500 h-full transition-all duration-300" style="width: 2%"></div>
+        </div>
+
+        <div class="py-6 px-4 sm:px-8 rounded-2xl bg-slate-50 border border-slate-200 text-center min-h-[140px] flex flex-col items-center justify-center">
+          <span class="text-xs text-slate-400 mb-2">请判断以下直播话术属于：</span>
+          <p id="sellQuestionText" class="text-xl sm:text-2xl font-extrabold text-slate-900 leading-snug"></p>
+        </div>
+
+        <!-- Instant Feedback Box -->
+        <div id="sellInstantFeedback" class="hidden rounded-xl p-4 text-xs sm:text-sm leading-relaxed"></div>
+
+        <!-- Big Tap Buttons -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <button id="sellBtn1" type="button" class="group p-5 rounded-2xl border-2 border-slate-200 hover:border-blue-500 hover:bg-blue-50/60 transition text-left">
+            <div class="flex items-center justify-between">
+              <span class="text-base font-extrabold text-slate-900 group-hover:text-blue-700">1 · 产品卖点</span>
+              <kbd class="px-2 py-0.5 rounded bg-slate-100 text-slate-500 text-xs font-mono">按 1</kbd>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">客观参数、成分材质、认证标准、物理工艺</p>
+          </button>
+          <button id="sellBtn2" type="button" class="group p-5 rounded-2xl border-2 border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/60 transition text-left">
+            <div class="flex items-center justify-between">
+              <span class="text-base font-extrabold text-slate-900 group-hover:text-emerald-700">2 · 利他买点</span>
+              <kbd class="px-2 py-0.5 rounded bg-slate-100 text-slate-500 text-xs font-mono">按 2</kbd>
+            </div>
+            <p class="text-xs text-slate-500 mt-1">用户具体好处、痛点解决、情绪与画面感受</p>
+          </button>
+        </div>
+
+        <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+          <label class="inline-flex items-center gap-2 text-xs text-slate-600 cursor-pointer select-none">
+            <input id="sellInstantToggle" type="checkbox" checked class="rounded border-slate-300 text-emerald-600 focus:ring-emerald-500" />
+            <span>选完立即显示解析（取消则为纯盲测，交卷后统一看解析）</span>
+          </label>
+          <button id="sellNextBtn" type="button" class="hidden px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition">
+            下一题 →
+          </button>
+        </div>
+      </div>
+
+      <!-- Result Panel for Selling -->
+      <div id="sellResultPanel" class="hidden bg-white rounded-2xl p-6 border-2 border-emerald-200 shadow-md space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-4 border-b border-slate-100">
+          <div class="flex items-center gap-4">
+            <div id="sellGradeBadge" class="w-16 h-16 rounded-2xl bg-emerald-600 text-white flex items-center justify-center text-3xl font-black shadow">A</div>
+            <div>
+              <div class="text-xs font-semibold text-slate-500">卖点 vs 利他买点辨析得分</div>
+              <div class="flex items-baseline gap-2">
+                <span id="sellFinalScore" class="text-3xl font-black text-slate-900">94</span>
+                <span class="text-sm text-slate-400">/ 100 分</span>
+              </div>
+              <div id="sellStatsLine" class="text-xs text-slate-500 mt-1"></div>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button id="sellRetryBtn" type="button" class="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition">再测一次</button>
+            <button data-goto="dashboard" type="button" class="px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition">回练习中心</button>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">五大高频带货品类识别准确率</h4>
+          <div id="sellCatBreakdown" class="grid grid-cols-2 sm:grid-cols-5 gap-3"></div>
+        </div>
+
+        <div>
+          <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">错题复盘与转化思维</h4>
+          <div id="sellWrongList" class="space-y-2.5"></div>
+        </div>
+      </div>
+
+      <!-- Paired Reference Drawer / Section -->
+      <div id="sellPairRefPanel" class="hidden bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h3 class="text-base font-bold text-slate-900">📖 卖点 → 利他买点「成对转化实战表」</h3>
+            <p class="text-xs text-slate-500">源自实战库 50 题提炼，帮主播学会把“产品参数”翻译成“用户想买单的画面”</p>
+          </div>
+          <button id="sellClosePairRefBtn" type="button" class="text-xs font-semibold text-slate-500 hover:text-slate-900">收起 ✕</button>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs sm:text-sm border-collapse">
+            <thead>
+              <tr class="bg-slate-50 border-b border-slate-200 text-slate-600">
+                <th class="py-2.5 px-3 font-bold">品类</th>
+                <th class="py-2.5 px-3 font-bold">1 · 产品卖点（客观参数）</th>
+                <th class="py-2.5 px-3 font-bold">2 · 利他买点（用户画面好处）</th>
+              </tr>
+            </thead>
+            <tbody id="sellPairTableBody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 4: PRACTICE STUDIO (模拟练播房) ==================== -->
+    <section id="view-studio" class="view-section hidden space-y-5">
+      <!-- Studio Header -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-700 text-xs font-bold">
+              <span class="w-2 h-2 rounded-full bg-rose-500 live-dot"></span> 模拟练播房
+            </span>
+            <h2 class="text-xl font-extrabold text-slate-900">单品实战口播与合规诊断</h2>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">
+            对标平台练播流程：选品配置卖点 → 3 秒倒计时开播 → 应对公屏弹幕 → 自动扫描违规红线与卖点覆盖率
+          </p>
+        </div>
+        <div class="flex items-center gap-2 text-xs">
+          <span class="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-semibold">① 选品配置</span>
+          <span class="text-slate-300">→</span>
+          <span class="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-semibold">② 模拟开播</span>
+          <span class="text-slate-300">→</span>
+          <span class="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 font-semibold">③ 诊断报告</span>
+        </div>
+      </div>
+
+      <!-- Product Picker & Custom Product -->
+      <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <h3 class="text-sm font-bold text-slate-900">第一步：选择练播实战商品（含商详售后规则与 4-6 个核心卖点）</h3>
+          <button id="toggleCustomProdBtn" type="button" class="text-xs font-semibold text-blue-600 hover:text-blue-800">
+            + 自定义练播商品
+          </button>
+        </div>
+
+        <div id="studioProductGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+
+        <!-- Custom Product Form -->
+        <div id="customProdForm" class="hidden p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">商品名称（建议 28 字以内）</label>
+              <input id="customProdName" type="text" placeholder="例如：高腰显瘦A类纯棉运动阔腿裤" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">商详售后配置说明</label>
+              <input id="customProdPolicy" type="text" placeholder="例如：支持7天无理由、已配运费险、48小时内发货" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">核心卖点关键词（4-6 个，用中文逗号或英文逗号隔开）</label>
+            <input id="customProdPoints" type="text" placeholder="例如：A类纯棉, 加宽橡筋腰头, 透气不勒档, 不易起球, 显瘦垂坠" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div class="flex justify-end gap-2">
+            <button id="cancelCustomProdBtn" type="button" class="px-3 py-1.5 rounded-lg border border-slate-300 text-xs font-semibold text-slate-600">取消</button>
+            <button id="saveCustomProdBtn" type="button" class="px-3.5 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-bold">应用此自定义商品</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Live Practice Workspace -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Left: Simulated Live Room Screen + Camera + Danmaku -->
+        <div class="lg:col-span-6 bg-slate-950 rounded-2xl overflow-hidden border border-slate-800 shadow-lg flex flex-col">
+          <!-- Live Room Top Bar -->
+          <div class="px-4 py-3 bg-slate-900 border-b border-slate-800 flex items-center justify-between text-white">
+            <div class="flex items-center gap-2">
+              <span id="studioLiveBadge" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-slate-700 text-slate-300 text-xs font-bold">
+                <span class="w-2 h-2 rounded-full bg-slate-400"></span> 待开播
+              </span>
+              <span id="studioTimer" class="font-mono text-sm font-bold text-slate-200">00:00 / 05:00</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <button id="toggleCameraBtn" type="button" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs text-slate-200 border border-slate-700 transition">
+                📷 开启摄像头
+              </button>
+            </div>
+          </div>
+
+          <!-- Video / Stage Area -->
+          <div class="relative aspect-video bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 flex items-center justify-center overflow-hidden">
+            <video id="studioVideoPreview" autoplay muted playsinline class="hidden w-full h-full object-cover"></video>
+            <div id="studioStagePlaceholder" class="text-center px-6 space-y-2">
+              <div class="w-16 h-16 rounded-2xl bg-white/10 mx-auto flex items-center justify-center text-3xl">🎥</div>
+              <p class="text-sm font-bold text-white" id="stageProductTitle">普通保湿修护面霜（非特证）</p>
+              <p class="text-xs text-slate-400">可点击右上角开启摄像头本地录制回看，或直接点击下方“开始模拟开播”</p>
+            </div>
+
+            <!-- 3-2-1 Countdown Overlay -->
+            <div id="studioCountdownOverlay" class="hidden absolute inset-0 bg-slate-950/80 backdrop-blur-sm flex flex-col items-center justify-center z-20">
+              <div id="studioCountdownNum" class="text-7xl font-black text-rose-500">3</div>
+              <div class="text-xs text-slate-300 mt-2">即将进入模拟直播间，请准备口播...</div>
+            </div>
+
+            <!-- Simulated Live Danmaku Overlay -->
+            <div id="studioDanmakuBox" class="absolute bottom-3 left-3 right-3 max-h-32 overflow-y-auto space-y-1.5 pointer-events-none"></div>
+          </div>
+
+          <!-- Product Info Strip inside Studio -->
+          <div class="p-4 bg-slate-900 text-slate-200 text-xs space-y-2 border-t border-slate-800">
+            <div class="flex items-start gap-2">
+              <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-bold shrink-0">商详配置</span>
+              <span id="studioPolicyText" class="text-slate-300 leading-relaxed"></span>
+            </div>
+            <div class="flex items-start gap-2">
+              <span class="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-bold shrink-0">红线预警</span>
+              <span id="studioRedlineHint" class="text-rose-200 leading-relaxed"></span>
+            </div>
+          </div>
+
+          <!-- Controls Footer -->
+          <div class="p-4 bg-slate-950 border-t border-slate-800 flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <button id="startLiveBtn" type="button" class="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs sm:text-sm font-bold shadow transition">
+                ▶ 开始模拟开播
+              </button>
+              <button id="stopLiveBtn" type="button" disabled class="px-4 py-2.5 rounded-xl bg-slate-800 text-slate-500 text-xs sm:text-sm font-bold cursor-not-allowed transition">
+                ⏹ 结束开播
+              </button>
+            </div>
+            <button id="voiceInputBtn" type="button" class="px-3.5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition">
+              🎤 语音转文字
+            </button>
+          </div>
+        </div>
+
+        <!-- Right: Teleprompter Points + Script Editor + Submit -->
+        <div class="lg:col-span-6 bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex flex-col justify-between space-y-4">
+          <div class="space-y-4">
+            <!-- Core Points Checklist -->
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <h4 class="text-xs font-bold text-slate-700">必讲核心卖点（建议融入利他买点表达）</h4>
+                <span id="liveCoveragePill" class="text-xs font-bold text-blue-600">已覆盖 0 / 5</span>
+              </div>
+              <div id="studioPointsTags" class="flex flex-wrap gap-2"></div>
+            </div>
+
+            <!-- Script Textarea -->
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <label for="studioScriptInput" class="text-xs font-bold text-slate-700">口播话术区（支持边播边语音转写，或直接输入/粘贴口播稿自检）</label>
+                <div class="flex items-center gap-2">
+                  <button id="fillSampleGoodBtn" type="button" class="text-[11px] font-semibold text-emerald-600 hover:underline">填入合规高转化示范</button>
+                  <button id="fillSampleBadBtn" type="button" class="text-[11px] font-semibold text-rose-600 hover:underline">填入踩雷反面示范</button>
+                </div>
+              </div>
+              <textarea id="studioScriptInput" rows="8" placeholder="开播后可点击左侧“语音转文字”直接口播，或在这里输入你的完整单品讲解话术（包括痛点引入、卖点转利他买点、售后与发货说明、合规互动引导）..." class="w-full p-3.5 rounded-xl border border-slate-300 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+              <div class="flex items-center justify-between mt-1.5 text-[11px] text-slate-400">
+                <span id="scriptCharCount">当前字数：0 字（建议单品讲解 ≥ 120 字）</span>
+                <button id="clearScriptBtn" type="button" class="hover:text-slate-700">清空话术</button>
+              </div>
+            </div>
+
+            <!-- Objective Scoring Info + AI Engine Config -->
+            <div class="p-3.5 rounded-xl bg-indigo-50/60 border border-indigo-200 space-y-2">
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-xs font-bold text-indigo-900">🤖 飞书妙记式复盘 + AI 考核建议引擎</span>
+                <button id="toggleAiConfigBtn" type="button" class="text-[11px] font-bold text-indigo-600 hover:text-indigo-800 underline">
+                  ⚙️ 配置大模型 API（可选）
+                </button>
+              </div>
+              <p class="text-[11px] text-indigo-800/80 leading-relaxed">
+                系统已改为 <strong>100% 客观初筛分</strong>（合规 40 + 卖点覆盖 30 + 利他表达 15 + 话术完整度 15），交卷后自动生成<strong>带时间戳的妙记逐字稿、AI 考核摘要与导师终审台</strong>。
+              </p>
+              <div id="aiConfigPanel" class="hidden pt-2 border-t border-indigo-200/70 space-y-2">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <input id="aiApiEndpoint" type="text" placeholder="API 地址（如 https://api.deepseek.com/v1/chat/completions）" class="px-2.5 py-1.5 rounded-lg border border-indigo-200 bg-white text-xs" />
+                  <input id="aiApiModel" type="text" placeholder="模型名（如 deepseek-chat / qwen-plus）" class="px-2.5 py-1.5 rounded-lg border border-indigo-200 bg-white text-xs" />
+                </div>
+                <input id="aiApiKey" type="password" placeholder="API Key（仅存当前页面内存，刷新即清除，不会写入本地缓存）" class="w-full px-2.5 py-1.5 rounded-lg border border-indigo-200 bg-white text-xs" />
+              </div>
+            </div>
+          </div>
+
+          <button id="evaluateStudioBtn" type="button" class="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold text-sm shadow-md transition">
+            🔍 提交练播并生成诊断报告
+          </button>
+        </div>
+      </div>
+
+      <!-- Studio Diagnostic Report (仿抖音练播房练习报告) -->
+      <div id="studioReportPanel" class="hidden bg-white rounded-2xl p-6 border-2 border-indigo-200 shadow-md space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-4 border-b border-slate-100">
+          <div class="flex items-center gap-4">
+            <div id="studioGradeBadge" class="w-16 h-16 rounded-2xl bg-indigo-600 text-white flex items-center justify-center text-3xl font-black shadow">A</div>
+            <div>
+              <div class="text-xs font-semibold text-slate-500">模拟练播房 · 量化评估报告</div>
+              <div class="flex items-baseline gap-2">
+                <span id="studioFinalScore" class="text-3xl font-black text-slate-900">92</span>
+                <span class="text-sm text-slate-400">/ 100 分</span>
+                <span id="studioViolationSummaryTag" class="ml-2 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-100 text-emerald-700">0 处违规</span>
+              </div>
+              <div id="studioReportMeta" class="text-xs text-slate-500 mt-1"></div>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button data-goto="dashboard" type="button" class="px-4 py-2 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition">回练习中心导出海报</button>
+          </div>
+        </div>
+
+        <!-- 4 Report Sub-Blocks -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <!-- Violation Details -->
+          <div class="p-4 rounded-xl bg-rose-50/60 border border-rose-200 space-y-2.5">
+            <h4 class="text-sm font-bold text-rose-800 flex items-center justify-between">
+              <span>🚨 违规情况明细</span>
+              <span id="reportViolationCount" class="text-xs font-extrabold">0 处</span>
+            </h4>
+            <div id="reportViolationList" class="space-y-2 text-xs"></div>
+          </div>
+
+          <!-- Selling Points & Benefit Analysis -->
+          <div class="p-4 rounded-xl bg-blue-50/60 border border-blue-200 space-y-2.5">
+            <h4 class="text-sm font-bold text-blue-900 flex items-center justify-between">
+              <span>🎯 卖点覆盖与利他表达诊断</span>
+              <span id="reportCoverageRate" class="text-xs font-extrabold">100%</span>
+            </h4>
+            <div id="reportPointsDetail" class="space-y-2 text-xs"></div>
+          </div>
+        </div>
+
+        <!-- Feishu-Minutes-Style Timeline Transcript -->
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h4 class="text-sm font-bold text-slate-900">🎙️ 妙记式时间轴逐字稿（自动分段 · 标签标注）</h4>
+              <p id="reportSpeechMeta" class="text-[11px] text-slate-500 mt-0.5"></p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 text-[11px]">
+              <span class="px-2 py-0.5 rounded bg-rose-200 text-rose-900 font-semibold">违规红线</span>
+              <span class="px-2 py-0.5 rounded bg-emerald-200 text-emerald-900 font-semibold">利他场景词</span>
+              <button id="copyAiPromptBtn" type="button" class="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-bold transition">📋 复制 AI 复盘提示词</button>
+              <button id="exportMinutesBtn" type="button" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-900 text-white font-bold transition">⬇️ 导出妙记发导师</button>
+            </div>
+          </div>
+          <div id="reportAnnotatedScript" class="space-y-2 max-h-80 overflow-y-auto custom-scroll pr-1"></div>
+        </div>
+
+        <!-- AI Assessment Summary + Tutor Final Review Box -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <h4 class="text-sm font-bold text-indigo-950">🤖 AI 考核建议摘要</h4>
+              <button id="runLiveAiReviewBtn" type="button" class="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-[11px] font-bold transition">
+                ✨ 调用已配大模型深度点评
+              </button>
+            </div>
+            <div id="aiSummaryContent" class="text-xs text-indigo-950/90 leading-relaxed space-y-2"></div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-emerald-50/60 border border-emerald-200 space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="text-sm font-bold text-emerald-950">👨‍🏫 导师终审确认台</h4>
+              <span id="tutorReviewStatus" class="text-[11px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800">待导师终审</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2 text-xs">
+              <div>
+                <label class="block text-[11px] font-bold text-slate-600 mb-1">终审分数（0-100）</label>
+                <input id="tutorFinalScoreInput" type="number" min="0" max="100" class="w-full px-2.5 py-1.5 rounded-lg border border-emerald-300 bg-white font-bold" />
+              </div>
+              <div>
+                <label class="block text-[11px] font-bold text-slate-600 mb-1">终审导师署名</label>
+                <input id="tutorNameInput" type="text" placeholder="如：连超导师" class="w-full px-2.5 py-1.5 rounded-lg border border-emerald-300 bg-white" />
+              </div>
+            </div>
+            <div>
+              <label class="block text-[11px] font-bold text-slate-600 mb-1">导师终审评语（可基于左侧 AI 摘要微调）</label>
+              <textarea id="tutorCommentInput" rows="2" placeholder="输入对学员语速、镜头感、逼单节奏的终审建议..." class="w-full px-2.5 py-1.5 rounded-lg border border-emerald-300 bg-white text-xs"></textarea>
+            </div>
+            <button id="saveTutorReviewBtn" type="button" class="w-full py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition">
+              ✅ 确认导师终审成绩并同步成绩单
+            </button>
+          </div>
+        </div>
+
+        <!-- Recorded Video Playback if available -->
+        <div id="studioPlaybackBox" class="hidden p-4 rounded-xl bg-slate-900 text-white space-y-2">
+          <h4 class="text-sm font-bold">🎬 本次本地录屏回放</h4>
+          <video id="studioRecordedVideo" controls class="w-full max-h-80 rounded-lg bg-black"></video>
+        </div>
+
+        <!-- Optimization Advice -->
+        <div class="p-4 rounded-xl bg-amber-50 border border-amber-200 space-y-1.5">
+          <h4 class="text-sm font-bold text-amber-900">💡 导师级优化建议</h4>
+          <ul id="reportAdviceList" class="list-disc list-inside text-xs text-amber-900 space-y-1 leading-relaxed"></ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 bg-white py-4 mt-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-400">
+      <span>© 2026 宝盾集团 · 连超电商学院｜主播能力在线自测与模拟练播平台</span>
+      <span>纯前端本地运行 · 成绩与记录仅存于当前浏览器</span>
+    </div>
+  </footer>
+
+  <!-- ==================== MODAL: STUDENT PROFILE ==================== -->
+  <div id="profileModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-extrabold text-slate-900">填写学员档案</h3>
+        <button id="closeProfileModalBtn" type="button" class="text-slate-400 hover:text-slate-700 text-lg font-bold">✕</button>
+      </div>
+      <p class="text-xs text-slate-500">用于展示在你的练习记录和结业成绩单海报上，方便发群打卡提交给导师。</p>
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">学员姓名 / 主播花名</label>
+          <input id="inputStudentName" type="text" placeholder="例如：林小满" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">联系电话 <span class="text-rose-600">* 必填</span></label>
+          <input id="inputStudentPhone" type="tel" maxlength="11" required placeholder="请输入 11 位手机号码" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">微信号 <span class="text-rose-600">* 必填</span></label>
+          <input id="inputStudentWechat" type="text" required placeholder="请输入常用微信号（用于导师对接复盘）" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">所在期数 / 班级</label>
+          <input id="inputStudentClass" type="text" placeholder="例如：连超主播特训营第 12 期" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <p id="profileErrorMsg" class="hidden text-xs font-semibold text-rose-600 bg-rose-50 border border-rose-200 rounded-lg px-3 py-2"></p>
+      </div>
+      <div class="flex justify-end gap-2 pt-2">
+        <button id="cancelProfileBtn" type="button" class="px-4 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-600 hover:bg-slate-50">取消</button>
+        <button id="saveProfileBtn" type="button" class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold">保存信息</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: LOOKUP HISTORY BY PHONE + WECHAT ==================== -->
+  <div id="lookupModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-extrabold text-slate-900">🔍 历史记录查询（双因子校验）</h3>
+        <button id="closeLookupModalBtn" type="button" class="text-slate-400 hover:text-slate-700 text-lg font-bold">✕</button>
+      </div>
+      <p class="text-xs text-slate-500 leading-relaxed">
+        输入您首次建档时填写的<strong>手机号</strong>与<strong>微信号</strong>，系统校验匹配后将恢复您的专属历史成绩、能力雷达图与结业海报（不同学员数据完全隔离，互不可见）。
+      </p>
+      <div class="space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">原先联系电话 <span class="text-rose-600">*</span></label>
+          <input id="lookupPhoneInput" type="tel" maxlength="11" placeholder="请输入 11 位手机号码" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">建档微信号 <span class="text-rose-600">*</span></label>
+          <input id="lookupWechatInput" type="text" placeholder="请输入建档时填写的微信号（防他人冒查）" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+        </div>
+        <p id="lookupErrorMsg" class="hidden text-xs font-semibold text-rose-600 bg-rose-50 border border-rose-200 rounded-lg px-3 py-2"></p>
+      </div>
+      <div class="flex justify-end gap-2 pt-2">
+        <button id="cancelLookupBtn" type="button" class="px-4 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-600 hover:bg-slate-50">取消</button>
+        <button id="confirmLookupBtn" type="button" class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold">验证并调出记录</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: SCORE POSTER EXPORT ==================== -->
+  <div id="posterModal" class="hidden fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4 max-h-[92vh] overflow-y-auto">
+      <div class="flex items-center justify-between">
+        <div>
+          <h3 class="text-lg font-extrabold text-slate-900">🏆 学员结业成绩单海报</h3>
+          <p class="text-xs text-slate-500">可下载高清 PNG 图片直接发微信群打卡</p>
+        </div>
+        <button id="closePosterModalBtn" type="button" class="text-slate-400 hover:text-slate-700 text-lg font-bold">✕</button>
+      </div>
+      <div class="flex justify-center bg-slate-100 rounded-xl p-3">
+        <canvas id="posterCanvas" width="720" height="1040" class="max-w-full h-auto rounded-lg shadow-md"></canvas>
+      </div>
+      <div class="flex justify-end gap-2">
+        <button id="closePosterBtn2" type="button" class="px-4 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-600">关闭</button>
+        <button id="downloadPosterBtn" type="button" class="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold">⬇️ 下载成绩单 PNG</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: CONFIRM DIALOG ==================== -->
+  <div id="confirmModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl space-y-4">
+      <h3 id="confirmModalTitle" class="text-base font-extrabold text-slate-900">确认操作</h3>
+      <p id="confirmModalMsg" class="text-xs text-slate-600 leading-relaxed"></p>
+      <div class="flex justify-end gap-2 pt-2">
+        <button id="confirmCancelBtn" type="button" class="px-4 py-2 rounded-xl border border-slate-300 text-xs font-bold text-slate-600">取消</button>
+        <button id="confirmOkBtn" type="button" class="px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-bold">确认</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // =========================================================================
+    // 1. DATA: COMPLIANCE EXAM (40 Questions, 100 Points Total)
+    // =========================================================================
+    const DIM_LABELS = {
+      aftersale: '售后与履约一致',
+      efficacy: '功效与资质红线',
+      interaction: '互动与营销规范',
+      ip_truth: '版权价格与如实描述'
+    };
+
+    const COMPLIANCE_QUESTIONS = [
+      // 单选题 1-20 (每题 3 分，共 60 分)
+      { id: 1, type: 'single', score: 3, dim: 'aftersale', q: '直播中说“退换货运费全包”、“连运费都不用你出”，违反什么规定？', options: ['A. 功效虚假', 'B. 售后服务不符', 'C. 诱导互动', 'D. 虚构营销'], answer: ['B'], explain: '运费险仅按保险公司标准定额赔付，并非“全包”或“不花一分钱”，口播夸大赔付范围属于典型的售后服务不符。合规话术：“已为您赠送运费险，具体赔付额度以页面显示为准”。' },
+      { id: 2, type: 'single', score: 3, dim: 'interaction', q: '直播中说“想要的打1，我给你们上福利”，这种行为属于？', options: ['A. 正常互动', 'B. 功效虚假', 'C. 诱导互动', 'D. 虚构营销'], answer: ['C'], explain: '以“上福利/发福袋/改价”为条件强制要求用户公屏扣“1”属于平台明令禁止的诱导互动行为。' },
+      { id: 3, type: 'single', score: 3, dim: 'efficacy', q: '一款普通保湿面霜（无美白特证），主播在直播间最合规的介绍是？', options: ['A. 连续用一周，保证你的斑点全消、白三个度', 'B. 这款面霜质地清爽，适合日常补水保湿', 'C. 它能深入肌底消炎，治疗你的敏感肌', 'D. 坚持用28天，皮肤能白两个度、直接没有皱纹好吧'], answer: ['B'], explain: '普通化妆品（非国妆特字）严禁宣传美白、祛斑、抗皱等特殊功效，更不可使用“消炎、治疗”等医疗用语。' },
+      { id: 4, type: 'single', score: 3, dim: 'aftersale', q: '关于“运费险”的宣传，以下哪种做法是允许的？', options: ['A. 口播承诺“退货全包运费”，即使商品实际未投保', 'B. 宣传“七天无理由运费险、都是有的”（商详已配置）', 'C. 承诺“来回运费我们都出”，但详情页无此说明', 'D. 说“放心买，退换货不用你花一分钱”，无视后台配置'], answer: ['B'], explain: '售后权益必须严格以商品详情页实际配置为准，不可无中生有或夸大成“全包”“不花一分钱”。' },
+      { id: 5, type: 'single', score: 3, dim: 'interaction', q: '为了提升直播间互动率，主播可以怎么说？', options: ['A. 只有点了关注的宝宝，才能参加待会的抽奖', 'B. 评论区扣“1”报名，才能解锁专属秒杀', 'C. 加入粉丝团，前100名送正装赠品', 'D. 觉得这个颜色好看的姐妹，公屏扣个“好看”分享一下'], answer: ['D'], explain: 'A/B/C 均以利益（抽奖、秒杀、赠品）诱导关注、评论或加团；D 属于自然探讨商品外观的正常互动。' },
+      { id: 6, type: 'single', score: 3, dim: 'aftersale', q: '商品详情页明确标注“不支持7天无理由退货”，主播应该？', options: ['A. 口头承诺“不喜欢随时退”，先成交再说', 'B. 如实告知“本品不支持7天无理由，请确认需求后下单”', 'C. 只在直播间展示“七天无理由”的售后物料，不口播', 'D. 不在直播间口播，让运营发评论宣传“有七天无理由”'], answer: ['B'], explain: '口播、背景贴片和评论区运营话术均须与商详售后配置完全一致，不支持7天无理由必须如实告知。' },
+      { id: 7, type: 'single', score: 3, dim: 'ip_truth', q: '推广一款印有“迪士尼”图案的儿童T恤，达人必须确保？', options: ['A. 图案清晰好看就行', 'B. 已经拿到版权方（授权链路和范围完整）的授权证明', 'C. 只要不说是“正版”就不算侵权', 'D. 销量不大就没事'], answer: ['B'], explain: '涉及知名 IP 图案必须核验完整、有效且覆盖当前渠道的版权授权链路，否则构成知识产权侵权。' },
+      { id: 8, type: 'single', score: 3, dim: 'efficacy', q: '销售一款“妆字号”普通精华，关于功效的描述合规的是？', options: ['A. 这款精华能祛皱抗衰，效果堪比打了水光针', 'B. 它能治疗痤疮和敏感肌', 'C. 坚持使用，皮肤会变得更水润有光泽', 'D. 一盒保证见效，无效退款'], answer: ['C'], explain: '普通妆字号精华不可类比医美（水光针）、不可宣称医疗作用（治疗痤疮），也不得做绝对化效果保证。' },
+      { id: 9, type: 'single', score: 3, dim: 'ip_truth', q: '直播中涉及“比价”时，应该？', options: ['A. 随便说个低价，比如“别人卖20000，我们只要99”', 'B. 必须真实展示被比较平台的具体价格和日期', 'C. 用“史低价”、“全网最低”等词，不用证明', 'D. 假装和老板吵架，把价格“砍”下来'], answer: ['B'], explain: '价格比较必须真实可查、同款同规格，并清晰标注被比较平台、具体价格和采集日期。' },
+      { id: 10, type: 'single', score: 3, dim: 'aftersale', q: '运营在直播前检查手卡，发现一款商品商详物料信息配置情况为“15天内发货”，以下哪种说法可以在直播间表述？', options: ['A. 库存很少，我们只有预售了，发货只能15天内发出', 'B. 付款后7天内发出，具体收货时间以物流为准', 'C. 库存不多，工厂有现货就会立刻安排发货，拍不到就只能等预售', 'D. 现在拍，这周就能收到，出游就穿它'], answer: ['A'], explain: '发货时效承诺不能快于商详后台配置的实际发货时间，商详配置“15天内发货”就应如实说明15天内发出。' },
+      { id: 11, type: 'single', score: 3, dim: 'aftersale', q: '某商品详情页的“服务保障”中未配置“假一赔十”，但直播背景板贴片上写着“假一罚十”，主播正确的做法是？', options: ['A. 可以按贴片内容宣传', 'B. 让运营临时去后台加上', 'C. 绝对不能说，并建议运营下掉贴片', 'D. 口头不提，但贴片可以留着'], answer: ['C'], explain: '直播间背景板/贴片同样属于宣传内容，未在后台服务保障配置的权益既不能口播也不能展示贴片。' },
+      { id: 12, type: 'single', score: 3, dim: 'ip_truth', q: '证明价格优势时，主播的正确做法是？', options: ['A. 口头说“我们比官网便宜一半”，但拿不出截图', 'B. 展示一张模糊的、疑似其他平台（非官网）的低价图', 'C. 拿出清晰的官网同款商品价格截图进行对比', 'D. 演一出“上错价格”的戏，假装亏本卖'], answer: ['C'], explain: '证明价格优势需出示清晰、真实、同款同规格的官方对比凭证，严禁虚构比价或演戏破价。' },
+      { id: 13, type: 'single', score: 3, dim: 'ip_truth', q: '主播介绍一款羽绒被，以下哪种说法合规？', options: ['A. 这款被子绝对不钻绒，钻绒我们赔钱', 'B. 填充95%白鹅绒，蓬松保暖，但个别情况可能有轻微钻绒', 'C. 这是顶级羽绒，市面上找不到比这更好的', 'D. 盖这条被子，老寒腿都能治好'], answer: ['B'], explain: 'A 属于绝对化承诺，C 属于极限词“顶级/找不到更好的”，D 违规宣称医疗功效；B 客观真实且做好合理预期说明。' },
+      { id: 14, type: 'single', score: 3, dim: 'efficacy', q: '推广一款普通食品（如山药粉），主播在介绍时，以下哪种说法是绝对不允许的？', options: ['A. 口感粉糯，独立包装。', 'B. 建议“小糖人”“糖宝宝”的朋友可以多吃点。', 'C. 富含膳食纤维。', 'D. 可以用于煲汤或制作糕点。'], answer: ['B'], explain: '“小糖人”“糖宝宝”属于糖尿病患者的谐音代称，普通食品严禁明示或暗示针对特定疾病人群的食疗/控糖功效。' },
+      { id: 15, type: 'single', score: 3, dim: 'aftersale', q: '关于“赠品”的宣传，以下哪种做法符合规定？', options: ['A. 口头承诺“前100名下单的，我再私下多送一包维生素！”', 'B. 引导用户拍了回来打“已拍”截图给客服领额外赠品', 'C. 严格按照商品详情页中已公示的赠品规则、数量和规格进行宣传', 'D. 在直播中突然临时增加商详页没有的赠品，以刺激下单'], answer: ['C'], explain: '所有赠品规则、数量、规格都必须已在商详页明确公示，严禁口头加赠、引导私聊领赠品或无法履约的承诺。' },
+      { id: 16, type: 'single', score: 3, dim: 'efficacy', q: '主播在介绍一款护肝片（非保健品&药）时，最安全的介绍方式是？', options: ['A. 介绍产品成分，如“本品含有奶蓟草提取物”，不承诺具体功效。', 'B. 说“这个产品是七效合一，又能补这个又能养那个”', 'C. 强调“熬夜伤肝的朋友，吃这个就能护肝”。', 'D. 承诺“吃了能改善脂肪肝”'], answer: ['A'], explain: '非蓝帽保健品及非药品类膳食，仅可客观介绍配料成分与适用食用方式，不可宣称护肝、改善脂肪肝等保健/医疗功效。' },
+      { id: 17, type: 'single', score: 3, dim: 'interaction', q: '直播中，主播如何引导用户互动是相对安全的？', options: ['A. “人数冲到1万，我给大家抽个奖！”', 'B. “想要的宝宝公屏扣‘666’，我给你改价！”', 'C. “喜欢今天直播的家人，可以点个关注，后面开播不容易错过哦”', 'D. “没点关注的不发货哦！”'], answer: ['C'], explain: '自然提醒关注以便下次看播不涉及利益利诱或威胁，属于合规互动；A/B/D 均构成诱导互动或违规胁迫。' },
+      { id: 18, type: 'single', score: 3, dim: 'efficacy', q: '主播在介绍一款宣称“美白”功效的精华液时，首先必须确认什么？', options: ['A. 有没有用户的好评截图。', 'B. 主播自己试用后是否感觉变白。', 'C. 商品是否持有“国妆特字”注册证，且商详页有展示。', 'D. 商家是否提供了营业执照。'], answer: ['C'], explain: '美白祛斑属于特殊化妆品功效，必须具备有效“国妆特字”注册证并在商详页规范公示，否则严禁宣称美白。' },
+      { id: 19, type: 'single', score: 3, dim: 'ip_truth', q: '销售一款二奢（二手奢侈品）包包，其成色实际上有轻微使用痕迹。主播应如何描述？', options: ['A. 说“全新未使用，原尘原盒”', 'B. 根据商详配置情况，如实描述为“99新”或“95新”，并说明具体瑕疵。', 'C. 说“跟新的没区别”', 'D. 可以只展示图片、隐晦暗示，不做成色说明。'], answer: ['B'], explain: '二奢商品必须如实告知实际成色等级及细微使用痕迹/瑕疵，隐瞒瑕疵或冒充全新构成欺诈与虚假宣传。' },
+      { id: 20, type: 'single', score: 3, dim: 'efficacy', q: '主播在口播中想表达“缓解皮肤泛红”的意思，以下哪个词可以使用？', options: ['A. 舒缓', 'B. 治疗皮炎', 'C. 消炎', 'D. 改善过敏'], answer: ['A'], explain: '“舒缓”属于合规化妆品宣称词；“治疗皮炎”“消炎”“改善过敏”均涉及医疗或抗敏特证/药品范畴，禁用。' },
+
+      // 多选题 21-26 (每题 2 分，共 12 分)
+      { id: 21, type: 'multi', score: 2, dim: 'aftersale', q: '以下哪些说法是明确禁止的？（多选）', options: ['A. 商品不配置七天无理由，宣传“不喜欢可以退”', 'B. 介绍普通面膜（没有特证）时，说“能美白淡斑”', 'C. 说“关注主播，今晚给你免单”', 'D. 赠品送完了，但说“今天下单的都有赠品”，实际给不出赠品'], answer: ['A', 'B', 'C', 'D'], explain: '四项分别踩中售后不符、无特证夸大功效、诱导关注免单、虚假赠品承诺，全部属于平台明确禁止行为。' },
+      { id: 22, type: 'multi', score: 2, dim: 'aftersale', q: '售后服务不符的常见原因包括？（多选）', options: ['A. 商品配置运费险，口播夸大运费险赔付（说“运费全包”）', 'B. 宣传“7天无理由”但商详未配置', 'C. 商品支持“试用”但不支持“7天无理由”，说“不喜欢可以退”', 'D. 按商详实际配置的售后情况进行宣传'], answer: ['A', 'B', 'C'], explain: 'A/B/C 均属于口播承诺超出或违背商详实际配置的售后保障；D 是唯一合规做法。' },
+      { id: 23, type: 'multi', score: 2, dim: 'efficacy', q: '关于“膳食类目”的话术，以下哪些描述是相对安全合规的？（多选）', options: ['A. 介绍叶黄素产品时说“里面有叶黄素、含量xx%（展示成分报告）”', 'B. 介绍蛋白粉时说“运动后马上来一勺，补充需要的元素”', 'C. 介绍普通食品时说“吃了能降血压、治疗糖尿病”', 'D. 介绍辅酶时说“有助于心脏健康、小心心的好朋友”'], answer: ['A', 'B'], explain: 'A 基于检测报告客观讲成分含量，B 讲食用场景与营养补充，相对合规；C 涉及疾病治疗，D 暗示护心保健功效（普通膳食严禁明示/暗示特定器官保健功效）。' },
+      { id: 24, type: 'multi', score: 2, dim: 'ip_truth', q: '以下哪些行为是平台明确禁止的？（多选）', options: ['A. 设置“1元秒杀”链接，但实际库存只有1件且长期不下架', 'B. 宣传“买我的课，一个月保底赚10万”', 'C. 宣称普通食品有“降血压、壮阳”功效', 'D. 商品是聚酯纤维，却宣传为“100%纯棉”'], answer: ['A', 'B', 'C', 'D'], explain: '分别触犯虚假低价引流、虚假收益承诺、普通食品宣称医疗/保健功效、材质成分造假，全部明令禁止。' },
+      { id: 25, type: 'multi', score: 2, dim: 'aftersale', q: '关于“售后服务”的承诺，哪些做法存在违规风险？（多选）', options: ['A. 详情页写“7天无理由”，主播按照详情页正确表述', 'B. 详情页没写“过敏包退”，主播口头承诺“过敏包退”', 'C. 宣传“终身保修”，但实际无法履行', 'D. 承诺“假一赔十”，但详情页没有配置'], answer: ['B', 'C', 'D'], explain: '任何未在商详配置或无法履约的口头售后承诺（过敏包退、终身保修、假一赔十）均构成售后服务不符违规。' },
+      { id: 26, type: 'multi', score: 2, dim: 'interaction', q: '以下哪些营销手段属于违规炒作？（多选）', options: ['A. 主播和助播假装吵架，制造“破价”剧情', 'B. 背景板写“最后一天、仅此一场优惠”，结果天天都是最后一天', 'C. 用“老板带着小姨子跑路了”等噱头来卖货', 'D. 如实介绍今日赠品活动的内容和截止时间，并在商品详情页配置了'], answer: ['A', 'B', 'C'], explain: 'A/B/C 属于虚假演戏炒作、虚构限时紧迫感和低俗卖惨噱头；D 如实说明并在商详配置，合规。' },
+
+      // 判断题 27-40 (每题 2 分，共 28 分)
+      { id: 27, type: 'judge', score: 2, dim: 'efficacy', q: '主播可以宣称普通糖果具有“排毒、减肥”的功效。', options: ['A. 正确', 'B. 错误'], answer: ['B'], explain: '普通食品（糖果）严禁宣称排毒、减肥、瘦身等保健或医疗功效。' },
+      { id: 28, type: 'judge', score: 2, dim: 'ip_truth', q: '为了吸引人，可以用“国家级”“第一品牌”等极限词。', options: ['A. 正确', 'B. 错误'], answer: ['B'], explain: '《广告法》与平台规则明令禁止使用“国家级”“最高级”“第一品牌”等绝对化极限词。' },
+      { id: 29, type: 'judge', score: 2, dim: 'efficacy', q: '医疗器械广告必须清晰展示医疗器械注册证号和广告审查批准文号。', options: ['A. 正确', 'B. 错误'], answer: ['A'], explain: '医疗器械属于强监管类目，宣传必须依法显著标明医疗器械注册证号及广审文号。' },
+      { id: 30, type: 'judge', score: 2, dim: 'interaction', q: '主播可以要求用户“先扣一参与活动”，才能获得赠品。', options: ['A. 正确', 'B. 错误'], answer: ['B'], explain: '以赠品为诱饵要求用户公屏扣“1”属于典型的诱导互动违规。' },
+      { id: 31, type: 'judge', score: 2, dim: 'ip_truth', q: '达人可以宣称其销售的非品牌数据线为“苹果手机数据线平替”，只要不直接使用苹果商标就不算侵权。', options: ['A. 正确', 'B. 错误'], answer: ['B'], explain: '使用“XX平替”蹭大牌知名度属于傍名牌/不正当竞争与商标侵权风险，合规表述应为“适用于某型号接口”。' },
+      { id: 32, type: 'judge', score: 2, dim: 'efficacy', q: '普通食品可以宣传减肥、瘦身、减脂等保健功效。', options: ['A. 正确', 'B. 错误'], answer: ['B'], explain: '普通食品不得宣称任何保健功能（含减肥、减脂、瘦身），否则构成虚假宣传。' },
+      { id: 33, type: 'judge', score: 2, dim: 'interaction', q: '直播标题可以随意使用“最后一天”、“仅此一天”等限时促销用语。', options: ['A. 正确', 'B. 错误'], answer: ['B'], explain: '无真实活动截止依据、反复使用“最后一天/仅此一天”制造虚假紧迫感属于违规炒作。' },
+      { id: 34, type: 'judge', score: 2, dim: 'aftersale', q: '只要商品卖得好，主播口头承诺“过敏包退”，即使商详没配置，也能提升用户体验，不算大问题。', options: ['A. 正确', 'B. 错误'], answer: ['B'], explain: '口播承诺任何商详未配置的售后保障，一旦被抽检或用户投诉，直接判定售后服务不符扣分。' },
+      { id: 35, type: 'judge', score: 2, dim: 'efficacy', q: '普通食品在直播中可以宣传“减肥”、“增强免疫力”等保健功效。', options: ['A. 正确', 'B. 错误'], answer: ['B'], explain: '“增强免疫力”“减肥”均属于保健食品特定功能，普通食品严禁使用。' },
+      { id: 36, type: 'judge', score: 2, dim: 'interaction', q: '“诱导互动”只包括诱导“关注”，不包括诱导“评论”和“点赞”，比如说“扣一主播便宜卖”就没事。', options: ['A. 正确', 'B. 错误'], answer: ['B'], explain: '以利益诱导关注、评论、点赞、分享、加粉丝团全部属于诱导互动违规范畴。' },
+      { id: 37, type: 'judge', score: 2, dim: 'aftersale', q: '主播宣传的所有售后权益（如运费险、保价），必须在商品详情页的“服务保障参数”中有明确配置。', options: ['A. 正确', 'B. 错误'], answer: ['A'], explain: '口播与商详“服务保障参数”严格一致，是直播间售后合规的第一铁律。' },
+      { id: 38, type: 'judge', score: 2, dim: 'ip_truth', q: '直播间使用“全网最低价”“史低价”等绝对化价格用语，即使无法提供权威比价证明也不违规。', options: ['A. 正确', 'B. 错误'], answer: ['B'], explain: '（已由学院优化替换原重复题）使用“全网最低价”“史低价”等极限价格词且无合法证明，属于严重价格违规。' },
+      { id: 39, type: 'judge', score: 2, dim: 'ip_truth', q: '介绍一款二奢包包，即使有微小划痕，只要不说，用户就发现不了，可以当成“全新”来卖。', options: ['A. 正确', 'B. 错误'], answer: ['B'], explain: '刻意隐瞒瑕疵并将二手商品充当全新销售，严重违反如实描述规则与消费者权益保护法。' },
+      { id: 40, type: 'judge', score: 2, dim: 'efficacy', q: '和运营确认了某款儿童奶粉有“增高”、“助力长个”的功效，主播就可以在直播间宣传“比高高”“长个”等。', options: ['A. 正确', 'B. 错误'], answer: ['B'], explain: '儿童奶粉作为普通/配方食品严禁宣传“增高”“长个”等明示或暗示功效，即使运营口头确认也不合规，必须以法定标签与资质为准。' }
+    ];
+
+    // =========================================================================
+    // 2. DATA: SELLING POINT VS ALTRUISTIC BENEFIT (50 Questions, 2 pts each)
+    // =========================================================================
+    const SELLING_QUESTIONS = [
+      { id: 1, text: '奶瓶是PPSU宽口径材质。', answer: 1, cat: '母婴育儿', tip: '客观材质与口径规格，属于产品卖点（1）。可转化为：“耐摔耐高温，倒奶粉不洒出来，半夜闭眼都能泡奶”。' },
+      { id: 2, text: '一整天嘴唇都水润润的，不会拔干起死皮。', answer: 2, cat: '美妆护肤', tip: '直接描绘涂上后的舒适体验和痛点解决，属于利他买点（2）。' },
+      { id: 3, text: '这款四件套是60支长绒棉面料。', answer: 1, cat: '家居日用', tip: '纱支数与面料成分是客观参数，属于卖点（1）。' },
+      { id: 4, text: '在零下的天气里，穿这一件出门就够暖，不用裹成熊。', answer: 2, cat: '服饰鞋包', tip: '带入零下天气场景，解决穿太厚臃肿痛点，属于利他买点（2）。' },
+      { id: 5, text: '空气循环扇采用涡轮扇叶设计。', answer: 1, cat: '生活家电', tip: '结构设计参数，属于产品卖点（1）。' },
+      { id: 6, text: '让你在沙滩玩一整天，皮肤也晒不红、晒不黑。', answer: 2, cat: '美妆护肤', tip: '明确沙滩暴晒场景下的结果好处，属于利他买点（2）。' },
+      { id: 7, text: '牛仔裤面料是100%纯棉材质。', answer: 1, cat: '服饰鞋包', tip: '纯棉成分比例是客观参数，属于卖点（1）。' },
+      { id: 8, text: '铺在地上稳稳当当，家里有老人小孩也不怕滑倒，更安全。', answer: 2, cat: '家居日用', tip: '切中老人小孩居家防滑的安全顾虑，属于利他买点（2）。' },
+      { id: 9, text: '儿童安全座椅通过了i-Size认证。', answer: 1, cat: '母婴育儿', tip: '认证标准属于产品资质卖点（1），需翻译成对宝宝的安全保护。' },
+      { id: 10, text: '带妆到晚上，脸色也不会暗沉发灰，越夜越美丽。', answer: 2, cat: '美妆护肤', tip: '描绘带妆一整天的妆效情绪价值，属于利他买点（2）。' },
+      { id: 11, text: '电饭煲内胆是8层复合材料厚釜。', answer: 1, cat: '生活家电', tip: '内胆层数与结构参数，属于卖点（1）。' },
+      { id: 12, text: '宝宝自己也能轻松穿脱，培养自理能力，上幼儿园不费妈。', answer: 2, cat: '母婴育儿', tip: '精准戳中宝妈“上幼儿园不费妈”的爽点，属于利他买点（2）。' },
+      { id: 13, text: '羽绒服充绒量达90%白鸭绒。', answer: 1, cat: '服饰鞋包', tip: '绒子含量与材质是客观参数，属于卖点（1）。' },
+      { id: 14, text: '随便孩子怎么爬、怎么跪着玩，都不容易磨破，一条能穿好久。', answer: 2, cat: '母婴育儿', tip: '还原孩子好动爬行的真实场景与省钱耐用好处，属于利他买点（2）。' },
+      { id: 15, text: '卸妆水是胶束分子结构。', answer: 1, cat: '美妆护肤', tip: '技术原理术语，用户无感，属于卖点（1）。' },
+      { id: 16, text: '能智能规划路线，不漏扫不重复，你完全不用操心，地面每天光洁如新。', answer: 2, cat: '生活家电', tip: '强调省心解放双手的结果，属于利他买点（2）。' },
+      { id: 17, text: '让你不弯腰、不移动家具，就能轻松搞定那些积灰的卫生死角。', answer: 2, cat: '生活家电', tip: '直击打扫弯腰累、死角难清理的痛点，属于利他买点（2）。' },
+      { id: 18, text: '儿童T恤采用了A类纯棉面料。', answer: 1, cat: '母婴育儿', tip: '安全等级与面料参数，属于卖点（1）。' },
+      { id: 19, text: '恒温壶是316不锈钢内胆。', answer: 1, cat: '母婴育儿', tip: '钢材型号参数，属于卖点（1）。' },
+      { id: 20, text: '睡在上面像被云朵包裹，亲肤丝滑，一夜好眠。', answer: 2, cat: '家居日用', tip: '用“云朵包裹”营造极致体感画面，属于利他买点（2）。' },
+      { id: 21, text: '衬衫运用了抗皱免烫工艺。', answer: 1, cat: '服饰鞋包', tip: '工艺名称属于客观卖点（1）。' },
+      { id: 22, text: '煮出来的米饭粒粒饱满，口感像柴火饭一样香。', answer: 2, cat: '生活家电', tip: '用味觉和口感画面打动吃货，属于利他买点（2）。' },
+      { id: 23, text: '垃圾桶是感应开盖设计。', answer: 1, cat: '家居日用', tip: '产品功能设计，属于卖点（1）。' },
+      { id: 24, text: '贴身穿柔软不扎皮肤，宝宝活动出汗也干爽透气。', answer: 2, cat: '母婴育儿', tip: '描述宝宝穿着出汗时的舒适体感，属于利他买点（2）。' },
+      { id: 25, text: '鞋子搭载了魔术贴粘扣。', answer: 1, cat: '服饰鞋包', tip: '配件设计参数，属于卖点（1）。' },
+      { id: 26, text: '能带动整个房间的空气流动，不开空调也感觉凉爽，还不直吹头疼。', answer: 2, cat: '生活家电', tip: '解决吹风头疼和省电凉爽痛点，属于利他买点（2）。' },
+      { id: 27, text: '这款防晒霜采用物理化学双重防晒体系。', answer: 1, cat: '美妆护肤', tip: '配方体系术语，属于卖点（1）。' },
+      { id: 28, text: '给宝宝出行上了“双保险”，万一遇到急刹车或颠簸，能最大程度保护宝宝安全。', answer: 2, cat: '母婴育儿', tip: '把安全认证翻译成急刹车场景下的安心感，属于利他买点（2）。' },
+      { id: 29, text: '收纳箱采用PP环保材质。', answer: 1, cat: '家居日用', tip: '材质名称属于客观卖点（1）。' },
+      { id: 30, text: '出差塞行李箱，拿出来抖一抖就能穿，时刻保持精致体面。', answer: 2, cat: '服饰鞋包', tip: '典型商务出差场景画面，把抗皱工艺变成体面价值，属于利他买点（2）。' },
+      { id: 31, text: '破壁机电机转速达35000转/分钟。', answer: 1, cat: '生活家电', tip: '纯硬件转速参数，属于卖点（1）。' },
+      { id: 32, text: '擦宝宝的手、口、屁屁都安心，不用担心化学成分刺激。', answer: 2, cat: '母婴育儿', tip: '切中宝妈怕刺激的担忧，给予安心感，属于利他买点（2）。' },
+      { id: 33, text: '运动裤腰头是加宽橡筋设计。', answer: 1, cat: '服饰鞋包', tip: '版型设计细节，属于卖点（1）。' },
+      { id: 34, text: '家里的玩具、杂物全能收进去，客厅瞬间清爽，好心情也来了。', answer: 2, cat: '家居日用', tip: '把收纳功能转化为“客厅清爽好心情”的结果，属于利他买点（2）。' },
+      { id: 35, text: '粉底液含有抗氧化虾青素成分。', answer: 1, cat: '美妆护肤', tip: '成分表客观信息，属于卖点（1）。' },
+      { id: 36, text: '跑步、做瑜伽时裤子牢牢贴在腰间，不会往下掉，避免尴尬。', answer: 2, cat: '服饰鞋包', tip: '直击运动掉裤子的尴尬痛点，属于利他买点（2）。' },
+      { id: 37, text: '扫地机器人有LDS激光导航系统。', answer: 1, cat: '生活家电', tip: '硬件配置术语，属于卖点（1）。' },
+      { id: 38, text: '冲奶、喝水，随时都有刚好的温水，不用手忙脚乱地试温，夜里喂奶神器。', answer: 2, cat: '母婴育儿', tip: '极强画面感的夜奶场景痛点解决，属于利他买点（2）。' },
+      { id: 39, text: '地毯背面有防滑硅胶点。', answer: 1, cat: '家居日用', tip: '产品局部构造，属于卖点（1）。' },
+      { id: 40, text: '穿上身柔软透气，蹲下站起都不勒裆，活动自如。', answer: 2, cat: '服饰鞋包', tip: '具体动作（蹲下站起）的舒适体验，属于利他买点（2）。' },
+      { id: 41, text: '口红膏体添加了玻尿酸微珠。', answer: 1, cat: '美妆护肤', tip: '配方成分属于卖点（1）。' },
+      { id: 42, text: '能把食材打得像丝绸一样细腻，给宝宝做辅食、老人做流食特别方便。', answer: 2, cat: '生活家电', tip: '把高转速翻译成辅食/流食细腻度，属于利他买点（2）。' },
+      { id: 43, text: '羽绒马甲是轻薄绗缝工艺。', answer: 1, cat: '服饰鞋包', tip: '服装工艺术语，属于卖点（1）。' },
+      { id: 44, text: '扔垃圾时手不用碰桶盖，干净卫生，特别适合厨房。', answer: 2, cat: '家居日用', tip: '还原厨房手上沾油不想碰盖子的场景好处，属于利他买点（2）。' },
+      { id: 45, text: '婴儿车是双向可坐可躺设计。', answer: 1, cat: '母婴育儿', tip: '产品结构功能，属于卖点（1）。' },
+      { id: 46, text: '让孩子户外玩起来手臂活动灵活，保暖又不臃肿。', answer: 2, cat: '服饰鞋包', tip: '描述孩子户外玩耍时的灵活保暖体感，属于利他买点（2）。' },
+      { id: 47, text: '裤子膝盖处有加厚耐磨层。', answer: 1, cat: '服饰鞋包', tip: '局部工艺参数，属于卖点（1）。' },
+      { id: 48, text: '婴儿湿巾添加了EDI纯水。', answer: 1, cat: '母婴育儿', tip: '水质成分参数，属于卖点（1）。' },
+      { id: 49, text: '卫衣是插肩袖设计。', answer: 1, cat: '服饰鞋包', tip: '服装剪裁结构，属于卖点（1）。' },
+      { id: 50, text: '难卸的睫毛膏也能一抹即净，不需要用力揉搓眼睛。', answer: 2, cat: '美妆护肤', tip: '解决卸妆拉扯眼周的痛点，属于利他买点（2）。' }
+    ];
+
+    const PAIRED_EXAMPLES = [
+      { cat: '美妆护肤', sp: '口红膏体添加了玻尿酸微珠', bp: '一整天嘴唇都水润润的，不会拔干起死皮' },
+      { cat: '美妆护肤', sp: '这款防晒霜采用物理化学双重防晒体系', bp: '让你在沙滩玩一整天，皮肤也晒不红、晒不黑' },
+      { cat: '美妆护肤', sp: '粉底液含有抗氧化虾青素成分', bp: '带妆到晚上，脸色也不会暗沉发灰，越夜越美丽' },
+      { cat: '美妆护肤', sp: '卸妆水是胶束分子结构', bp: '难卸的睫毛膏也能一抹即净，不需要用力揉搓眼睛' },
+      { cat: '家居日用', sp: '这款四件套是60支长绒棉面料', bp: '睡在上面像被云朵包裹，亲肤丝滑，一夜好眠' },
+      { cat: '家居日用', sp: '地毯背面有防滑硅胶点', bp: '铺在地上稳稳当当，家里有老人小孩也不怕滑倒，更安全' },
+      { cat: '家居日用', sp: '垃圾桶是感应开盖设计', bp: '扔垃圾时手不用碰桶盖，干净卫生，特别适合厨房' },
+      { cat: '服饰鞋包', sp: '羽绒服充绒量达90%白鸭绒', bp: '在零下的天气里，穿这一件出门就够暖，不用裹成熊' },
+      { cat: '服饰鞋包', sp: '衬衫运用了抗皱免烫工艺', bp: '出差塞行李箱，拿出来抖一抖就能穿，时刻保持精致体面' },
+      { cat: '服饰鞋包', sp: '运动裤腰头是加宽橡筋设计', bp: '跑步、做瑜伽时裤子牢牢贴在腰间，不会往下掉，避免尴尬' },
+      { cat: '母婴育儿', sp: '儿童安全座椅通过了i-Size认证', bp: '给宝宝出行上了“双保险”，万一遇到急刹车或颠簸，能最大程度保护宝宝安全' },
+      { cat: '母婴育儿', sp: '婴儿湿巾添加了EDI纯水', bp: '擦宝宝的手、口、屁屁都安心，不用担心化学成分刺激' },
+      { cat: '生活家电', sp: '电饭煲内胆是8层复合材料厚釜', bp: '煮出来的米饭粒粒饱满，口感像柴火饭一样香' },
+      { cat: '生活家电', sp: '破壁机电机转速达35000转/分钟', bp: '能把食材打得像丝绸一样细腻，给宝宝做辅食、老人做流食特别方便' },
+      { cat: '生活家电', sp: '扫地机器人有LDS激光导航系统', bp: '能智能规划路线，不漏扫不重复，你完全不用操心，地面每天光洁如新' }
+    ];
+
+    // =========================================================================
+    // 3. DATA: PRACTICE STUDIO PRODUCTS & VIOLATION RULES
+    // =========================================================================
+    const STUDIO_PRODUCTS = [
+      {
+        id: 'cream',
+        name: '植萃日常保湿面霜（非特证）',
+        cat: '美妆护肤',
+        policy: '已配置7天无理由退货、运费险（按页面标准赔付）、48小时内发货',
+        redline: '无国妆特字美白特证！严禁提美白、淡斑、祛皱、消炎、治疗敏感肌；严禁说“运费全包”。',
+        points: ['质地清爽不油腻', '日常补水保湿', '舒缓肌肤干燥', '妆前打底不卡粉', '48小时发货与运费险'],
+        danmaku: [
+          '用户小甜：主播，这个面霜能美白淡斑吗？',
+          '用户阿琳：敏感肌发红能消炎治疗吗？',
+          '用户Momo：退货是不是运费全包一分钱不花？',
+          '用户晴天：大干皮秋冬上妆前用卡粉吗？'
+        ],
+        sampleGood: '欢迎进来的姐妹！今天给大家推荐这款日常补水保湿面霜，它质地清爽不油腻，抹开很快吸收，换季脸颊干痒紧绷的时候用起来特别舒缓肌肤干燥。很多姐妹秋冬化妆容易起皮，用它做妆前打底不卡粉，一整天脸蛋都水润润的。注意它属于普通保湿面霜，主打日常基础补水与温和舒缓，适合日常护肤使用哦。售后方面商详已配置7天无理由和运费险，48小时内发货，喜欢这个水润肤感的姐妹可以点个关注了解看看！',
+        sampleBad: '家人们想要的公屏扣1我给你们改价！这款面霜绝对全网最低价，最后一天仅此一场！连续用7天保证你斑点全消、白三个度，还能深入肌底消炎治疗敏感肌！放心拍，退换货运费全包，一分钱不用你出，没点关注的不发货哦！'
+      },
+      {
+        id: 'downjacket',
+        name: '90%白鸭绒极寒长款羽绒服',
+        cat: '服饰鞋包',
+        policy: '已配置7天无理由、运费险；预售15天内发货',
+        redline: '商详配置15天内发货！严禁承诺“今天发/本周收到”；严禁说“绝对不钻绒”“顶级最好”。',
+        points: ['90%白鸭绒填充', '零下穿一件就够暖', '轻盈不臃肿', '防风袖口设计', '15天内预售发货'],
+        danmaku: [
+          '用户北风：这件羽绒服绝对不钻绒吧？',
+          '用户可乐：明天要出差，现在拍这周能收到吗？',
+          '用户圆圆：会不会穿起来像裹成熊一样显胖？',
+          '用户大白：扣1能便宜五十吗？'
+        ],
+        sampleGood: '怕冷又不想穿得臃肿的姐妹看这件！它内部填充了90%白鸭绒，蓬松度很足，在零下天气出门穿这一件就够暖，上身轻盈不臃肿，不用裹成熊。细节上做了防风袖口设计，骑车接娃都不灌风，不过羽绒制品个别情况可能会有极轻微钻绒，属于正常现象。发货提醒一下大家，这款目前是15天内预售发货，急着本周出游穿的姐妹请确认时间后再拍，商详已配7天无理由和运费险，觉得版型好看的可以在公屏分享下颜色偏好！',
+        sampleBad: '全网最低史低价！这件顶级羽绒服市面上找不到比这更好的，绝对不钻绒钻绒我们赔钱！现在拍这周就能收到出游直接穿！想要的宝宝公屏扣666，前100名我私下多送一条围巾！'
+      },
+      {
+        id: 'kettle',
+        name: '316不锈钢母婴恒温水壶',
+        cat: '母婴育儿',
+        policy: '已配置7天无理由、运费险、1年质保、48小时发货',
+        redline: '商详仅配1年质保！严禁口播“终身保修”；严禁诱导关注抽奖或免单。',
+        points: ['316不锈钢内胆', '精准恒温随时有温水', '夜里喂奶不手忙脚乱', '除氯煮沸功能', '1年质保与48小时发货'],
+        danmaku: [
+          '用户宝妈糖糖：这个能保修一辈子吗？',
+          '用户豆豆妈：半夜起来冲奶温度准不准？',
+          '用户奶爸阿强：材质安全吗，会不会有塑料味？',
+          '用户乐乐：关注主播今晚能免单吗？'
+        ],
+        sampleGood: '家里有小宝宝或者爱喝温水的朋友，这款恒温壶真的是省心好物。它用的是食品级316不锈钢内胆，还有除氯煮沸功能，给宝宝冲奶喝水更安心。最大好处是能精准恒温随时有温水，半夜宝宝哭着要喝奶，不用手忙脚乱试温，直接倒水冲泡，真正做到夜里喂奶不手忙脚乱。售后按商详配置支持1年质保、7天无理由和运费险，48小时内发出，有需要的宝妈可以点个关注方便下次找不到直播间。',
+        sampleBad: '关注主播今晚给你免单！人数冲到1万我给大家抽个奖！这款恒温壶国家级第一品牌，我们承诺终身保修，坏了直接换新，买回去不满意运费我们全包！'
+      },
+      {
+        id: 'yam',
+        name: '铁棍山药粉（普通食品）',
+        cat: '食品膳食',
+        policy: '食品类目不支持7天无理由退货、48小时内发货',
+        redline: '普通食品！严禁提“小糖人/降血糖/减肥/排毒/养胃治疗”；不支持7天无理由必须如实告知！',
+        points: ['口感粉糯细腻', '独立小条包装', '富含膳食纤维', '适合早餐冲泡或煲汤', '不支持7天无理由'],
+        danmaku: [
+          '用户养生叔：小糖人能多吃降血糖吗？',
+          '用户小美：吃这个能排毒减肥瘦十斤吗？',
+          '用户阿花：买回去不喜欢吃能7天无理由退吗？',
+          '用户早起党：早上赶时间冲泡方便吗？'
+        ],
+        sampleGood: '早上赶着上班来不及吃早饭的朋友，可以看看这款铁棍山药粉。它是独立小条包装，塞包里带去公司热水一冲就能喝，口感粉糯细腻，富含膳食纤维，平时不仅适合早餐冲泡，还能用来煲汤或做糕点，全家老小当日常代餐口粮都很方便。特别提醒大家，本品属于普通冲调食品，主打日常代餐与丰富口感；另外食品类目商详明确不支持7天无理由，请确认口味需求后再下单，48小时内发货。',
+        sampleBad: '家里有小糖人、糖宝宝的朋友赶紧多囤几盒，吃了能降血压、改善糖尿病，女生吃还能排毒减肥增强免疫力！放心拍，不喜欢吃随时退货！'
+      }
+    ];
+
+    const VIOLATION_RULES = [
+      { pattern: /扣\s*1|打\s*1|扣\s*666|扣一/g, cat: '诱导互动', severity: '高危', advice: '禁止以福利/改价为由诱导公屏扣1或666，可改为自然讨论产品颜色或使用场景。' },
+      { pattern: /运费全包|全包运费|不用你花一分钱|一分钱不用|来回运费.*出/g, cat: '售后服务不符', severity: '高危', advice: '运费险仅按保单定额赔付，不可说“运费全包”，应说“已配置运费险，赔付标准以页面为准”。' },
+      { pattern: /没点关注.*不发货|关注.*免单|冲到.*抽奖|点关注.*抽奖/g, cat: '诱导互动', severity: '高危', advice: '禁止以抽奖、免单或发货威胁诱导关注。' },
+      { pattern: /全网最低|史低价|国家级|第一品牌|顶级|找不到比这更好|绝对不/g, cat: '绝对化极限词', severity: '高危', advice: '违反广告法极限词规定，请改用客观参数或真实比价截图说明。' },
+      { pattern: /最后一天|仅此一天|仅此一场/g, cat: '违规炒作', severity: '中危', advice: '无真实截止依据不得使用“最后一天/仅此一场”制造虚假紧迫感。' },
+      { pattern: /白[三两一二]个度|斑点全消|美白淡斑|祛斑|祛皱|水光针/g, cat: '功效虚假越界', severity: '高危', advice: '无国妆特字注册证严禁宣称美白/淡斑/祛皱或类比医美，应改为“补水保湿、提亮水润光泽”。' },
+      { pattern: /消炎|治疗|改善过敏|老寒腿|脂肪肝|降血压|糖尿病|小糖人|糖宝宝|壮阳/g, cat: '违规医疗宣传', severity: '高危', advice: '普通化妆品与普通食品严禁使用医疗用语或谐音暗指疾病人群，可用“舒缓”“日常营养补充”替代。' },
+      { pattern: /排毒|减肥|瘦身|减脂|增强免疫力|增高|长个/g, cat: '保健功效越界', severity: '高危', advice: '普通食品严禁宣传减肥、排毒、增强免疫力、增高等保健功效。' },
+      { pattern: /终身保修|过敏包退|假一赔十|假一罚十|不喜欢.*随时退/g, cat: '售后承诺越界', severity: '高危', advice: '口播售后权益必须与商详服务保障配置严格一致，未配置严禁口头承诺。' },
+      { pattern: /私下多送|平替|老板.*跑路/g, cat: '违规营销/侵权', severity: '中危', advice: '赠品须按商详公示执行，严禁使用大牌“平替”或低俗炒作噱头。' }
+    ];
+
+    const BENEFIT_KEYWORDS = [
+      '让你', '不用', '省心', '安心', '舒服', '不臃肿', '不卡粉', '水润', '温暖', '够暖',
+      '不灌风', '不手忙脚乱', '方便', '清爽', '细腻', '轻松', '不怕', '干爽', '透气', '体面',
+      '全家人', '上班', '出门', '半夜', '换季', '宝妈', '姐妹', '痛点', '好眠'
+    ];
+
+    // =========================================================================
+    // 4. GLOBAL STATE & SAFE STORAGE
+    // =========================================================================
+    const VAULT_KEY = 'lianchao_anchor_vault_v2';
+    const LEGACY_KEY = 'lianchao_anchor_studio_v1';
+
+    function createEmptySession() {
+      return {
+        profile: { name: '', cohort: '', phone: '', wechat: '' },
+        latest: { compliance: null, selling: null, studio: null },
+        history: []
+      };
+    }
+
+    function loadVault() {
+      let vault = { activePhone: '', accounts: {} };
+      try {
+        const raw = localStorage.getItem(VAULT_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === 'object' && parsed.accounts) vault = parsed;
+        } else {
+          const oldRaw = localStorage.getItem(LEGACY_KEY);
+          if (oldRaw) {
+            const oldObj = JSON.parse(oldRaw);
+            if (oldObj?.profile?.phone) {
+              vault.accounts[oldObj.profile.phone] = oldObj;
+              vault.activePhone = oldObj.profile.phone;
+              localStorage.setItem(VAULT_KEY, JSON.stringify(vault));
+            }
+          }
+        }
+      } catch (e) {}
+      return vault;
+    }
+
+    function saveVault() {
+      try {
+        localStorage.setItem(VAULT_KEY, JSON.stringify(vaultState));
+      } catch (e) {}
+    }
+
+    let vaultState = loadVault();
+    let appState = (vaultState.activePhone && vaultState.accounts[vaultState.activePhone])
+      ? JSON.parse(JSON.stringify(vaultState.accounts[vaultState.activePhone]))
+      : createEmptySession();
+
+    function saveStorage() {
+      const phone = appState.profile?.phone;
+      if (phone && /^1[3-9]\d{9}$/.test(phone)) {
+        vaultState.accounts[phone] = JSON.parse(JSON.stringify(appState));
+        vaultState.activePhone = phone;
+        saveVault();
+      }
+    }
+    let radarChartInstance = null;
+
+    // Compliance Exam Runtime State
+    let compState = {
+      mode: 'exam', // 'exam' | 'practice'
+      answers: {}, // qId -> array of letters ['A']
+      submitted: false,
+      filterWrongOnly: false,
+      secondsLeft: 1800,
+      timerId: null
+    };
+
+    // Selling Quiz Runtime State
+    let sellState = {
+      pool: [],
+      index: 0,
+      answers: [], // { id, choice, correct, cat, text, tip, rightAns }
+      streak: 0,
+      maxStreak: 0,
+      waitingNext: false,
+      seconds: 0,
+      timerId: null,
+      finished: false
+    };
+
+    // Studio Runtime State
+    let studioState = {
+      products: [...STUDIO_PRODUCTS],
+      selectedId: STUDIO_PRODUCTS[0].id,
+      isLive: false,
+      seconds: 0,
+      timerId: null,
+      danmakuTimerId: null,
+      danmakuIdx: 0,
+      mediaStream: null,
+      mediaRecorder: null,
+      recordedChunks: [],
+      recordedBlobUrl: null,
+      recognition: null,
+      isListening: false
+    };
+
+    // =========================================================================
+    // 5. UTILITIES (Toast, Grade, Confirm Modal)
+    // =========================================================================
+    function showToast(msg, type = 'info') {
+      const container = document.getElementById('toastContainer');
+      const el = document.createElement('div');
+      const colors = {
+        info: 'bg-slate-900 text-white',
+        success: 'bg-emerald-600 text-white',
+        error: 'bg-rose-600 text-white',
+        warn: 'bg-amber-500 text-slate-950'
+      };
+      el.className = `pointer-events-auto px-4 py-2.5 rounded-xl shadow-lg text-xs font-bold ${colors[type] || colors.info} transition-all duration-300`;
+      el.textContent = msg;
+      container.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(-6px)';
+        setTimeout(() => el.remove(), 300);
+      }, 2800);
+    }
+
+    function scoreToGrade(score) {
+      if (score >= 90) return { grade: 'A', label: '优秀 · 可直接上播', color: 'text-emerald-600', bg: 'bg-emerald-600' };
+      if (score >= 80) return { grade: 'B', label: '良好 · 细节待打磨', color: 'text-blue-600', bg: 'bg-blue-600' };
+      if (score >= 60) return { grade: 'C', label: '合格 · 需针对复盘', color: 'text-amber-600', bg: 'bg-amber-500' };
+      return { grade: 'D', label: '待提升 · 建议补考', color: 'text-rose-600', bg: 'bg-rose-600' };
+    }
+
+    function escapeHtml(str) {
+      return String(str ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    function formatTime(sec) {
+      const m = String(Math.floor(sec / 60)).padStart(2, '0');
+      const s = String(sec % 60).padStart(2, '0');
+      return `${m}:${s}`;
+    }
+
+    let confirmCallback = null;
+    function openConfirmModal(title, msg, onOk) {
+      document.getElementById('confirmModalTitle').textContent = title;
+      document.getElementById('confirmModalMsg').textContent = msg;
+      confirmCallback = onOk;
+      document.getElementById('confirmModal').classList.remove('hidden');
+    }
+
+    document.getElementById('confirmCancelBtn').addEventListener('click', () => {
+      document.getElementById('confirmModal').classList.add('hidden');
+      confirmCallback = null;
+    });
+    document.getElementById('confirmOkBtn').addEventListener('click', () => {
+      document.getElementById('confirmModal').classList.add('hidden');
+      if (typeof confirmCallback === 'function') confirmCallback();
+      confirmCallback = null;
+    });
+
+    // =========================================================================
+    // 6. NAVIGATION & PROFILE
+    // =========================================================================
+    function switchTab(tabName) {
+      ['dashboard', 'compliance', 'selling', 'studio'].forEach(t => {
+        document.getElementById(`view-${t}`).classList.toggle('hidden', t !== tabName);
+      });
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === tabName);
+      });
+      if (tabName === 'dashboard') renderDashboard();
+      if (tabName === 'compliance' && !compState.timerId && !compState.submitted && compState.mode === 'exam') {
+        startCompTimer();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+    });
+    document.querySelectorAll('[data-goto]').forEach(btn => {
+      btn.addEventListener('click', () => switchTab(btn.dataset.goto));
+    });
+
+    function isProfileComplete() {
+      const p = appState.profile || {};
+      return Boolean(p.phone && /^1[3-9]\d{9}$/.test(p.phone) && p.wechat && p.wechat.trim().length > 0);
+    }
+
+    function maskPhone(phone) {
+      if (!phone || phone.length < 7) return phone || '未填写';
+      return phone.slice(0, 3) + '****' + phone.slice(-4);
+    }
+
+    function openProfileModal(noticeMsg = '') {
+      const p = appState.profile || {};
+      document.getElementById('inputStudentName').value = p.name || '';
+      document.getElementById('inputStudentPhone').value = p.phone || '';
+      document.getElementById('inputStudentWechat').value = p.wechat || '';
+      document.getElementById('inputStudentClass').value = p.cohort || '';
+      const errEl = document.getElementById('profileErrorMsg');
+      if (noticeMsg) {
+        errEl.textContent = noticeMsg;
+        errEl.classList.remove('hidden');
+      } else {
+        errEl.classList.add('hidden');
+      }
+      document.getElementById('profileModal').classList.remove('hidden');
+    }
+
+    function syncProfileUI() {
+      const p = appState.profile || {};
+      const complete = isProfileComplete();
+      const label = complete
+        ? `${p.name || '已建档学员'}${p.cohort ? ' · ' + p.cohort : ''}`
+        : '完善学员档案（必填）';
+      document.getElementById('headerStudentLabel').textContent = label;
+      const dot = document.getElementById('headerProfileDot');
+      dot.className = complete ? 'w-2 h-2 rounded-full bg-emerald-400' : 'w-2 h-2 rounded-full bg-amber-400';
+      document.getElementById('logoutBtn').classList.toggle('hidden', !complete);
+    }
+
+    document.getElementById('openProfileBtn').addEventListener('click', () => openProfileModal());
+    function closeProfileModal() {
+      document.getElementById('profileModal').classList.add('hidden');
+    }
+    document.getElementById('closeProfileModalBtn').addEventListener('click', closeProfileModal);
+    document.getElementById('cancelProfileBtn').addEventListener('click', closeProfileModal);
+    document.getElementById('saveProfileBtn').addEventListener('click', () => {
+      const name = document.getElementById('inputStudentName').value.trim();
+      const phone = document.getElementById('inputStudentPhone').value.trim();
+      const wechat = document.getElementById('inputStudentWechat').value.trim();
+      const cohort = document.getElementById('inputStudentClass').value.trim();
+      const errEl = document.getElementById('profileErrorMsg');
+
+      if (!phone || !/^1[3-9]\d{9}$/.test(phone)) {
+        errEl.textContent = '请填写正确的 11 位手机号码（必填）';
+        errEl.classList.remove('hidden');
+        document.getElementById('inputStudentPhone').focus();
+        return;
+      }
+      if (!wechat) {
+        errEl.textContent = '请填写您的微信号（必填）';
+        errEl.classList.remove('hidden');
+        document.getElementById('inputStudentWechat').focus();
+        return;
+      }
+
+      // Check if phone already exists in vault with a different WeChat (prevent overwriting others)
+      const existing = vaultState.accounts[phone];
+      if (existing && existing.profile?.wechat && existing.profile.wechat.toLowerCase() !== wechat.toLowerCase()) {
+        errEl.textContent = '该手机号已在本机建档且微信号不匹配。如需找回历史记录，请填写建档时的微信号。';
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      // If existing account matches, merge any newly earned scores from current guest session
+      if (existing && vaultState.activePhone !== phone) {
+        const mergedHistory = [...appState.history, ...(existing.history || [])].slice(0, 30);
+        appState.latest = {
+          compliance: appState.latest.compliance || existing.latest?.compliance || null,
+          selling: appState.latest.selling || existing.latest?.selling || null,
+          studio: appState.latest.studio || existing.latest?.studio || null
+        };
+        appState.history = mergedHistory;
+      }
+
+      errEl.classList.add('hidden');
+      appState.profile = { name, phone, wechat, cohort };
+      saveStorage();
+      syncProfileUI();
+      renderDashboard();
+      closeProfileModal();
+      showToast(existing ? '已关联您的专属手机号档案并合并历史记录' : '学员档案已保存至专属隔离库', 'success');
+    });
+
+    // Lookup History Modal Handlers (Phone + WeChat Dual Verification)
+    function openLookupModal() {
+      document.getElementById('lookupPhoneInput').value = '';
+      document.getElementById('lookupWechatInput').value = '';
+      document.getElementById('lookupErrorMsg').classList.add('hidden');
+      document.getElementById('lookupModal').classList.remove('hidden');
+    }
+    function closeLookupModal() {
+      document.getElementById('lookupModal').classList.add('hidden');
+    }
+    document.getElementById('openLookupBtn').addEventListener('click', openLookupModal);
+    document.getElementById('closeLookupModalBtn').addEventListener('click', closeLookupModal);
+    document.getElementById('cancelLookupBtn').addEventListener('click', closeLookupModal);
+    document.getElementById('confirmLookupBtn').addEventListener('click', () => {
+      const phone = document.getElementById('lookupPhoneInput').value.trim();
+      const wechat = document.getElementById('lookupWechatInput').value.trim();
+      const errEl = document.getElementById('lookupErrorMsg');
+      if (!phone || !/^1[3-9]\d{9}$/.test(phone)) {
+        errEl.textContent = '请输入正确的 11 位手机号码';
+        errEl.classList.remove('hidden');
+        return;
+      }
+      if (!wechat) {
+        errEl.textContent = '请输入建档时填写的微信号进行双重验证';
+        errEl.classList.remove('hidden');
+        return;
+      }
+      const acc = vaultState.accounts[phone];
+      if (!acc || !acc.profile?.wechat || acc.profile.wechat.toLowerCase() !== wechat.toLowerCase()) {
+        errEl.textContent = '未查到匹配的考核档案（请核对手机号与建档微信号，或确认是否在同一设备作答）';
+        errEl.classList.remove('hidden');
+        return;
+      }
+      appState = JSON.parse(JSON.stringify(acc));
+      vaultState.activePhone = phone;
+      saveVault();
+      syncProfileUI();
+      renderDashboard();
+      closeLookupModal();
+      switchTab('dashboard');
+      showToast(`欢迎回来，${appState.profile.name || '学员'}！已恢复 ${appState.history.length} 条历史记录`, 'success');
+    });
+
+    // Logout & Clear Screen (keeps records safely inside vaultState.accounts[phone])
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+      openConfirmModal(
+        '退出当前学员并清屏？',
+        '退出后会清空当前屏幕上的姓名与成绩展示，防止下一位同学看到您的信息；您的历史记录仍安全保存在本机专属手机号档案库中，下次可点右上角“查历史记录”凭手机号+微信号随时找回。',
+        () => {
+          saveStorage();
+          vaultState.activePhone = '';
+          saveVault();
+          appState = createEmptySession();
+          document.getElementById('studioReportPanel').classList.add('hidden');
+          document.getElementById('studioScriptInput').value = '';
+          updateStudioCoverage();
+          resetComplianceExam();
+          syncProfileUI();
+          renderDashboard();
+          switchTab('dashboard');
+          showToast('已安全退出并清屏，下次可凭手机号+微信号查询历史记录', 'success');
+        }
+      );
+    });
+
+    // =========================================================================
+    // 7. DASHBOARD & RADAR CHART & POSTER
+    // =========================================================================
+    function addHistoryRecord(record) {
+      appState.history.unshift({
+        id: 'rec_' + Date.now(),
+        time: new Date().toLocaleString('zh-CN', { hour12: false }),
+        ...record
+      });
+      if (appState.history.length > 30) appState.history.pop();
+      saveStorage();
+    }
+
+    function renderDashboard() {
+      const latest = appState.latest;
+      const comp = latest.compliance;
+      const sell = latest.selling;
+      const stud = latest.studio;
+
+      document.getElementById('cardScoreCompliance').textContent = comp ? `${comp.score} 分 (${scoreToGrade(comp.score).grade})` : '未测评';
+      document.getElementById('cardScoreCompliance').className = comp ? `text-sm font-extrabold ${scoreToGrade(comp.score).color}` : 'text-sm font-extrabold text-slate-400';
+
+      document.getElementById('cardScoreSelling').textContent = sell ? `${sell.score} 分 (${scoreToGrade(sell.score).grade})` : '未测评';
+      document.getElementById('cardScoreSelling').className = sell ? `text-sm font-extrabold ${scoreToGrade(sell.score).color}` : 'text-sm font-extrabold text-slate-400';
+
+      document.getElementById('cardScoreStudio').textContent = stud ? `${stud.score} 分 (${scoreToGrade(stud.score).grade})` : '未测评';
+      document.getElementById('cardScoreStudio').className = stud ? `text-sm font-extrabold ${scoreToGrade(stud.score).color}` : 'text-sm font-extrabold text-slate-400';
+
+      const scores = [comp?.score, sell?.score, stud?.score].filter(v => typeof v === 'number');
+      document.getElementById('dashCompletedCount').textContent = `${scores.length} / 3`;
+      if (scores.length > 0) {
+        const avg = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
+        const g = scoreToGrade(avg);
+        document.getElementById('dashOverallAvg').textContent = `${avg} 分`;
+        document.getElementById('dashOverallGrade').textContent = g.grade;
+      } else {
+        document.getElementById('dashOverallAvg').textContent = '--';
+        document.getElementById('dashOverallGrade').textContent = '--';
+      }
+
+      // Radar Chart Data (6 dimensions)
+      const radarData = [
+        comp?.dims?.aftersale ?? 0,
+        comp?.dims?.efficacy ?? 0,
+        comp?.dims?.interaction ?? 0,
+        comp?.dims?.ip_truth ?? 0,
+        sell?.score ?? 0,
+        stud?.score ?? 0
+      ];
+      const labels = ['售后履约一致', '功效资质红线', '互动营销规范', '版权与如实描述', '卖点转买点', '练播实战表现'];
+
+      const ctx = document.getElementById('abilityRadarChart').getContext('2d');
+      if (radarChartInstance) radarChartInstance.destroy();
+      radarChartInstance = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels,
+          datasets: [{
+            label: '主播能力得分',
+            data: radarData,
+            backgroundColor: 'rgba(37, 99, 235, 0.22)',
+            borderColor: '#2563eb',
+            borderWidth: 2,
+            pointBackgroundColor: '#2563eb',
+            pointRadius: 3.5
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              min: 0,
+              max: 100,
+              ticks: { stepSize: 25, backdropColor: 'transparent', font: { size: 10 } },
+              pointLabels: { font: { size: 11, weight: '600' }, color: '#334155' },
+              grid: { color: '#e2e8f0' }
+            }
+          },
+          plugins: { legend: { display: false } }
+        }
+      });
+
+      // Advice box
+      const adviceBox = document.getElementById('radarAdviceBox');
+      if (scores.length === 0) {
+        adviceBox.textContent = '尚未完成测评。建议先测「合规风控考场」守住开播底线，再挑战「卖点 vs 买点」与「模拟练播房」。';
+      } else {
+        const minVal = Math.min(...radarData.filter((v, idx) => {
+          if (idx < 4) return !!comp;
+          if (idx === 4) return !!sell;
+          return !!stud;
+        }));
+        const weakestIdx = radarData.findIndex((v, idx) => {
+          if (idx < 4 && !comp) return false;
+          if (idx === 4 && !sell) return false;
+          if (idx === 5 && !stud) return false;
+          return v === minVal;
+        });
+        const weakName = weakestIdx >= 0 ? labels[weakestIdx] : '综合实战';
+        adviceBox.innerHTML = `<strong>薄弱项提示：</strong>当前相对短板为 <span class="text-rose-600 font-bold">${weakName}（${minVal}分）</span>。建议重点复盘对应错题或进入模拟练播房针对性打磨话术。`;
+      }
+
+      // Render History List
+      const listEl = document.getElementById('historyListContainer');
+      if (!appState.history.length) {
+        listEl.innerHTML = `
+          <div class="h-full min-h-[220px] flex flex-col items-center justify-center text-center p-6 rounded-xl border border-dashed border-slate-200 bg-slate-50/50">
+            <div class="text-3xl mb-2">📋</div>
+            <p class="text-sm font-bold text-slate-700">暂无当前考评与练播记录</p>
+            <p class="text-xs text-slate-400 mt-1">完成任意一项测试后会自动沉淀在这里；若此前已在本机考过并退出，可直接找回：</p>
+            <button id="emptyStateLookupBtn" type="button" class="mt-3 px-3.5 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-bold transition">🔍 输入原先手机号查询历史记录</button>
+          </div>`;
+      } else {
+        const rows = appState.history.map(item => {
+          const g = scoreToGrade(item.score);
+          return `
+            <tr class="hover:bg-slate-50 transition">
+              <td class="py-3 px-3 font-semibold text-slate-800">${escapeHtml(item.moduleName)}</td>
+              <td class="py-3 px-3 text-slate-500">${escapeHtml(item.detail || '-')}</td>
+              <td class="py-3 px-3 font-extrabold text-slate-900">${item.score} 分</td>
+              <td class="py-3 px-3"><span class="px-2 py-0.5 rounded-md text-white text-xs font-bold ${g.bg}">${g.grade}</span></td>
+              <td class="py-3 px-3 text-slate-400 whitespace-nowrap">${item.time}</td>
+            </tr>`;
+        }).join('');
+        listEl.innerHTML = `
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="bg-slate-50 border-b border-slate-200 text-slate-500">
+                <th class="py-2.5 px-3 font-bold">考评模块</th>
+                <th class="py-2.5 px-3 font-bold">任务说明</th>
+                <th class="py-2.5 px-3 font-bold">得分</th>
+                <th class="py-2.5 px-3 font-bold">评级</th>
+                <th class="py-2.5 px-3 font-bold">完成时间</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">${rows}</tbody>
+          </table>`;
+      }
+      const emptyBtn = document.getElementById('emptyStateLookupBtn');
+      if (emptyBtn) emptyBtn.addEventListener('click', openLookupModal);
+    }
+
+    document.getElementById('clearHistoryBtn').addEventListener('click', () => {
+      if (!appState.history.length && !appState.latest.compliance && !appState.latest.selling && !appState.latest.studio) {
+        showToast('当前没有可清空的记录', 'info');
+        return;
+      }
+      openConfirmModal('清空所有练习记录？', '将清空当前浏览器保存的历史成绩与综合进度（不影响学员姓名），是否继续？', () => {
+        appState.history = [];
+        appState.latest = { compliance: null, selling: null, studio: null };
+        saveStorage();
+        renderDashboard();
+        showToast('已清空练习记录', 'success');
+      });
+    });
+
+    // Poster Generator (HTML5 Canvas)
+    function drawPoster() {
+      const canvas = document.getElementById('posterCanvas');
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width, H = canvas.height;
+
+      // Background
+      const grad = ctx.createLinearGradient(0, 0, 0, H);
+      grad.addColorStop(0, '#0f172a');
+      grad.addColorStop(0.42, '#1e3a8a');
+      grad.addColorStop(1, '#f8fafc');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+
+      // Decorative circles
+      ctx.fillStyle = 'rgba(255,255,255,0.06)';
+      ctx.beginPath(); ctx.arc(620, 90, 140, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(80, 260, 100, 0, Math.PI * 2); ctx.fill();
+
+      // Header text
+      ctx.fillStyle = '#93c5fd';
+      ctx.font = 'bold 20px Inter, PingFang SC, sans-serif';
+      ctx.fillText('宝盾集团 · 连超电商学院', 52, 74);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '900 40px Inter, PingFang SC, sans-serif';
+      ctx.fillText('主播上岗能力考评成绩单', 52, 128);
+
+      const studentName = appState.profile.name || '连超特训学员';
+      const cohort = appState.profile.cohort || '主播能力自测认证班';
+      ctx.fillStyle = '#cbd5e1';
+      ctx.font = '500 20px Inter, PingFang SC, sans-serif';
+      const maskedTel = maskPhone(appState.profile.phone);
+      ctx.fillText(`学员：${studentName}（${maskedTel}） | ${cohort}`, 52, 170);
+
+      // White Main Card
+      ctx.fillStyle = '#ffffff';
+      ctx.beginPath();
+      ctx.roundRect(40, 206, W - 80, 720, 24);
+      ctx.fill();
+
+      // Compute Overall
+      const comp = appState.latest.compliance;
+      const sell = appState.latest.selling;
+      const stud = appState.latest.studio;
+      const vals = [comp?.score, sell?.score, stud?.score].filter(v => typeof v === 'number');
+      const avg = vals.length ? Math.round(vals.reduce((a, b) => a + b, 0) / vals.length) : 0;
+      const gradeObj = vals.length ? scoreToGrade(avg) : { grade: '--', label: '待完成测评' };
+
+      // Overall Score Box
+      ctx.fillStyle = '#f1f5f9';
+      ctx.beginPath(); ctx.roundRect(72, 242, W - 144, 150, 18); ctx.fill();
+
+      ctx.fillStyle = '#64748b';
+      ctx.font = 'bold 18px Inter, PingFang SC, sans-serif';
+      ctx.fillText('综合考评均分', 104, 286);
+
+      ctx.fillStyle = '#0f172a';
+      ctx.font = '900 58px Inter, PingFang SC, sans-serif';
+      ctx.fillText(vals.length ? `${avg}` : '--', 104, 358);
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = 'bold 22px Inter, PingFang SC, sans-serif';
+      ctx.fillText('/ 100 分', 210, 355);
+
+      // Grade Stamp
+      ctx.fillStyle = gradeObj.grade === 'A' ? '#10b981' : gradeObj.grade === 'B' ? '#2563eb' : gradeObj.grade === 'C' ? '#f59e0b' : '#f43f5e';
+      ctx.beginPath(); ctx.roundRect(470, 268, 150, 96, 16); ctx.fill();
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '900 46px Inter, PingFang SC, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(gradeObj.grade, 545, 326);
+      ctx.font = 'bold 14px Inter, PingFang SC, sans-serif';
+      ctx.fillText(gradeObj.label.split(' · ')[0], 545, 350);
+      ctx.textAlign = 'left';
+
+      // Three Modules Rows
+      const items = [
+        { title: '🛡️ 合规风控考场（40题）', score: comp ? `${comp.score} 分` : '未测评', sub: comp ? `答对率 ${comp.correctCount}/40 · 售后/功效/互动/版权四维检测` : '尚未完成合规考试', color: '#2563eb' },
+        { title: '⚡ 卖点 vs 利他买点战', score: sell ? `${sell.score} 分` : '未测评', sub: sell ? `答对 ${sell.correctCount}/${sell.total} 题 · 最高连对 ${sell.maxStreak} 题` : '尚未完成卖点辨析', color: '#059669' },
+        { title: '🎙️ 模拟练播房实战诊断', score: stud ? `${stud.score} 分` : '未测评', sub: stud ? `商品：${stud.productName} · 违规 ${stud.violations} 处` : '尚未完成模拟练播', color: '#e11d48' }
+      ];
+
+      let y = 434;
+      items.forEach(it => {
+        ctx.fillStyle = '#f8fafc';
+        ctx.beginPath(); ctx.roundRect(72, y, W - 144, 118, 16); ctx.fill();
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        ctx.fillStyle = '#0f172a';
+        ctx.font = 'bold 22px Inter, PingFang SC, sans-serif';
+        ctx.fillText(it.title, 96, y + 46);
+
+        ctx.fillStyle = '#64748b';
+        ctx.font = '400 16px Inter, PingFang SC, sans-serif';
+        ctx.fillText(it.sub, 96, y + 84);
+
+        ctx.fillStyle = it.color;
+        ctx.font = '900 30px Inter, PingFang SC, sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText(it.score, W - 96, y + 66);
+        ctx.textAlign = 'left';
+
+        y += 140;
+      });
+
+      // Footer Date & Stamp
+      ctx.fillStyle = '#64748b';
+      ctx.font = '500 16px Inter, PingFang SC, sans-serif';
+      const dateStr = new Date().toLocaleDateString('zh-CN');
+      ctx.fillText(`评估日期：${dateStr}`, 72, 892);
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#1e40af';
+      ctx.font = 'bold 16px Inter, PingFang SC, sans-serif';
+      ctx.fillText('宝盾集团 · 连超电商学院 教研部监制', W - 72, 892);
+      ctx.textAlign = 'left';
+
+      // Bottom tagline
+      ctx.fillStyle = '#475569';
+      ctx.font = '500 16px Inter, PingFang SC, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('守住合规底线 · 讲透利他买点 · 练就高转化实战主播', W / 2, 982);
+      ctx.textAlign = 'left';
+    }
+
+    document.getElementById('openPosterBtn').addEventListener('click', () => {
+      if (!isProfileComplete()) {
+        openProfileModal('生成成绩单前，请先填写必填项：联系电话与微信号。');
+        return;
+      }
+      drawPoster();
+      document.getElementById('posterModal').classList.remove('hidden');
+    });
+    function closePosterModal() { document.getElementById('posterModal').classList.add('hidden'); }
+    document.getElementById('closePosterModalBtn').addEventListener('click', closePosterModal);
+    document.getElementById('closePosterBtn2').addEventListener('click', closePosterModal);
+    document.getElementById('downloadPosterBtn').addEventListener('click', () => {
+      const canvas = document.getElementById('posterCanvas');
+      const link = document.createElement('a');
+      const name = appState.profile.name || '连超学员';
+      link.download = `连超电商学院-主播考评成绩单-${name}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      showToast('成绩单海报已开始下载', 'success');
+    });
+
+    // =========================================================================
+    // 8. MODULE 1: COMPLIANCE EXAM ENGINE
+    // =========================================================================
+    function startCompTimer() {
+      if (compState.timerId) clearInterval(compState.timerId);
+      compState.timerId = setInterval(() => {
+        if (compState.submitted || compState.mode !== 'exam') return;
+        compState.secondsLeft--;
+        document.getElementById('compTimerBadge').textContent = `⏱ ${formatTime(Math.max(0, compState.secondsLeft))}`;
+        if (compState.secondsLeft <= 0) {
+          clearInterval(compState.timerId);
+          submitComplianceExam(true);
+        }
+      }, 1000);
+    }
+
+    function gradeCompQuestion(q, userAns) {
+      const picked = (userAns || []).slice().sort();
+      const right = q.answer.slice().sort();
+      if (picked.length === 0) return { status: 'unanswered', earned: 0 };
+      const exact = picked.length === right.length && picked.every((v, i) => v === right[i]);
+      if (exact) return { status: 'correct', earned: q.score };
+      if (q.type === 'multi') {
+        const allInRight = picked.every(v => right.includes(v));
+        if (allInRight && picked.length < right.length) return { status: 'partial', earned: 1 };
+      }
+      return { status: 'wrong', earned: 0 };
+    }
+
+    function renderComplianceExam() {
+      const container = document.getElementById('compQuestionsContainer');
+      const sheet = document.getElementById('compSheetGrid');
+      const typeLabels = { single: '单选题 · 3分', multi: '多选题 · 2分', judge: '判断题 · 2分' };
+
+      let html = '';
+      COMPLIANCE_QUESTIONS.forEach((q, idx) => {
+        const userAns = compState.answers[q.id] || [];
+        const res = gradeCompQuestion(q, userAns);
+        const showAnalysis = compState.submitted || (compState.mode === 'practice' && userAns.length > 0);
+        if (compState.submitted && compState.filterWrongOnly && res.status === 'correct') return;
+
+        let borderClass = 'border-slate-200';
+        if (showAnalysis) {
+          if (res.status === 'correct') borderClass = 'border-emerald-300 bg-emerald-50/20';
+          else if (res.status === 'partial') borderClass = 'border-amber-300 bg-amber-50/20';
+          else borderClass = 'border-rose-300 bg-rose-50/20';
+        }
+
+        const optionsHtml = q.options.map(opt => {
+          const letter = opt.charAt(0);
+          const selected = userAns.includes(letter);
+          const isRight = q.answer.includes(letter);
+          let optStyle = 'border-slate-200 hover:border-blue-400 hover:bg-blue-50/40 text-slate-700';
+          if (selected && !showAnalysis) {
+            optStyle = 'border-blue-600 bg-blue-50 text-blue-900 font-semibold';
+          } else if (showAnalysis) {
+            if (isRight) optStyle = 'border-emerald-500 bg-emerald-50 text-emerald-900 font-semibold';
+            else if (selected && !isRight) optStyle = 'border-rose-500 bg-rose-50 text-rose-900 font-semibold';
+          }
+          return `
+            <button type="button" data-qid="${q.id}" data-letter="${letter}" ${compState.submitted ? 'disabled' : ''}
+              class="comp-opt-btn w-full text-left px-3.5 py-2.5 rounded-xl border text-xs sm:text-sm transition flex items-center justify-between gap-2 ${optStyle}">
+              <span>${opt}</span>
+              ${showAnalysis && isRight ? '<span class="text-emerald-600 font-bold shrink-0">✓ 正确</span>' : ''}
+              ${showAnalysis && selected && !isRight ? '<span class="text-rose-600 font-bold shrink-0">✕ 错选</span>' : ''}
+            </button>`;
+        }).join('');
+
+        const explainHtml = showAnalysis ? `
+          <div class="mt-3 p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 leading-relaxed">
+            <span class="font-bold text-slate-800">标准答案：${q.answer.join('、')}</span>
+            <span class="mx-1.5 text-slate-300">|</span>
+            <span>${q.explain}</span>
+          </div>` : '';
+
+        html += `
+          <div id="comp-q-${q.id}" class="bg-white rounded-2xl p-5 border shadow-sm space-y-3 ${borderClass}">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded-md bg-slate-900 text-white text-xs font-bold">第 ${q.id} 题</span>
+                <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-xs font-semibold">${typeLabels[q.type]}</span>
+                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 text-[11px]">${DIM_LABELS[q.dim]}</span>
+              </div>
+              ${compState.submitted ? `<span class="text-xs font-bold ${res.status === 'correct' ? 'text-emerald-600' : res.status === 'partial' ? 'text-amber-600' : 'text-rose-600'}">+${res.earned} 分</span>` : ''}
+            </div>
+            <p class="text-sm sm:text-base font-bold text-slate-900 leading-snug">${q.q}</p>
+            <div class="space-y-2">${optionsHtml}</div>
+            ${explainHtml}
+          </div>`;
+      });
+
+      if (!html) {
+        html = `<div class="bg-white rounded-2xl p-10 text-center border border-slate-200 text-sm text-emerald-700 font-bold">🎉 太棒了！本次考核零错题，全部满分通过！</div>`;
+      }
+      container.innerHTML = html;
+
+      // Render Answer Sheet
+      let answeredCount = 0;
+      sheet.innerHTML = COMPLIANCE_QUESTIONS.map(q => {
+        const userAns = compState.answers[q.id] || [];
+        if (userAns.length > 0) answeredCount++;
+        const res = gradeCompQuestion(q, userAns);
+        let cls = 'bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200';
+        if (compState.submitted) {
+          if (res.status === 'correct') cls = 'bg-emerald-500 text-white border-emerald-500';
+          else if (res.status === 'partial') cls = 'bg-amber-400 text-slate-900 border-amber-400';
+          else cls = 'bg-rose-500 text-white border-rose-500';
+        } else if (userAns.length > 0) {
+          cls = 'bg-blue-600 text-white border-blue-600';
+        }
+        return `<button type="button" data-jump="${q.id}" class="comp-jump-btn h-8 rounded-lg border text-xs font-bold transition ${cls}">${q.id}</button>`;
+      }).join('');
+
+      document.getElementById('compProgressText').textContent = `已答 ${answeredCount} / 40`;
+      document.getElementById('compProgressBar').style.width = `${(answeredCount / 40) * 100}%`;
+
+      // Bind Option Clicks
+      container.querySelectorAll('.comp-opt-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (compState.submitted) return;
+          const qid = Number(btn.dataset.qid);
+          const letter = btn.dataset.letter;
+          const q = COMPLIANCE_QUESTIONS.find(x => x.id === qid);
+          if (q.type === 'multi') {
+            const cur = compState.answers[qid] || [];
+            compState.answers[qid] = cur.includes(letter) ? cur.filter(x => x !== letter) : [...cur, letter];
+          } else {
+            compState.answers[qid] = [letter];
+          }
+          renderComplianceExam();
+        });
+      });
+
+      // Bind Jump Clicks
+      sheet.querySelectorAll('.comp-jump-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = document.getElementById(`comp-q-${btn.dataset.jump}`);
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+      });
+    }
+
+    function submitComplianceExam(force = false) {
+      if (compState.submitted) return;
+      const answeredCount = Object.values(compState.answers).filter(a => a && a.length > 0).length;
+      if (!force && answeredCount < 40) {
+        openConfirmModal('还有未作答题目', `你当前已答 ${answeredCount} / 40 题，未答题目将按 0 分计。确定直接交卷吗？`, () => submitComplianceExam(true));
+        return;
+      }
+      compState.submitted = true;
+      if (compState.timerId) clearInterval(compState.timerId);
+
+      let totalScore = 0;
+      let correctCount = 0;
+      const dimTotals = { aftersale: { earned: 0, max: 0 }, efficacy: { earned: 0, max: 0 }, interaction: { earned: 0, max: 0 }, ip_truth: { earned: 0, max: 0 } };
+
+      COMPLIANCE_QUESTIONS.forEach(q => {
+        const res = gradeCompQuestion(q, compState.answers[q.id]);
+        totalScore += res.earned;
+        if (res.status === 'correct') correctCount++;
+        dimTotals[q.dim].earned += res.earned;
+        dimTotals[q.dim].max += q.score;
+      });
+
+      const dimPct = {};
+      Object.keys(dimTotals).forEach(k => {
+        dimPct[k] = dimTotals[k].max ? Math.round((dimTotals[k].earned / dimTotals[k].max) * 100) : 0;
+      });
+
+      const g = scoreToGrade(totalScore);
+      document.getElementById('compResultPanel').classList.remove('hidden');
+      document.getElementById('compFinalScore').textContent = totalScore;
+      document.getElementById('compGradeBadge').textContent = g.grade;
+      document.getElementById('compGradeBadge').className = `w-16 h-16 rounded-2xl ${g.bg} text-white flex items-center justify-center text-3xl font-black shadow`;
+      document.getElementById('compPassTag').textContent = totalScore >= 80 ? '高分合规' : totalScore >= 60 ? '及格（建议复盘错题）' : '未达标（需补考）';
+      document.getElementById('compPassTag').className = `ml-2 px-2.5 py-0.5 rounded-full text-xs font-bold ${totalScore >= 80 ? 'bg-emerald-100 text-emerald-700' : totalScore >= 60 ? 'bg-amber-100 text-amber-800' : 'bg-rose-100 text-rose-700'}`;
+      document.getElementById('compStatsLine').textContent = `全对 ${correctCount} / 40 题 · 踩雷/失分 ${40 - correctCount} 题 · ${g.label}`;
+
+      document.getElementById('compDimBars').innerHTML = Object.keys(dimPct).map(k => {
+        const pct = dimPct[k];
+        const barCol = pct >= 85 ? 'bg-emerald-500' : pct >= 60 ? 'bg-amber-500' : 'bg-rose-500';
+        return `
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5">
+            <div class="flex items-center justify-between text-xs">
+              <span class="font-bold text-slate-700">${DIM_LABELS[k]}</span>
+              <span class="font-extrabold text-slate-900">${pct}%</span>
+            </div>
+            <div class="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
+              <div class="${barCol} h-full" style="width:${pct}%"></div>
+            </div>
+          </div>`;
+      }).join('');
+
+      document.getElementById('compSubmitBtn').disabled = true;
+      document.getElementById('compSubmitBtn').className = 'w-full py-3 rounded-xl bg-slate-300 text-slate-500 font-bold text-sm cursor-not-allowed';
+      document.getElementById('compSubmitBtn').textContent = '已交卷 · 可上方筛选错题复盘';
+
+      appState.latest.compliance = { score: totalScore, correctCount, dims: dimPct };
+      addHistoryRecord({ moduleName: '合规风控考场', detail: `全对 ${correctCount}/40 题`, score: totalScore });
+      renderComplianceExam();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      showToast(`交卷成功！合规风控得分 ${totalScore} 分（${g.grade} 级）`, 'success');
+    }
+
+    function resetComplianceExam() {
+      if (compState.timerId) clearInterval(compState.timerId);
+      compState.answers = {};
+      compState.submitted = false;
+      compState.filterWrongOnly = false;
+      compState.secondsLeft = 1800;
+      document.getElementById('compResultPanel').classList.add('hidden');
+      document.getElementById('compTimerBadge').textContent = '⏱ 30:00';
+      document.getElementById('compSubmitBtn').disabled = false;
+      document.getElementById('compSubmitBtn').className = 'w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-sm transition';
+      document.getElementById('compSubmitBtn').textContent = '交卷并生成合规诊断报告';
+      renderComplianceExam();
+      if (compState.mode === 'exam') startCompTimer();
+    }
+
+    document.getElementById('compModeExamBtn').addEventListener('click', () => {
+      compState.mode = 'exam';
+      document.getElementById('compModeExamBtn').className = 'px-3 py-1.5 rounded-md text-xs font-semibold bg-white text-blue-700 shadow-sm transition';
+      document.getElementById('compModePracticeBtn').className = 'px-3 py-1.5 rounded-md text-xs font-semibold text-slate-600 hover:text-slate-900 transition';
+      document.getElementById('compTimerBadge').classList.remove('hidden');
+      renderComplianceExam();
+      if (!compState.submitted) startCompTimer();
+    });
+    document.getElementById('compModePracticeBtn').addEventListener('click', () => {
+      compState.mode = 'practice';
+      if (compState.timerId) clearInterval(compState.timerId);
+      document.getElementById('compModePracticeBtn').className = 'px-3 py-1.5 rounded-md text-xs font-semibold bg-white text-blue-700 shadow-sm transition';
+      document.getElementById('compModeExamBtn').className = 'px-3 py-1.5 rounded-md text-xs font-semibold text-slate-600 hover:text-slate-900 transition';
+      document.getElementById('compTimerBadge').classList.add('hidden');
+      renderComplianceExam();
+      showToast('已切换为随练背题模式，每选完一题立即显示合规解析', 'info');
+    });
+    document.getElementById('compSubmitBtn').addEventListener('click', () => submitComplianceExam(false));
+    document.getElementById('compResetBtn').addEventListener('click', () => {
+      openConfirmModal('重新开始合规考试？', '当前已选答案将被清空并重新计时。', resetComplianceExam);
+    });
+    document.getElementById('compFilterWrongBtn').addEventListener('click', () => {
+      compState.filterWrongOnly = true;
+      renderComplianceExam();
+    });
+    document.getElementById('compFilterAllBtn').addEventListener('click', () => {
+      compState.filterWrongOnly = false;
+      renderComplianceExam();
+    });
+
+    // =========================================================================
+    // 9. MODULE 2: SELLING VS BENEFIT QUIZ ENGINE
+    // =========================================================================
+    function initSellingQuiz(count = 50) {
+      if (sellState.timerId) clearInterval(sellState.timerId);
+      const shuffled = count < 50
+        ? [...SELLING_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, count)
+        : [...SELLING_QUESTIONS];
+      sellState = {
+        pool: shuffled,
+        index: 0,
+        answers: [],
+        streak: 0,
+        maxStreak: 0,
+        waitingNext: false,
+        seconds: 0,
+        timerId: null,
+        finished: false
+      };
+      document.getElementById('sellQuizCard').classList.remove('hidden');
+      document.getElementById('sellResultPanel').classList.add('hidden');
+      document.getElementById('sellTimeText').textContent = '00:00';
+      sellState.timerId = setInterval(() => {
+        if (sellState.finished) return;
+        sellState.seconds++;
+        document.getElementById('sellTimeText').textContent = formatTime(sellState.seconds);
+      }, 1000);
+      renderSellingQuestion();
+    }
+
+    function renderSellingQuestion() {
+      const q = sellState.pool[sellState.index];
+      const total = sellState.pool.length;
+      document.getElementById('sellProgressPill').textContent = `第 ${sellState.index + 1} / ${total} 题`;
+      document.getElementById('sellCatPill').textContent = q.cat;
+      document.getElementById('sellStreakText').textContent = sellState.streak;
+      document.getElementById('sellProgressBar').style.width = `${((sellState.index + 1) / total) * 100}%`;
+      document.getElementById('sellQuestionText').textContent = `“${q.text}”`;
+
+      document.getElementById('sellInstantFeedback').classList.add('hidden');
+      document.getElementById('sellNextBtn').classList.add('hidden');
+      document.getElementById('sellBtn1').disabled = false;
+      document.getElementById('sellBtn2').disabled = false;
+      sellState.waitingNext = false;
+    }
+
+    function answerSelling(choice) {
+      if (sellState.finished || sellState.waitingNext) return;
+      const q = sellState.pool[sellState.index];
+      const isCorrect = choice === q.answer;
+      if (isCorrect) {
+        sellState.streak++;
+        if (sellState.streak > sellState.maxStreak) sellState.maxStreak = sellState.streak;
+      } else {
+        sellState.streak = 0;
+      }
+      sellState.answers.push({
+        id: q.id,
+        text: q.text,
+        cat: q.cat,
+        choice,
+        rightAns: q.answer,
+        correct: isCorrect,
+        tip: q.tip
+      });
+      document.getElementById('sellStreakText').textContent = sellState.streak;
+
+      const instantOn = document.getElementById('sellInstantToggle').checked;
+      if (instantOn) {
+        sellState.waitingNext = true;
+        document.getElementById('sellBtn1').disabled = true;
+        document.getElementById('sellBtn2').disabled = true;
+        const fb = document.getElementById('sellInstantFeedback');
+        fb.classList.remove('hidden');
+        fb.className = `rounded-xl p-4 text-xs sm:text-sm leading-relaxed border ${isCorrect ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-rose-50 border-rose-200 text-rose-900'}`;
+        fb.innerHTML = `<strong>${isCorrect ? '✅ 判断正确！' : '❌ 判断偏差！'}</strong> 本句属于 <strong>${q.answer === 1 ? '1 · 产品卖点' : '2 · 利他买点'}</strong>。${q.tip}`;
+        const nextBtn = document.getElementById('sellNextBtn');
+        nextBtn.classList.remove('hidden');
+        nextBtn.textContent = sellState.index + 1 >= sellState.pool.length ? '查看成绩报告 →' : '下一题 (Enter) →';
+      } else {
+        advanceSelling();
+      }
+    }
+
+    function advanceSelling() {
+      if (sellState.index + 1 >= sellState.pool.length) {
+        finishSellingQuiz();
+      } else {
+        sellState.index++;
+        renderSellingQuestion();
+      }
+    }
+
+    function finishSellingQuiz() {
+      sellState.finished = true;
+      if (sellState.timerId) clearInterval(sellState.timerId);
+
+      const total = sellState.pool.length;
+      const correctCount = sellState.answers.filter(a => a.correct).length;
+      const score = Math.round((correctCount / total) * 100);
+      const g = scoreToGrade(score);
+
+      document.getElementById('sellQuizCard').classList.add('hidden');
+      document.getElementById('sellResultPanel').classList.remove('hidden');
+      document.getElementById('sellFinalScore').textContent = score;
+      document.getElementById('sellGradeBadge').textContent = g.grade;
+      document.getElementById('sellGradeBadge').className = `w-16 h-16 rounded-2xl ${g.bg} text-white flex items-center justify-center text-3xl font-black shadow`;
+      document.getElementById('sellStatsLine').textContent = `答对 ${correctCount} / ${total} 题 · 最高连对 ${sellState.maxStreak} 题 · 用时 ${formatTime(sellState.seconds)}`;
+
+      // Category breakdown
+      const cats = {};
+      sellState.answers.forEach(a => {
+        if (!cats[a.cat]) cats[a.cat] = { ok: 0, all: 0 };
+        cats[a.cat].all++;
+        if (a.correct) cats[a.cat].ok++;
+      });
+      document.getElementById('sellCatBreakdown').innerHTML = Object.keys(cats).map(c => {
+        const pct = Math.round((cats[c].ok / cats[c].all) * 100);
+        return `
+          <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 text-center">
+            <div class="text-xs font-bold text-slate-600">${c}</div>
+            <div class="text-xl font-black mt-1 ${pct >= 80 ? 'text-emerald-600' : 'text-amber-600'}">${pct}%</div>
+            <div class="text-[11px] text-slate-400">${cats[c].ok}/${cats[c].all} 题</div>
+          </div>`;
+      }).join('');
+
+      // Wrong list
+      const wrongs = sellState.answers.filter(a => !a.correct);
+      const wrongEl = document.getElementById('sellWrongList');
+      if (!wrongs.length) {
+        wrongEl.innerHTML = `<div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800">🎉 全对通关！你对“产品参数 vs 用户画面好处”的直觉已经非常精准！</div>`;
+      } else {
+        wrongEl.innerHTML = wrongs.map(w => `
+          <div class="p-3.5 rounded-xl bg-rose-50/50 border border-rose-200 text-xs space-y-1">
+            <div class="font-bold text-slate-900">“${w.text}” <span class="text-slate-400 font-normal">(${w.cat})</span></div>
+            <div class="text-rose-700">你选了：${w.choice === 1 ? '1 卖点' : '2 利他买点'} → 正确：<strong>${w.rightAns === 1 ? '1 卖点' : '2 利他买点'}</strong></div>
+            <div class="text-slate-600">${w.tip}</div>
+          </div>`).join('');
+      }
+
+      appState.latest.selling = { score, correctCount, total, maxStreak: sellState.maxStreak };
+      addHistoryRecord({ moduleName: '卖点 vs 利他买点', detail: `${total}题模式 · 答对 ${correctCount}/${total}`, score });
+      showToast(`辨析完成！得分 ${score} 分（${g.grade} 级）`, 'success');
+    }
+
+    document.getElementById('sellBtn1').addEventListener('click', () => answerSelling(1));
+    document.getElementById('sellBtn2').addEventListener('click', () => answerSelling(2));
+    document.getElementById('sellNextBtn').addEventListener('click', advanceSelling);
+    document.getElementById('sellStartFullBtn').addEventListener('click', () => { initSellingQuiz(50); showToast('已开启 50 题全量测评', 'info'); });
+    document.getElementById('sellStartQuickBtn').addEventListener('click', () => { initSellingQuiz(20); showToast('已开启 20 题极速抽测', 'info'); });
+    document.getElementById('sellRetryBtn').addEventListener('click', () => initSellingQuiz(sellState.pool.length));
+
+    document.getElementById('sellTogglePairRefBtn').addEventListener('click', () => {
+      const panel = document.getElementById('sellPairRefPanel');
+      panel.classList.toggle('hidden');
+      if (!panel.classList.contains('hidden')) panel.scrollIntoView({ behavior: 'smooth' });
+    });
+    document.getElementById('sellClosePairRefBtn').addEventListener('click', () => {
+      document.getElementById('sellPairRefPanel').classList.add('hidden');
+    });
+
+    // Keyboard shortcuts for Selling Quiz
+    document.addEventListener('keydown', (e) => {
+      const sellingVisible = !document.getElementById('view-selling').classList.contains('hidden');
+      if (!sellingVisible || sellState.finished) return;
+      if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+      if (e.key === '1') answerSelling(1);
+      else if (e.key === '2') answerSelling(2);
+      else if (e.key === 'Enter' && sellState.waitingNext) advanceSelling();
+    });
+
+    function renderPairTable() {
+      document.getElementById('sellPairTableBody').innerHTML = PAIRED_EXAMPLES.map(p => `
+        <tr class="hover:bg-slate-50">
+          <td class="py-2.5 px-3 font-semibold text-blue-700 whitespace-nowrap">${p.cat}</td>
+          <td class="py-2.5 px-3 text-slate-600">${p.sp}</td>
+          <td class="py-2.5 px-3 font-semibold text-emerald-700">${p.bp}</td>
+        </tr>`).join('');
+    }
+
+    // =========================================================================
+    // 10. MODULE 3: SIMULATED PRACTICE STUDIO (模拟练播房)
+    // =========================================================================
+    function getActiveProduct() {
+      return studioState.products.find(p => p.id === studioState.selectedId) || studioState.products[0];
+    }
+
+    function renderStudioProducts() {
+      const grid = document.getElementById('studioProductGrid');
+      grid.innerHTML = studioState.products.map(p => {
+        const active = p.id === studioState.selectedId;
+        return `
+          <button type="button" data-prod-id="${p.id}" class="studio-prod-card text-left p-3.5 rounded-xl border-2 transition ${active ? 'border-blue-600 bg-blue-50/50 shadow-sm' : 'border-slate-200 hover:border-slate-300 bg-white'}">
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-600">${p.cat}</span>
+              ${active ? '<span class="text-[11px] font-bold text-blue-600">● 当前练播</span>' : ''}
+            </div>
+            <div class="text-sm font-bold text-slate-900 mt-2 truncate">${escapeHtml(p.name)}</div>
+            <div class="text-[11px] text-slate-500 mt-1 line-clamp-1">${escapeHtml(p.points.join(' · '))}</div>
+          </button>`;
+      }).join('');
+
+      grid.querySelectorAll('.studio-prod-card').forEach(btn => {
+        btn.addEventListener('click', () => {
+          studioState.selectedId = btn.dataset.prodId;
+          renderStudioProducts();
+          syncStudioProductDetails();
+        });
+      });
+    }
+
+    function syncStudioProductDetails() {
+      const p = getActiveProduct();
+      document.getElementById('stageProductTitle').textContent = p.name;
+      document.getElementById('studioPolicyText').textContent = p.policy;
+      document.getElementById('studioRedlineHint').textContent = p.redline;
+      updateStudioCoverage();
+    }
+
+    function updateStudioCoverage() {
+      const p = getActiveProduct();
+      const text = document.getElementById('studioScriptInput').value;
+      document.getElementById('scriptCharCount').textContent = `当前字数：${text.trim().length} 字（建议单品讲解 ≥ 120 字）`;
+      let hit = 0;
+      const tagsHtml = p.points.map(pt => {
+        // Match by checking if at least 2-char core slice or exact token appears
+        const tokens = pt.replace(/[与和的及]/g, ' ').split(/\s+/).filter(Boolean);
+        const matched = text.includes(pt) || tokens.some(tk => tk.length >= 2 && text.includes(tk.slice(0, Math.min(3, tk.length))));
+        if (matched) hit++;
+        return `<span class="px-2.5 py-1 rounded-lg text-xs font-semibold border transition ${matched ? 'bg-emerald-50 border-emerald-300 text-emerald-800' : 'bg-slate-50 border-slate-200 text-slate-600'}">${matched ? '✓ ' : '○ '}${escapeHtml(pt)}</span>`;
+      }).join('');
+      document.getElementById('studioPointsTags').innerHTML = tagsHtml;
+      document.getElementById('liveCoveragePill').textContent = `已覆盖 ${hit} / ${p.points.length}`;
+    }
+
+    document.getElementById('studioScriptInput').addEventListener('input', updateStudioCoverage);
+    document.getElementById('clearScriptBtn').addEventListener('click', () => {
+      document.getElementById('studioScriptInput').value = '';
+      updateStudioCoverage();
+    });
+    document.getElementById('fillSampleGoodBtn').addEventListener('click', () => {
+      const p = getActiveProduct();
+      document.getElementById('studioScriptInput').value = p.sampleGood || `大家好，这款${p.name}核心优势包括${p.points.join('、')}，用起来特别省心安心。售后方面严格按商详配置：${p.policy}，喜欢的姐妹点个关注慢慢看！`;
+      updateStudioCoverage();
+      showToast('已填入合规高转化示范话术，可点击下方提交诊断体验报告', 'success');
+    });
+    document.getElementById('fillSampleBadBtn').addEventListener('click', () => {
+      const p = getActiveProduct();
+      document.getElementById('studioScriptInput').value = p.sampleBad || `想要的公屏扣1！全网最低价最后一天，运费全包一分钱不用花，绝对不踩雷，没点关注不发货！`;
+      updateStudioCoverage();
+      showToast('已填入反面踩雷话术，点击下方提交查看红线扫描效果', 'warn');
+    });
+
+    // Custom Product Form
+    document.getElementById('toggleCustomProdBtn').addEventListener('click', () => {
+      document.getElementById('customProdForm').classList.toggle('hidden');
+    });
+    document.getElementById('cancelCustomProdBtn').addEventListener('click', () => {
+      document.getElementById('customProdForm').classList.add('hidden');
+    });
+    document.getElementById('saveCustomProdBtn').addEventListener('click', () => {
+      const name = document.getElementById('customProdName').value.trim();
+      const policy = document.getElementById('customProdPolicy').value.trim() || '按商详页面实际配置执行';
+      const rawPts = document.getElementById('customProdPoints').value.trim();
+      if (!name || !rawPts) {
+        showToast('请填写商品名称和核心卖点关键词', 'error');
+        return;
+      }
+      const points = rawPts.split(/[,，、\n]+/).map(s => s.trim()).filter(Boolean).slice(0, 6);
+      const customObj = {
+        id: 'custom_' + Date.now(),
+        name,
+        cat: '自定义商品',
+        policy,
+        redline: '请严格遵守商详售后配置，避免极限词、诱导扣1及越界功效宣称。',
+        points,
+        danmaku: ['用户小新：主播，这个发货要多久？', '用户安安：有运费险吗？', '用户乐乐：扣1能送赠品吗？']
+      };
+      studioState.products.unshift(customObj);
+      studioState.selectedId = customObj.id;
+      document.getElementById('customProdForm').classList.add('hidden');
+      renderStudioProducts();
+      syncStudioProductDetails();
+      showToast('自定义练播商品已创建并选中', 'success');
+    });
+
+    // Camera Toggle
+    document.getElementById('toggleCameraBtn').addEventListener('click', async () => {
+      const video = document.getElementById('studioVideoPreview');
+      const ph = document.getElementById('studioStagePlaceholder');
+      const btn = document.getElementById('toggleCameraBtn');
+      if (studioState.mediaStream) {
+        studioState.mediaStream.getTracks().forEach(t => t.stop());
+        studioState.mediaStream = null;
+        video.srcObject = null;
+        video.classList.add('hidden');
+        ph.classList.remove('hidden');
+        btn.textContent = '📷 开启摄像头';
+        showToast('已关闭摄像头', 'info');
+        return;
+      }
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        showToast('当前浏览器环境不支持摄像头，可直接用文字/语音练播', 'warn');
+        return;
+      }
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        studioState.mediaStream = stream;
+        video.srcObject = stream;
+        video.classList.remove('hidden');
+        ph.classList.add('hidden');
+        btn.textContent = '📷 关闭摄像头';
+        showToast('摄像头与麦克风已就绪，开播时将自动本地录制回放', 'success');
+      } catch (err) {
+        showToast('未获得摄像头权限，已切换为无摄像头练播模式', 'warn');
+      }
+    });
+
+    // Live Simulation Start / Stop
+    function pushDanmaku(text) {
+      const box = document.getElementById('studioDanmakuBox');
+      const div = document.createElement('div');
+      div.className = 'danmaku-item inline-block max-w-full px-3 py-1.5 rounded-lg bg-black/65 backdrop-blur text-xs text-white border border-white/10';
+      div.textContent = text;
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    document.getElementById('startLiveBtn').addEventListener('click', () => {
+      if (studioState.isLive) return;
+      const overlay = document.getElementById('studioCountdownOverlay');
+      const numEl = document.getElementById('studioCountdownNum');
+      overlay.classList.remove('hidden');
+      let c = 3;
+      numEl.textContent = c;
+      const cdTimer = setInterval(() => {
+        c--;
+        if (c > 0) {
+          numEl.textContent = c;
+        } else {
+          clearInterval(cdTimer);
+          overlay.classList.add('hidden');
+          beginLiveSession();
+        }
+      }, 750);
+    });
+
+    function beginLiveSession() {
+      studioState.isLive = true;
+      studioState.seconds = 0;
+      studioState.danmakuIdx = 0;
+      document.getElementById('studioDanmakuBox').innerHTML = '';
+      document.getElementById('studioLiveBadge').innerHTML = '<span class="w-2 h-2 rounded-full bg-rose-500 live-dot"></span> 模拟直播中';
+      document.getElementById('studioLiveBadge').className = 'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 text-xs font-bold border border-rose-500/40';
+      document.getElementById('startLiveBtn').disabled = true;
+      document.getElementById('startLiveBtn').className = 'px-4 py-2.5 rounded-xl bg-slate-800 text-slate-500 text-xs sm:text-sm font-bold cursor-not-allowed';
+      document.getElementById('stopLiveBtn').disabled = false;
+      document.getElementById('stopLiveBtn').className = 'px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs sm:text-sm font-bold shadow transition';
+
+      // Start local recording if camera is active
+      if (studioState.mediaStream && typeof MediaRecorder !== 'undefined') {
+        try {
+          studioState.recordedChunks = [];
+          studioState.mediaRecorder = new MediaRecorder(studioState.mediaStream);
+          studioState.mediaRecorder.ondataavailable = e => { if (e.data.size > 0) studioState.recordedChunks.push(e.data); };
+          studioState.mediaRecorder.onstop = () => {
+            const blob = new Blob(studioState.recordedChunks, { type: 'video/webm' });
+            if (studioState.recordedBlobUrl) URL.revokeObjectURL(studioState.recordedBlobUrl);
+            studioState.recordedBlobUrl = URL.createObjectURL(blob);
+            document.getElementById('studioRecordedVideo').src = studioState.recordedBlobUrl;
+            document.getElementById('studioPlaybackBox').classList.remove('hidden');
+          };
+          studioState.mediaRecorder.start();
+        } catch (e) {}
+      }
+
+      if (studioState.timerId) clearInterval(studioState.timerId);
+      studioState.timerId = setInterval(() => {
+        studioState.seconds++;
+        document.getElementById('studioTimer').textContent = `${formatTime(studioState.seconds)} / 05:00`;
+        if (studioState.seconds >= 300) stopLiveSession();
+      }, 1000);
+
+      const p = getActiveProduct();
+      pushDanmaku('📢 系统提示：模拟直播间已开播，请注意应对公屏观众提问！');
+      if (studioState.danmakuTimerId) clearInterval(studioState.danmakuTimerId);
+      studioState.danmakuTimerId = setInterval(() => {
+        if (studioState.danmakuIdx < p.danmaku.length) {
+          pushDanmaku(p.danmaku[studioState.danmakuIdx]);
+          studioState.danmakuIdx++;
+        }
+      }, 5000);
+    }
+
+    function stopLiveSession() {
+      if (!studioState.isLive) return;
+      studioState.isLive = false;
+      if (studioState.timerId) clearInterval(studioState.timerId);
+      if (studioState.danmakuTimerId) clearInterval(studioState.danmakuTimerId);
+      if (studioState.mediaRecorder && studioState.mediaRecorder.state !== 'inactive') {
+        try { studioState.mediaRecorder.stop(); } catch (e) {}
+      }
+      document.getElementById('studioLiveBadge').innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span> 练播已结束';
+      document.getElementById('studioLiveBadge').className = 'inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold';
+      document.getElementById('startLiveBtn').disabled = false;
+      document.getElementById('startLiveBtn').className = 'px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs sm:text-sm font-bold shadow transition';
+      document.getElementById('stopLiveBtn').disabled = true;
+      document.getElementById('stopLiveBtn').className = 'px-4 py-2.5 rounded-xl bg-slate-800 text-slate-500 text-xs sm:text-sm font-bold cursor-not-allowed';
+      showToast('已结束模拟开播，可点击右侧“提交练播并生成诊断报告”', 'info');
+    }
+
+    document.getElementById('stopLiveBtn').addEventListener('click', stopLiveSession);
+
+    // Web Speech API (Voice-to-Text)
+    document.getElementById('voiceInputBtn').addEventListener('click', () => {
+      const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+      const btn = document.getElementById('voiceInputBtn');
+      if (!SpeechRec) {
+        showToast('当前浏览器不支持原生语音转文字，请直接输入或粘贴口播稿', 'warn');
+        return;
+      }
+      if (studioState.isListening && studioState.recognition) {
+        studioState.recognition.stop();
+        return;
+      }
+      const rec = new SpeechRec();
+      rec.lang = 'zh-CN';
+      rec.continuous = true;
+      rec.interimResults = false;
+      studioState.recognition = rec;
+      studioState.isListening = true;
+      btn.textContent = '⏹ 停止语音转写';
+      btn.className = 'px-3.5 py-2.5 rounded-xl bg-rose-600 text-white text-xs font-bold animate-pulse';
+
+      rec.onresult = (event) => {
+        let transcript = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          if (event.results[i].isFinal) transcript += event.results[i][0].transcript;
+        }
+        if (transcript) {
+          const input = document.getElementById('studioScriptInput');
+          input.value += (input.value ? ' ' : '') + transcript;
+          updateStudioCoverage();
+        }
+      };
+      rec.onerror = () => {
+        showToast('语音识别未启动成功，可直接文字输入口播稿', 'warn');
+      };
+      rec.onend = () => {
+        studioState.isListening = false;
+        btn.textContent = '🎤 语音转文字';
+        btn.className = 'px-3.5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition';
+      };
+      try { rec.start(); showToast('已开启语音转文字，请对着麦克风讲解商品', 'success'); } catch (e) {}
+    });
+
+    // Studio Diagnostic Evaluation
+    document.getElementById('evaluateStudioBtn').addEventListener('click', () => {
+      if (studioState.isLive) stopLiveSession();
+      const p = getActiveProduct();
+      const rawText = document.getElementById('studioScriptInput').value.trim();
+      if (rawText.length < 20) {
+        showToast('请先输入至少 20 字的口播话术，或点击右上角“填入示范”体验', 'error');
+        return;
+      }
+
+      // 1. Violation Scan (40 pts base, deduct 12 per violation down to 0)
+      const violations = [];
+      let annotated = rawText.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      VIOLATION_RULES.forEach(rule => {
+        const matches = rawText.match(rule.pattern);
+        if (matches) {
+          const uniqueHits = [...new Set(matches)];
+          uniqueHits.forEach(hit => {
+            violations.push({ word: hit, cat: rule.cat, severity: rule.severity, advice: rule.advice });
+          });
+          annotated = annotated.replace(rule.pattern, m => `<mark class="px-1 rounded bg-rose-200 text-rose-900 font-bold">${m}</mark>`);
+        }
+      });
+
+      // Highlight altruistic benefit words
+      let benefitHits = 0;
+      BENEFIT_KEYWORDS.forEach(kw => {
+        if (rawText.includes(kw)) {
+          benefitHits++;
+          annotated = annotated.split(kw).join(`<span class="px-1 rounded bg-emerald-100 text-emerald-800 font-semibold">${kw}</span>`);
+        }
+      });
+
+      // 2. Selling Points Coverage (30 pts)
+      const covered = [];
+      const missed = [];
+      p.points.forEach(pt => {
+        const tokens = pt.replace(/[与和的及]/g, ' ').split(/\s+/).filter(Boolean);
+        const matched = rawText.includes(pt) || tokens.some(tk => tk.length >= 2 && rawText.includes(tk.slice(0, Math.min(3, tk.length))));
+        if (matched) covered.push(pt);
+        else missed.push(pt);
+      });
+      const covRate = p.points.length ? Math.round((covered.length / p.points.length) * 100) : 100;
+
+      // 3. 100% Objective Score (Compliance 40 + Coverage 30 + Benefit 15 + Structure/Length 15)
+      const compliancePts = Math.max(0, 40 - violations.length * 12);
+      const coveragePts = Math.round((covRate / 100) * 30);
+      const benefitPts = Math.min(15, benefitHits * 3);
+      const hasAftersaleMention = /发货|运费险|七天|7天|无理由|质保|商详|售后/.test(rawText);
+      const hasGreetingOrCta = /欢迎|姐妹|家人|朋友|关注|下单|拍/.test(rawText);
+      const lengthPts = rawText.length >= 150 ? 9 : Math.round((rawText.length / 150) * 9);
+      const structurePts = (hasAftersaleMention ? 3 : 0) + (hasGreetingOrCta ? 3 : 0);
+      const finalScore = Math.min(100, compliancePts + coveragePts + benefitPts + lengthPts + structurePts);
+
+      const g = scoreToGrade(finalScore);
+      const reportPanel = document.getElementById('studioReportPanel');
+      reportPanel.classList.remove('hidden');
+      document.getElementById('studioGradeBadge').textContent = g.grade;
+      document.getElementById('studioGradeBadge').className = `w-16 h-16 rounded-2xl ${g.bg} text-white flex items-center justify-center text-3xl font-black shadow`;
+      document.getElementById('studioFinalScore').textContent = finalScore;
+      document.getElementById('studioViolationSummaryTag').textContent = `${violations.length} 处违规红线`;
+      document.getElementById('studioViolationSummaryTag').className = `ml-2 px-2.5 py-0.5 rounded-full text-xs font-bold ${violations.length === 0 ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'}`;
+      document.getElementById('studioReportMeta').textContent = `练播商品：${p.name} · 客观初筛分（合规 ${compliancePts}/40 · 卖点 ${coveragePts}/30 · 利他 ${benefitPts}/15 · 结构 ${lengthPts + structurePts}/15）`;
+
+      // Violation list
+      document.getElementById('reportViolationCount').textContent = `${violations.length} 处`;
+      document.getElementById('reportViolationList').innerHTML = violations.length === 0
+        ? `<div class="text-emerald-700 font-semibold">✅ 未检测到常见违禁词与红线话术，合规风控意识很棒！</div>`
+        : violations.map(v => `
+            <div class="p-2.5 rounded-lg bg-white border border-rose-200">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-rose-700">踩雷词：“${escapeHtml(v.word)}”</span>
+                <span class="px-1.5 py-0.5 rounded bg-rose-100 text-rose-800 text-[10px] font-bold">${v.cat} · ${v.severity}</span>
+              </div>
+              <p class="text-slate-600 mt-1">${v.advice}</p>
+            </div>`).join('');
+
+      // Points detail
+      document.getElementById('reportCoverageRate').textContent = `覆盖率 ${covRate}%`;
+      document.getElementById('reportPointsDetail').innerHTML = `
+        <div><span class="font-bold text-emerald-700">已讲卖点 (${covered.length})：</span>${covered.length ? escapeHtml(covered.join('、')) : '无'}</div>
+        <div><span class="font-bold text-amber-700">漏讲卖点 (${missed.length})：</span>${missed.length ? escapeHtml(missed.join('、')) : '全部讲全！'}</div>
+        <div><span class="font-bold text-blue-700">利他场景词命中：</span>${benefitHits} 个 ${benefitHits >= 4 ? '（画面感丰富）' : '（建议多用“让你/不用/安心/场景画面”转化参数）'}</div>`;
+
+      // Build Feishu-Minutes-Style Timeline Segments
+      const sentences = rawText.split(/(?<=[。！？!?\n])/).map(x => x.trim()).filter(Boolean);
+      const estDurationSec = studioState.seconds > 10 ? studioState.seconds : Math.max(15, Math.round(rawText.length / 3.8));
+      const wpm = Math.round((rawText.length / estDurationSec) * 60);
+      document.getElementById('reportSpeechMeta').textContent = `共 ${sentences.length} 段话术 · 总字数 ${rawText.length} 字 · 预估时长 ${formatTime(estDurationSec)} · 语速约 ${wpm} 字/分钟（带货舒适语速 180-240 字/分）`;
+
+      let cursorSec = 0;
+      const segRows = sentences.map((sent) => {
+        const ts = formatTime(cursorSec);
+        cursorSec += Math.max(3, Math.round((sent.length / Math.max(1, rawText.length)) * estDurationSec));
+        let segHtml = escapeHtml(sent);
+        let segHasViolation = false;
+        let segHasBenefit = false;
+        VIOLATION_RULES.forEach(rule => {
+          if (sent.match(rule.pattern)) {
+            segHasViolation = true;
+            segHtml = segHtml.replace(rule.pattern, m => `<mark class="px-1 rounded bg-rose-200 text-rose-900 font-bold">${m}</mark>`);
+          }
+        });
+        BENEFIT_KEYWORDS.forEach(kw => {
+          if (sent.includes(kw)) {
+            segHasBenefit = true;
+            segHtml = segHtml.split(kw).join(`<span class="px-1 rounded bg-emerald-100 text-emerald-800 font-semibold">${kw}</span>`);
+          }
+        });
+        const segHasPolicy = /发货|运费险|七天|7天|无理由|质保|商详/.test(sent);
+        const badges = [
+          segHasViolation ? '<span class="px-1.5 py-0.5 rounded bg-rose-100 text-rose-700 font-bold">🚨 红线风险</span>' : '',
+          segHasBenefit ? '<span class="px-1.5 py-0.5 rounded bg-emerald-100 text-emerald-700 font-bold">✨ 利他买点</span>' : '',
+          segHasPolicy ? '<span class="px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 font-bold">🛡️ 售后履约</span>' : ''
+        ].filter(Boolean).join(' ');
+        return `
+          <div class="flex items-start gap-3 p-3 rounded-xl bg-white border ${segHasViolation ? 'border-rose-200 bg-rose-50/30' : 'border-slate-200'}">
+            <span class="font-mono text-[11px] font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-600 shrink-0 mt-0.5">${ts}</span>
+            <div class="flex-1 space-y-1">
+              <div class="text-xs sm:text-sm text-slate-800 leading-relaxed">${segHtml}</div>
+              ${badges ? `<div class="flex flex-wrap gap-1.5 text-[10px]">${badges}</div>` : ''}
+            </div>
+          </div>`;
+      }).join('');
+      document.getElementById('reportAnnotatedScript').innerHTML = segRows;
+
+      // Populate Structured AI Summary & Tutor Review defaults
+      const suggestedGrade = violations.length > 0 ? (finalScore >= 75 ? 'C（需清零红线）' : 'D（红线重测）') : `${g.grade}（${g.label.split(' · ')[0]}）`;
+      studioState.lastReport = {
+        product: p,
+        rawText,
+        finalScore,
+        compliancePts,
+        coveragePts,
+        benefitPts,
+        structureTotal: lengthPts + structurePts,
+        violations,
+        covered,
+        missed,
+        covRate,
+        wpm,
+        estDurationSec,
+        sentences
+      };
+
+      document.getElementById('aiSummaryContent').innerHTML = `
+        <div class="p-2.5 rounded-lg bg-white border border-indigo-100">
+          <strong>综合初筛结论：</strong>建议评级 <span class="font-extrabold text-indigo-700">${suggestedGrade}</span>（客观分 ${finalScore}/100）。
+        </div>
+        <ul class="list-disc list-inside space-y-1">
+          <li><strong>合规风控：</strong>${violations.length === 0 ? '未触碰高危红线，可安全上播。' : `命中 ${violations.length} 处高危词（${violations.map(v => v.word).join('、')}），导师终审建议重点纠正。`}</li>
+          <li><strong>卖点转化：</strong>覆盖 ${covered.length}/${p.points.length} 个必讲卖点，利他场景词命中 ${benefitHits} 处。${missed.length ? `漏讲项：${escapeHtml(missed.join('、'))}。` : '核心卖点无遗漏。'}</li>
+          <li><strong>节奏结构：</strong>字数 ${rawText.length} 字，${hasAftersaleMention ? '已包含售后/发货说明' : '缺少商详售后/发货说明'}，${hasGreetingOrCta ? '有开场或自然承接引导' : '缺少自然关注/下单承接'}。</li>
+        </ul>`;
+
+      document.getElementById('tutorFinalScoreInput').value = finalScore;
+      document.getElementById('tutorReviewStatus').textContent = '待导师终审';
+      document.getElementById('tutorReviewStatus').className = 'text-[11px] font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-800';
+
+      // Advice
+      const advices = [];
+      if (violations.length > 0) advices.push(`优先清除标红的 ${violations.length} 处违规词，开播前务必对照商详页核验售后、发货时效与产品资质。`);
+      if (missed.length > 0) advices.push(`补充漏讲的核心卖点（${missed.join('、')}），并用“产品参数 → 解决什么痛点”的句式说透。`);
+      if (benefitHits < 4) advices.push('当前话术偏客观介绍，建议增加具体使用人群和生活场景描述（如换季、出差、夜奶、通勤等）提升利他转化力。');
+      if (rawText.length < 120) advices.push('单品讲解偏短，建议按“痛点引入 → 核心卖点转买点 → 售后履约说明 → 自然引导关注下单”四段式扩充至 150-300 字。');
+      if (!advices.length) advices.push('整体合规稳健、卖点完整且有较强的利他场景画面感，已具备上播实操水准！');
+      document.getElementById('reportAdviceList').innerHTML = advices.map(a => `<li>${a}</li>`).join('');
+
+      appState.latest.studio = { score: finalScore, productName: p.name, violations: violations.length, covRate };
+      addHistoryRecord({ moduleName: '模拟练播房', detail: `${p.name} · 违规${violations.length}处 · 覆盖${covRate}%`, score: finalScore });
+
+      reportPanel.scrollIntoView({ behavior: 'smooth' });
+      showToast(`练播报告已生成！综合得分 ${finalScore} 分（${g.grade} 级）`, 'success');
+    });
+
+    // AI Config Toggle
+    document.getElementById('toggleAiConfigBtn').addEventListener('click', () => {
+      document.getElementById('aiConfigPanel').classList.toggle('hidden');
+    });
+
+    function buildAiEvaluationPrompt(rep) {
+      return `你是「宝盾集团·连超电商学院」资深直播电商考核导师。请按飞书妙记复盘风格，对以下学员单品练播逐字稿进行专业考核打分（满分100分）并给出可落地的改写建议：\n\n【练播商品】${rep.product.name}\n【商详售后配置】${rep.product.policy}\n【必讲卖点】${rep.product.points.join('、')}\n【系统初筛结果】客观分 ${rep.finalScore}/100，命中违规词 ${rep.violations.length} 处（${rep.violations.map(v => v.word).join('、') || '无'}），卖点覆盖率 ${rep.covRate}%\n\n【学员口播逐字稿】\n${rep.rawText}\n\n请输出：1）建议终审评级(A/B/C/D)与一句话总评；2）合规红线及隐晦擦边风险复核；3）将学员最平淡的2句产品卖点改写成高转化利他买点话术；4）给导师的重点带教建议。`;
+    }
+
+    document.getElementById('copyAiPromptBtn').addEventListener('click', () => {
+      const rep = studioState.lastReport;
+      if (!rep) return;
+      const promptText = buildAiEvaluationPrompt(rep);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(promptText).then(() => showToast('已复制完整 AI 考核提示词，可直接粘贴给任意大模型', 'success')).catch(() => fallbackCopy(promptText));
+      } else {
+        fallbackCopy(promptText);
+      }
+    });
+
+    function fallbackCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); showToast('已复制 AI 考核提示词', 'success'); } catch (e) { showToast('复制失败，请手动导出妙记文件', 'warn'); }
+      ta.remove();
+    }
+
+    document.getElementById('exportMinutesBtn').addEventListener('click', () => {
+      const rep = studioState.lastReport;
+      if (!rep) return;
+      if (!isProfileComplete()) {
+        openProfileModal('导出妙记复盘单发导师前，请先填写必填项：联系电话与微信号。');
+        return;
+      }
+      const student = appState.profile.name || '未命名学员';
+      const cohort = appState.profile.cohort || '连超电商学院';
+      const md = `# 宝盾集团·连超电商学院｜主播练播妙记复盘单\n\n- 学员：${student}（${cohort}）\n- 联系电话：${appState.profile.phone}\n- 微信号：${appState.profile.wechat}\n- 练播商品：${rep.product.name}\n- 商详售后：${rep.product.policy}\n- 系统客观初筛分：${rep.finalScore} / 100（合规 ${rep.compliancePts}/40 · 卖点 ${rep.coveragePts}/30 · 利他 ${rep.benefitPts}/15 · 结构 ${rep.structureTotal}/15）\n- 违规红线：${rep.violations.length} 处（${rep.violations.map(v => v.word + '[' + v.cat + ']').join('、') || '无'}）\n- 卖点覆盖率：${rep.covRate}%（漏讲：${rep.missed.join('、') || '无'}）\n\n## 口播逐字稿\n${rep.rawText}\n\n## 导师终审栏\n- 导师终审分：${document.getElementById('tutorFinalScoreInput').value || '待填'}\n- 导师评语：${document.getElementById('tutorCommentInput').value || '待填'}\n`;
+      const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `练播妙记复盘-${student}-${rep.product.name}.md`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('妙记复盘单已导出，可直接发给导师终审', 'success');
+    });
+
+    document.getElementById('runLiveAiReviewBtn').addEventListener('click', async () => {
+      const rep = studioState.lastReport;
+      if (!rep) return;
+      const endpoint = document.getElementById('aiApiEndpoint').value.trim();
+      const model = document.getElementById('aiApiModel').value.trim() || 'deepseek-chat';
+      const key = document.getElementById('aiApiKey').value.trim();
+      if (!endpoint || !key) {
+        document.getElementById('aiConfigPanel').classList.remove('hidden');
+        showToast('请先在上方展开的面板填入大模型 HTTPS API 地址和 Key（或点击“复制 AI 复盘提示词”免费使用）', 'warn');
+        return;
+      }
+      if (!endpoint.startsWith('https://')) {
+        showToast('出于安全考虑，API 地址必须以 https:// 开头', 'error');
+        return;
+      }
+      const btn = document.getElementById('runLiveAiReviewBtn');
+      btn.disabled = true;
+      btn.textContent = '⏳ AI 深度分析中...';
+      try {
+        const resp = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${key}` },
+          body: JSON.stringify({
+            model,
+            messages: [{ role: 'user', content: buildAiEvaluationPrompt(rep) }],
+            temperature: 0.4
+          })
+        });
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json();
+        const aiText = data.choices?.[0]?.message?.content || '未返回点评内容';
+        document.getElementById('aiSummaryContent').innerHTML = `<div class="p-3 rounded-lg bg-white border border-indigo-200 whitespace-pre-wrap text-xs leading-relaxed">${escapeHtml(aiText)}</div>`;
+        showToast('大模型深度考核点评已生成！', 'success');
+      } catch (err) {
+        showToast('调用大模型接口失败（请检查地址、Key或跨域配置），可先使用“复制 AI 复盘提示词”', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '✨ 调用已配大模型深度点评';
+      }
+    });
+
+    document.getElementById('saveTutorReviewBtn').addEventListener('click', () => {
+      const rep = studioState.lastReport;
+      if (!rep) return;
+      const tScore = Math.max(0, Math.min(100, Number(document.getElementById('tutorFinalScoreInput').value)));
+      const tName = document.getElementById('tutorNameInput').value.trim() || '学院导师';
+      const tComment = document.getElementById('tutorCommentInput').value.trim();
+      if (Number.isNaN(tScore)) {
+        showToast('请输入有效的终审分数（0-100）', 'error');
+        return;
+      }
+      const g = scoreToGrade(tScore);
+      document.getElementById('studioFinalScore').textContent = tScore;
+      document.getElementById('studioGradeBadge').textContent = g.grade;
+      document.getElementById('studioGradeBadge').className = `w-16 h-16 rounded-2xl ${g.bg} text-white flex items-center justify-center text-3xl font-black shadow`;
+      document.getElementById('tutorReviewStatus').textContent = `已终审 · ${tName}`;
+      document.getElementById('tutorReviewStatus').className = 'text-[11px] font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800';
+
+      appState.latest.studio = { score: tScore, productName: rep.product.name, violations: rep.violations.length, covRate: rep.covRate };
+      addHistoryRecord({ moduleName: '练播房（导师终审）', detail: `${rep.product.name} · ${tName}${tComment ? '：' + tComment.slice(0, 18) : ''}`, score: tScore });
+      showToast(`已同步 ${tName} 终审得分（${tScore} 分）至练习中心与成绩单`, 'success');
+    });
+
+    // =========================================================================
+    // 11. BOOTSTRAP
+    // =========================================================================
+    syncProfileUI();
+    renderDashboard();
+    renderComplianceExam();
+    initSellingQuiz(50);
+    renderPairTable();
+    renderStudioProducts();
+    syncStudioProductDetails();
+  </script>
+</body>
+</html>
