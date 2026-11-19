@@ -86,6 +86,111 @@
   <!-- Toast Container -->
   <div id="toastContainer" class="fixed top-4 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
+  <!-- ==================== FULL-SCREEN MANDATORY LEAD-GEN GATE (首页留资入口) ==================== -->
+  <div id="authGate" class="min-h-screen hero-mesh flex items-center justify-center p-4 sm:p-6">
+    <div class="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+      <!-- Left Value Proposition -->
+      <div class="lg:col-span-6 text-white space-y-5 p-2 sm:p-4">
+        <div class="inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 backdrop-blur text-xs font-bold text-blue-200">
+          <svg class="w-4 h-4 text-blue-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>
+          <span>宝盾集团 · 连超电商学院官方出品</span>
+        </div>
+        <h1 class="text-3xl sm:text-4xl font-black tracking-tight leading-tight">
+          3 分钟测出你的<br/>
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-amber-300 via-yellow-200 to-emerald-300">带货主播上岗能力段位</span>
+        </h1>
+        <p class="text-sm text-slate-300 leading-relaxed">
+          对标头部电商平台合规与练播标准，涵盖三大核心能力自测，交卷即出 A/B/C/D 评级、六维雷达图与导师级改进建议。
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+          <div class="p-3.5 rounded-2xl bg-white/10 border border-white/10 backdrop-blur">
+            <div class="text-lg font-black text-blue-300">40 题</div>
+            <div class="text-xs font-bold text-white mt-0.5">直播合规排雷</div>
+            <div class="text-[11px] text-slate-400 mt-0.5">售后/功效/互动红线</div>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-white/10 border border-white/10 backdrop-blur">
+            <div class="text-lg font-black text-emerald-300">50 题</div>
+            <div class="text-xs font-bold text-white mt-0.5">卖点转利他买点</div>
+            <div class="text-[11px] text-slate-400 mt-0.5">5 大类目话术直觉</div>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-white/10 border border-white/10 backdrop-blur">
+            <div class="text-lg font-black text-rose-300">实战间</div>
+            <div class="text-xs font-bold text-white mt-0.5">模拟练播 + 妙记</div>
+            <div class="text-[11px] text-slate-400 mt-0.5">红线扫描 + AI 建议</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 text-xs text-slate-400 pt-1">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span>填写资料即可免费解锁全部题库与成绩单海报，信息仅用于测评建档与导师点评</span>
+        </div>
+      </div>
+
+      <!-- Right Lead-Gen / Returning Student Card -->
+      <div class="lg:col-span-6 bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/20 space-y-5">
+        <!-- Mode Tabs -->
+        <div class="grid grid-cols-2 gap-2 p-1 rounded-2xl bg-slate-100">
+          <button id="gateTabNew" type="button" class="py-2.5 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-blue-700 shadow-sm transition">
+            ✨ 首次免费测评
+          </button>
+          <button id="gateTabOld" type="button" class="py-2.5 rounded-xl text-xs sm:text-sm font-bold text-slate-500 hover:text-slate-900 transition">
+            🔍 老学员查历史
+          </button>
+        </div>
+
+        <!-- Panel A: New Lead Form -->
+        <div id="gateNewPanel" class="space-y-3.5">
+          <div>
+            <h2 class="text-lg font-extrabold text-slate-900">建立您的主播测评档案</h2>
+            <p class="text-xs text-slate-500 mt-0.5">请如实填写联系方式，测评完成后可用于生成专属成绩单及领取导师 1v1 复盘</p>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">您的姓名 / 主播花名 <span class="text-rose-600">* 必填</span></label>
+            <input id="gateNewName" type="text" placeholder="例如：林小满" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">联系电话 <span class="text-rose-600">* 必填</span></label>
+            <input id="gateNewPhone" type="tel" maxlength="11" placeholder="请输入 11 位手机号码" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">微信号 <span class="text-rose-600">* 必填</span></label>
+            <input id="gateNewWechat" type="text" placeholder="请输入常用微信号（用于接收复盘与历史校验）" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">当前身份 / 班级期数（选填）</label>
+            <input id="gateNewCohort" type="text" placeholder="例如：准备入行新手 / 在播主播 / 连超特训营12期" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <p id="gateNewErr" class="hidden text-xs font-semibold text-rose-600 bg-rose-50 border border-rose-200 rounded-xl px-3 py-2"></p>
+          <button id="gateStartBtn" type="button" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-extrabold text-sm shadow-lg shadow-blue-600/25 transition">
+            立即建档并开始免费测评 →
+          </button>
+        </div>
+
+        <!-- Panel B: Returning Student Lookup -->
+        <div id="gateOldPanel" class="hidden space-y-3.5">
+          <div>
+            <h2 class="text-lg font-extrabold text-slate-900">老学员历史记录查询</h2>
+            <p class="text-xs text-slate-500 mt-0.5">输入您首次测评时的手机号与微信号，验证通过即可查看全部历史成绩与最新状态</p>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">原先联系电话 <span class="text-rose-600">*</span></label>
+            <input id="gateOldPhone" type="tel" maxlength="11" placeholder="请输入 11 位手机号码" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">建档微信号 <span class="text-rose-600">*</span></label>
+            <input id="gateOldWechat" type="text" placeholder="请输入建档时填写的微信号" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+          <p id="gateOldErr" class="hidden text-xs font-semibold text-rose-600 bg-rose-50 border border-rose-200 rounded-xl px-3 py-2"></p>
+          <button id="gateLookupBtn" type="button" class="w-full py-3.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-sm shadow-lg transition">
+            🔍 验证身份并进入历史中心 →
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main App Shell (Hidden until Lead-Gen Profile is completed) -->
+  <div id="appShell" class="hidden min-h-screen flex flex-col">
+
   <!-- Top Navigation Header -->
   <header class="sticky top-0 z-40 glass-header text-white border-b border-white/10 shadow-lg">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap items-center justify-between gap-3">
@@ -811,6 +916,7 @@
       <span>纯前端本地运行 · 成绩与记录仅存于当前浏览器</span>
     </div>
   </footer>
+  </div><!-- end #appShell -->
 
   <!-- ==================== MODAL: STUDENT PROFILE ==================== -->
   <div id="profileModal" class="hidden fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
@@ -1456,8 +1562,7 @@
           updateStudioCoverage();
           resetComplianceExam();
           syncProfileUI();
-          renderDashboard();
-          switchTab('dashboard');
+          syncGateVisibility();
           showToast('已安全退出并清屏，下次可凭手机号+微信号查询历史记录', 'success');
         }
       );
@@ -2760,15 +2865,120 @@
     });
 
     // =========================================================================
+    // 10.5 MANDATORY LEAD-GEN GATE CONTROLLER
+    // =========================================================================
+    function syncGateVisibility() {
+      const unlocked = isProfileComplete();
+      document.getElementById('authGate').classList.toggle('hidden', unlocked);
+      document.getElementById('appShell').classList.toggle('hidden', !unlocked);
+      if (unlocked) {
+        renderDashboard();
+      }
+    }
+
+    document.getElementById('gateTabNew').addEventListener('click', () => {
+      document.getElementById('gateTabNew').className = 'py-2.5 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-blue-700 shadow-sm transition';
+      document.getElementById('gateTabOld').className = 'py-2.5 rounded-xl text-xs sm:text-sm font-bold text-slate-500 hover:text-slate-900 transition';
+      document.getElementById('gateNewPanel').classList.remove('hidden');
+      document.getElementById('gateOldPanel').classList.add('hidden');
+    });
+
+    document.getElementById('gateTabOld').addEventListener('click', () => {
+      document.getElementById('gateTabOld').className = 'py-2.5 rounded-xl text-xs sm:text-sm font-extrabold bg-white text-blue-700 shadow-sm transition';
+      document.getElementById('gateTabNew').className = 'py-2.5 rounded-xl text-xs sm:text-sm font-bold text-slate-500 hover:text-slate-900 transition';
+      document.getElementById('gateOldPanel').classList.remove('hidden');
+      document.getElementById('gateNewPanel').classList.add('hidden');
+    });
+
+    document.getElementById('gateStartBtn').addEventListener('click', () => {
+      const name = document.getElementById('gateNewName').value.trim();
+      const phone = document.getElementById('gateNewPhone').value.trim();
+      const wechat = document.getElementById('gateNewWechat').value.trim();
+      const cohort = document.getElementById('gateNewCohort').value.trim();
+      const errEl = document.getElementById('gateNewErr');
+
+      if (!name) {
+        errEl.textContent = '请填写您的姓名或主播花名';
+        errEl.classList.remove('hidden');
+        document.getElementById('gateNewName').focus();
+        return;
+      }
+      if (!phone || !/^1[3-9]\d{9}$/.test(phone)) {
+        errEl.textContent = '请填写正确的 11 位手机号码（必填）';
+        errEl.classList.remove('hidden');
+        document.getElementById('gateNewPhone').focus();
+        return;
+      }
+      if (!wechat) {
+        errEl.textContent = '请填写您的微信号（必填）';
+        errEl.classList.remove('hidden');
+        document.getElementById('gateNewWechat').focus();
+        return;
+      }
+
+      const existing = vaultState.accounts[phone];
+      if (existing && existing.profile?.wechat && existing.profile.wechat.toLowerCase() !== wechat.toLowerCase()) {
+        errEl.textContent = '该手机号已建档且微信号不匹配。如果是您本人，请切换至“老学员查历史”核对原微信号。';
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      errEl.classList.add('hidden');
+      if (existing) {
+        appState = JSON.parse(JSON.stringify(existing));
+        appState.profile = { name: name || existing.profile.name, phone, wechat, cohort: cohort || existing.profile.cohort };
+      } else {
+        appState = createEmptySession();
+        appState.profile = { name, phone, wechat, cohort };
+      }
+      saveStorage();
+      syncProfileUI();
+      syncGateVisibility();
+      switchTab('dashboard');
+      showToast(`欢迎您，${name}！已解锁全部主播能力测评模块`, 'success');
+    });
+
+    document.getElementById('gateLookupBtn').addEventListener('click', () => {
+      const phone = document.getElementById('gateOldPhone').value.trim();
+      const wechat = document.getElementById('gateOldWechat').value.trim();
+      const errEl = document.getElementById('gateOldErr');
+
+      if (!phone || !/^1[3-9]\d{9}$/.test(phone)) {
+        errEl.textContent = '请输入正确的 11 位手机号码';
+        errEl.classList.remove('hidden');
+        return;
+      }
+      if (!wechat) {
+        errEl.textContent = '请输入建档时填写的微信号';
+        errEl.classList.remove('hidden');
+        return;
+      }
+      const acc = vaultState.accounts[phone];
+      if (!acc || !acc.profile?.wechat || acc.profile.wechat.toLowerCase() !== wechat.toLowerCase()) {
+        errEl.textContent = '未查到匹配的档案（请确认手机号和微信号无误，或切换“首次免费测评”新建档案）';
+        errEl.classList.remove('hidden');
+        return;
+      }
+      errEl.classList.add('hidden');
+      appState = JSON.parse(JSON.stringify(acc));
+      vaultState.activePhone = phone;
+      saveVault();
+      syncProfileUI();
+      syncGateVisibility();
+      switchTab('dashboard');
+      showToast(`欢迎回来，${appState.profile.name || '学员'}！已恢复 ${appState.history.length} 条历史记录`, 'success');
+    });
+
+    // =========================================================================
     // 11. BOOTSTRAP
     // =========================================================================
     syncProfileUI();
-    renderDashboard();
     renderComplianceExam();
     initSellingQuiz(50);
     renderPairTable();
     renderStudioProducts();
     syncStudioProductDetails();
+    syncGateVisibility();
   </script>
 </body>
 </html>
