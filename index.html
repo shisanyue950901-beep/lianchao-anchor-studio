@@ -1467,7 +1467,6 @@
               <div class="flex items-center gap-2">
                 <span class="px-2 py-0.5 rounded-md bg-slate-900 text-white text-xs font-bold">第 ${q.id} 题</span>
                 <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-700 text-xs font-semibold">${typeLabels[q.type]}</span>
-                <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-500 text-[11px]">${DIM_LABELS[q.dim]}</span>
               </div>
               ${compState.submitted ? `<span class="text-xs font-bold ${res.status === 'correct' ? 'text-emerald-600' : res.status === 'partial' ? 'text-amber-600' : 'text-rose-600'}">+${res.earned} 分</span>` : ''}
             </div>
